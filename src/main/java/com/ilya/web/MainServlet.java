@@ -21,6 +21,7 @@ import java.io.IOException;
 /**
  * Created by ilya on 20.08.2016.
  */
+
 @WebServlet(name = "userServlet", urlPatterns = "/clients")
 public class MainServlet extends HttpServlet {
 

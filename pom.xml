@@ -14,6 +14,14 @@
   <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <tomcat.version>8.0.32</tomcat.version>
       <hibernate.version>5.1.0.Final</hibernate.version>
+
+      <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
+      <webjars-jquery.version>2.2.3</webjars-jquery.version>
+      <webjars-datetimepicker.version>2.4.7</webjars-datetimepicker.version>
+      <webjars-noty.version>2.3.8</webjars-noty.version>
+      <webjars-datatables.version>1.10.11</webjars-datatables.version>
+      <jackson-json.version>2.7.3</jackson-json.version>
+
   </properties>
   <dependencies>
       <dependency>
@@ -50,6 +58,38 @@
           <version>${tomcat.version}</version>
           <scope>provided</scope>
     </dependency>
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>bootstrap</artifactId>
+          <version>${webjars-bootstrap.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>jquery</artifactId>
+          <version>${webjars-jquery.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.webjars.bower</groupId>
+          <artifactId>datetimepicker</artifactId>
+          <version>${webjars-datetimepicker.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>datatables</artifactId>
+          <version>${webjars-datatables.version}</version>
+      </dependency>
+
+      <!--JSON-->
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+          <version>${jackson-json.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-jsr310</artifactId>
+          <version>${jackson-json.version}</version>
+      </dependency>
   </dependencies>
   <build>
     <finalName>FirstApp</finalName>
