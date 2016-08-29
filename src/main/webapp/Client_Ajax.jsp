@@ -11,9 +11,11 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="webjars/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="webjars/datatables/1.10.11/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
+
 </head>
 
 
@@ -37,6 +39,7 @@
                         <th>Roles</th>
                         <th>Registered</th>
                         <th>Birthday</th>
+                        <th>Adress</th>
                         <th>Act</th>
                         <th>Act</th>
                     </tr>
@@ -52,24 +55,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">Изменить данные</h2>
+                <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" method="post" id="detailsForm">
+                <form class="form-horizontal" method="post" id="detailsForm" data-toggle="validator" role="form">
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3">Name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="15" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="control-label col-xs-3">Name</label>
+                        <label for="surname" class="control-label col-xs-3">Surname</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="surname" name="Surname" placeholder="Surname">
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" maxlength="15" required>
                         </div>
                     </div>
 
@@ -77,28 +80,83 @@
                         <label for="email" class="control-label col-xs-3">Email</label>
 
                         <div class="col-xs-9">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="email">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="email"
+                                   data-error="Bruh, that email address is invalid" required>
+                            <div class="help-block with-errors"></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="birthday" class="control-label col-xs-3">Email</label>
+                        <label for="birthday" class="control-label col-xs-3">Birthday</label>
+
+                        <div class="col-xs-9" id = "datetimepicker1">
+                            <input type="date" class="form-control" id="birthday" name="birth" placeholder="Birthday">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country" class="control-label col-xs-3">Country</label>
 
                         <div class="col-xs-9">
-                            <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Birthday">
+                            <input type="text" class="form-control" id="country" name="country" placeholder="Country" maxlength="15" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="city" class="control-label col-xs-3">City</label>
+
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="city" name="city" placeholder="City" maxlength="15" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="street" class="control-label col-xs-3">Street</label>
+
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="street" name="street" placeholder="Street" maxlength="15" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="house" class="control-label col-xs-3">House</label>
+
+                        <div class="col-xs-9">
+                            <input type="number" class="form-control" id="house" name="house" placeholder="House" maxlength="15" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="app" class="control-label col-xs-3">Apartment</label>
+
+                        <div class="col-xs-9">
+                            <input type="number" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip" class="control-label col-xs-3">Zip</label>
+
+                        <div class="col-xs-9">
+                            <input type="number" class="form-control" id="zip" name="zip" placeholder="Zip">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="control-label col-xs-3">Password</label>
-
-                        <div class="col-xs-9">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="">
-                        </div>
+                        <label for="InputPassword" class="control-label col-xs-3">Password</label>
+                        <div class="form-inline row">
+                          <div class="col-xs-4">
+                            <input type="password" class="form-control" minlength="6" id="InputPassword" name="password" placeholder="" required>
+                            <div class="help-block">Minimum of 6 characters</div>
+                          </div>
+                            <div class="col-xs-4">
+                                <input type="password" class="form-control" minlength="6" id="inputPasswordConfirm"
+                                       name="password" placeholder="" required data-match-error="Whoops, these don't match">
+                                <div class="help-block hidden" id="passcnf">Whoops, these don't match</div>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary" onsubmit="check()">Save</button>
                         </div>
                     </div>
                 </form>
@@ -107,11 +165,13 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
-<script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
 <%--<script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>--%>
 <script type="text/javascript" src="js/dataTableUtils.js"></script>
+<script type="text/javascript" src="js/moments/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="js/css/bootstrap-datetimepicker.min.css" />
 <script type="text/javascript">
 
     var ajaxUrl = 'ajax/users';
@@ -120,6 +180,58 @@
     function updateTable() {
         $.get(ajaxUrl, function (data) {
             updateTableByData(data);
+        });
+    }
+    function save() {
+        var form = $('#detailsForm');
+        // $.ajax({
+        //     type: "POST",
+        //     url: ajaxUrl,
+        //     data: form.serialize(),
+        //     success: function () {
+        //         $('#editRow').modal('hide');
+        //         updateTable();
+        //         // successNoty('Saved');
+        //     }
+        // });
+        var arr = form.serializeArray();
+
+        var toSend = {
+            id : arr[0].value,
+            name : arr[1].value,
+            surname : arr[2].value,
+            email : arr[3].value,
+            birth : arr[4].value,
+            adress : {
+                country : arr[5].value,
+                city : arr[6].value,
+                street : arr[7].value,
+                house : arr[8].value,
+                app : arr[9].value,
+                zip : arr[10].value
+            },
+            password : arr[11].value
+        };
+        $.ajax({
+            type : "POST",
+            url : ajaxUrl,
+            data : JSON.stringify(toSend),
+            success : function () {
+                $('#editRow').modal('hide');
+                updateTable();
+            }
+        })
+    }
+    function makeEditable() {
+        $('#detailsForm').submit(function () {
+            if(check()==true) {
+                save();
+            }
+            return false;
+        });
+
+        $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+            // failNoty(event, jqXHR, options, jsExc);
         });
     }
 
@@ -131,7 +243,6 @@
             "columns": [
                 {
                     "data": "id"
-
                 },
                 {
                     "data": "name"
@@ -152,13 +263,21 @@
                     "data": "birth"
                 },
                 {
+                    "data": "adress",
+                    "render" : function (data,type,row) {
+                        return data.country+" "+data.city+" "+data.street+" "
+                                +" "+data.house+"/"+data.app+" zip: "+data.zip;
+                    }
+                },
+                {
                     "defaultContent": "Edit",
                     "orderable": false,
-                    "render" : renderDeleteBtn
+                    "render" : renderEditBtn
                 },
                 {
                     "defaultContent": "Delete",
-                    "orderable": false
+                    "orderable": false,
+                    "render" : renderDeleteBtn
                 }
             ],
             "order": [

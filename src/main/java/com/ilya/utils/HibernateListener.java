@@ -11,7 +11,7 @@ public class HibernateListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         try {
 //        HibernateUtil.getEntityManagerFactory();
-            ClassLoader.getSystemClassLoader().loadClass("HibernateUtil");
+            Class.forName("com.ilya.utils.HibernateUtil");
         }
         catch (ClassNotFoundException d){}
 }

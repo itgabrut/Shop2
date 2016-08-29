@@ -15,3 +15,4 @@ VALUES ('User4','Petrov','user@yandex4.ru', 'password','russia','st.petersburg',
 INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_USER', 100000),
   ('ROLE_ADMIN', 100003);
+

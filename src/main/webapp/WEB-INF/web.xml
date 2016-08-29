@@ -8,4 +8,18 @@
         <listener-class>com.ilya.utils.HibernateListener</listener-class>
     </listener>
 
+    <filter>
+        <filter-name>FormEncodingSetterFilter</filter-name>
+        <filter-class>com.ilya.utils.FormEncodingSetterFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>FormEncodingSetterFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

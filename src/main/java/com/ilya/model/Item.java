@@ -1,7 +1,12 @@
 package com.ilya.model;
 
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.io.File;
+
+
 
 /**
  * Created by ilya on 20.08.2016.
@@ -12,8 +17,7 @@ import java.io.File;
 public class Item {
 
     @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name", unique = true)
     private String name;
@@ -26,7 +30,9 @@ public class Item {
     @Column(name = "description")
     private String description;
     @Column(name = "foto")
-    private File foto;
+    @Lob
+    @JsonIgnore
+    private byte[] foto;
 
     public int getId() {
         return id;
@@ -52,7 +58,7 @@ public class Item {
         return description;
     }
 
-    public File getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
@@ -80,7 +86,7 @@ public class Item {
         this.description = description;
     }
 
-    public void setFoto(File foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 }

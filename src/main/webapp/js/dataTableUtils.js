@@ -8,32 +8,60 @@ function renderDeleteBtn(data, type, row) {
     }
     return data;
 }
-
-function makeEditable() {
-    $('#detailsForm').submit(function () {
-        save();
-        return false;
-    });
-
-    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-        // failNoty(event, jqXHR, options, jsExc);
-    });
+function renderEditBtn(data, type, row) {
+    if (type == 'display') {
+        return '<a class="btn btn-xs btn-danger" onclick="updateRow(' + row.id + ');">Edit</a>';
+    }
+    return data;
 }
 
+
+
 function add() {
+    $('.modal-title').text("Данные клиента");
     $('#id').val(0);
     $('#editRow').modal();
+    $('#datetimepicker1').datetimepicker({pickTime: false});
+}
+
+function check() {
+    if($('#InputPassword').val()!==$('#inputPasswordConfirm').val()){
+        $('#passcnf').removeClass('hidden');
+     $('#passcnf').addClass('show alert alert-danger');
+        return false;
+    }
+    else{
+        $('#passcnf').addClass('hidden');
+        return true;
+    }
 }
 
 function deleteRow(id) {
     $.ajax({
-        url: ajaxUrl + '?Id='+id,
+        url: ajaxUrl + '?id='+id,
         type: 'DELETE',
         success: function () {
             updateTable();
             // successNoty('Deleted');
         }
     });
+}
+function updateRow(id) {
+    var form = $('#editRow');
+    $.get(ajaxUrl + '?id='+id, function (data) {
+        $.each(data, function (key, value) {
+            if(key=='adress'){
+                var adress = value;
+                $.each(adress,function (key2,value2) {
+                    form.find("input[name='" + key2 + "']").val(value2);
+                })
+            }
+            else
+            form.find("input[name='" + key + "']").val(value);
+        });
+    });
+    form.modal();
+    $('#datetimepicker1').datetimepicker({pickTime: false});
 }
 
 function enable(chkbox, id) {
@@ -53,19 +81,7 @@ function updateTableByData(data) {
     datatableApi.clear().rows.add(data).draw();
 }
 
-function save() {
-    var form = $('#detailsForm');
-    $.ajax({
-        type: "POST",
-        url: ajaxUrl,
-        data: form.serialize(),
-        success: function () {
-            $('#editRow').modal('hide');
-            updateTable();
-            // successNoty('Saved');
-        }
-    });
-}
+
 
 var failedNote;
 

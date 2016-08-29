@@ -1,9 +1,11 @@
-DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS orders_items;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS orders;
+
+
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS order_item;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS orders;
 
 
 
@@ -43,7 +45,7 @@ CREATE TABLE items
   theme VARCHAR(20),
   quantity INTEGER,
   description TEXT ,
-  foto BINARY
+  foto MEDIUMBLOB
 )
   AUTO_INCREMENT = 10000;
 
