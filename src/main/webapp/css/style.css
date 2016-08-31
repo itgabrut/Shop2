@@ -21,7 +21,8 @@ body a{
 	-ms-transition:0.5s all;
 }
 .banner {
-	background: url(../images/3.jpg) no-repeat center top;
+	background: teal;
+	/*background: url(../images/3.jpg) no-repeat center top;*/
 	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -1046,7 +1047,7 @@ ul.social li a i.tw{
 	padding: 5em 0 2em;
 }
 .men_banner {
-	background: url(../images/3.jpg) no-repeat center top;
+	background: turquoise;
 	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
