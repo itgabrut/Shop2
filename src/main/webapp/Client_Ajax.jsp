@@ -184,16 +184,16 @@
     }
     function save() {
         var form = $('#detailsForm');
-        // $.ajax({
-        //     type: "POST",
-        //     url: ajaxUrl,
-        //     data: form.serialize(),
-        //     success: function () {
-        //         $('#editRow').modal('hide');
-        //         updateTable();
-        //         // successNoty('Saved');
-        //     }
-        // });
+         $.ajax({
+             type: "POST",
+             url: ajaxUrl,
+             data: form.serialize(),
+             success: function () {
+                 $('#editRow').modal('hide');
+                 updateTable();
+                 // successNoty('Saved');
+             }
+         });
         var arr = form.serializeArray();
 
         var toSend = {
