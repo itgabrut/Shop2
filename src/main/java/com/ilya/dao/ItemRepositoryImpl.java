@@ -5,6 +5,7 @@ import com.ilya.utils.HibernateUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -44,5 +45,16 @@ public class ItemRepositoryImpl implements ItemRepository {
         entityManager.getTransaction().commit();
         if(entityManager.isOpen())return false;
         return true;
+    }
+
+    public List<String> getThemes(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+         return entityManager.createNamedQuery("Item.getThemes",String.class).getResultList();
+    }
+
+    public List<Item> getItemsByTheme(String theme){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        TypedQuery<Item> query = entityManager.createQuery("select i from Item i where i.theme = :nameOfTheme",Item.class);
+        return query.setParameter("nameOfTheme",theme).getResultList();
     }
 }

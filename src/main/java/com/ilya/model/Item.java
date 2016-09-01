@@ -11,6 +11,9 @@ import javax.persistence.*;
 /**
  * Created by ilya on 20.08.2016.
  */
+@NamedQueries({
+        @NamedQuery(name = "Item.getThemes",query = "select distinct i.theme from Item i order by i.theme")
+})
 @Entity
 @Table(name = "items")
 @Access(AccessType.FIELD)

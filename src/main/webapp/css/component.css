@@ -60,6 +60,7 @@ background: url(../images/grid_view.png)no-repeat;
 	display: inline-block;
 	max-width: 100%;
 	border: none;
+	height: 230px;
 }
 .cbp-vm-title {
 	margin: 0;
@@ -73,7 +74,7 @@ background: url(../images/grid_view.png)no-repeat;
 }
 .cbp-vm-add {
 	color: #000;
-    background: #F9D9BE;
+    background: #337ab7;
     padding: 6px 15px;
     margin: 10px 0 0;
     display: inline-block;

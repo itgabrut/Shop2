@@ -76,7 +76,8 @@ public class AjaxItemServlet extends HttpServlet {
         item.setQuantity(Integer.parseInt(req.getParameter("quantity")));
         item.setFoto(baos.toByteArray());
         itemRepository.save(item);
-         resp.sendRedirect("/universe/Item_Ajax.jsp");
+//        req.getRequestDispatcher("Items.jsp").forward(req,resp);
+         resp.sendRedirect("/universe/getitems");
     }
 
     @Override
