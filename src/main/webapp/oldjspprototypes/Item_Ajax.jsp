@@ -197,7 +197,7 @@
 </div>
 
 </body>
-<script type="text/javascript" src="js/dataTableUtils.js"></script>
+<script type="text/javascript" src="../js/dataTableUtils.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 

@@ -41,7 +41,7 @@ body a{
 .box_11{
     cursor: pointer;
     padding: 5px 10px;
-    background: #F9D9BE;
+    background: #39b3d7;
 }
 .box_11 a:hover{
 	text-decoration:none;
@@ -1047,7 +1047,7 @@ ul.social li a i.tw{
 	padding: 5em 0 2em;
 }
 .men_banner {
-	background: url(../images/3.jpg);
+	background: url(../images/fontvar1.jpg);
 	background-size: cover;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -1983,6 +1983,7 @@ ul.qty li {
 ul.qty li p {
   font-size: 0.8125em;
   color: #555;
+	display: inline;
 }
 ul.qty li {
   display: inline-block;

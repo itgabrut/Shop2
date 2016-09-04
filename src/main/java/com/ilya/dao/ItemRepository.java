@@ -17,4 +17,6 @@ public interface ItemRepository {
     List<Item> getAll();
 
     boolean save(Item item);
+     List<String> getThemes();
+     List<Item> getItemsByTheme(String theme);
 }

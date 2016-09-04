@@ -4132,6 +4132,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   padding-left: 0;
   margin: 20px 0;
   border-radius: 4px;
+  position: absolute;
+  left: 42%;
 }
 .pagination > li {
   display: inline;

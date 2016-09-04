@@ -16,7 +16,8 @@ public class ItemRepositoryImpl implements ItemRepository {
     private EntityManagerFactory entityManagerFactory = HibernateUtil.getEntityManagerFactory();
 
     public Item getItem(int itemId) {
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        return entityManager.find(Item.class,itemId);
     }
 
     public boolean deleteItem(int itemId) {

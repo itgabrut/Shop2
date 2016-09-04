@@ -34,7 +34,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="js/jquery.easydropdown.js"></script>
     <%--<script src="js/simpleCart.min.js"> </script>--%>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
-    <%--<link rel="stylesheet" href="webjars/bootstrap/3.3.6/css/bootstrap.min.css">--%>
 
 </head>
 <body>
@@ -42,10 +41,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container">
         <div class="header_top">
             <div class="header_top_left">
-                <div class="box_11"><a href="checkout2.html">
-                    <h4><p>Cart: <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)</p><img src="images/bag.png" alt=""><div class="clearfix"> </div></h4>
+                <div class="box_11"><a href="checkout">
+                    <h4><p>Cart: <span class="simpleCart_total" id="simpleCart_total">
+                        <c:if test="${totalPrice!=null}">${totalPrice} $ </c:if>
+                        <c:if test="${totalPrice==null}">0 $ </c:if>
+                    </span>
+                        <span id="simpleCart_quantity" class="simpleCart_quantity">
+                            <c:if test="${quantity!=null}">${quantity}</c:if>
+                         <c:if test="${quantity==null}">0</c:if>
+                        </span> items</p>
+                        <img src="images/bag.png" alt="">
+                        <div class="clearfix"> </div></h4>
                 </a></div>
-                <p class="empty"><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+                <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty">Empty Cart</a></p>
                 <div class="clearfix"> </div>
             </div>
             <div class="header_top_right">
@@ -73,6 +81,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <script>
                     new UISearch( document.getElementById( 'sb-search' ) );
                 </script>
+
+                <form action="single" method="post" style="display: none">
+                    <input type="text" name="id">
+                    <input type="text" name="quantity">
+                </form>
                 <!----//search-scripts---->
                 <div class="clearfix"> </div>
             </div>
@@ -84,93 +97,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li class="active grid" style="display: inline;"><a class="color2" href="#">Mens</a>
-                        <div class="megapanel">
-                            <div class="row">
-                                <div class="col1">
-                                    <div class="h_nav">
-                                        <h4>Men</h4>
-                                        <ul>
-                                            <li><a href="men.html">Watches</a></li>
-                                            <li><a href="men.html">watches</a></li>
-                                            <li><a href="men.html">Blazers</a></li>
-                                            <li><a href="men.html">Suits</a></li>
-                                            <li><a href="men.html">Trousers</a></li>
-                                            <li><a href="men.html">Jeans</a></li>
-                                            <li><a href="men.html">Shirts</a></li>
-                                            <li><a href="men.html">Sweatshirts &amp; Hoodies</a></li>
-                                            <li><a href="men.html">Swim Wear</a></li>
-                                            <li><a href="men.html">Accessories</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li style="display: inline;"><a class="color4" href="#">womens</a>
-                        <div class="megapanel" style="display: none; opacity: 1;">
-                            <div class="row">
-                                <div class="col1">
-                                    <div class="h_nav">
-                                        <h4>Men</h4>
-                                        <ul>
-                                            <li><a href="men.html">Watches</a></li>
-                                            <li><a href="men.html">watches</a></li>
-                                            <li><a href="men.html">Blazers</a></li>
-                                            <li><a href="men.html">Suits</a></li>
-                                            <li><a href="men.html">Trousers</a></li>
-                                            <li><a href="men.html">Jeans</a></li>
-                                            <li><a href="men.html">Shirts</a></li>
-                                            <li><a href="men.html">Sweatshirts &amp; Hoodies</a></li>
-                                            <li><a href="men.html">Swim Wear</a></li>
-                                            <li><a href="men.html">Accessories</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="col2">
-                                    <div class="h_nav">
-                                        <h4>Trends</h4>
-                                        <ul>
-                                            <li class="">
-                                                <div class="p_left">
-                                                    <img src="images/p1.jpg" class="img-responsive" alt="">
-                                                </div>
-                                                <div class="p_right">
-                                                    <h4><a href="#">Denim shirt</a></h4>
-                                                    <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                                    <span class="price">29.99 $</span>
-                                                </div>
-                                                <div class="clearfix"> </div>
-                                            </li>
-                                            <li>
-                                                <div class="p_left">
-                                                    <img src="images/p2.jpg" class="img-responsive" alt="">
-                                                </div>
-                                                <div class="p_right">
-                                                    <h4><a href="#">Denim shirt</a></h4>
-                                                    <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                                    <span class="price">29.99 $</span>
-                                                </div>
-                                                <div class="clearfix"> </div>
-                                            </li>
-                                            <li>
-                                                <div class="p_left">
-                                                    <img src="images/p3.jpg" class="img-responsive" alt="">
-                                                </div>
-                                                <div class="p_right">
-                                                    <h4><a href="#">Denim shirt</a></h4>
-                                                    <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                                    <span class="price">29.99 $</span>
-                                                </div>
-                                                <div class="clearfix"> </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
                     <li style="display: inline;"><a class="color10" href="brands.html">Clients list</a></li>
                     <li style="display: inline;"><a class="color3" href="index.html">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
@@ -187,7 +113,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <h3>Categories</h3>
             <ul class="product-categories color">
                 <c:forEach items="${themeList}" var="theme">
-                <li class="cat-item cat-item-42"><a href="#">${theme}</a> </li>
+                <li class="cat-item cat-item-42"><a href="getitems?theme=${theme}">${theme}</a> </li>
                 </c:forEach>
             </ul>
             <input type="button" value="Add item" class="btn btn-info" placeholder="Add item" id="additem" onclick="addCat()"/>
@@ -198,20 +124,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="clearfix"></div>
             </div>
             <div class="mens-toolbar">
-                <div class="sort">
-                    <div class="sort-by">
-                        <label>Sort By</label>
-                        <select>
-                            <option value="">
-                                Position                </option>
-                            <option value="">
-                                Name                </option>
-                            <option value="">
-                                Price                </option>
-                        </select>
-                        <a href=""><img src="images/arrow2.gif" alt="" class="v-middle"></a>
-                    </div>
-                </div>
+                <%--<div class="sort">--%>
+                    <%--<div class="sort-by">--%>
+                        <%--<label>Sort By</label>--%>
+                        <%--<select>--%>
+                            <%--<option value="">--%>
+                                <%--Position                </option>--%>
+                            <%--<option value="">--%>
+                                <%--Name                </option>--%>
+                            <%--<option value="">--%>
+                                <%--Price                </option>--%>
+                        <%--</select>--%>
+                        <%--<a href=""><img src="images/arrow2.gif" alt="" class="v-middle"></a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <%--<ul class="women_pagenation dc_paginationA dc_paginationA06">--%>
                     <%--<li><a href="#" class="previous">Page : </a></li>--%>
                     <%--<li class="active"><a href="#">1</a></li>--%>
@@ -242,21 +168,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <ul>
                     <c:forEach items="${itemList}" var="item">
                         <jsp:useBean id="item" scope="page" type="com.ilya.model.Item"/>
+                        <a class="itemId" style="display:none;">${item.id}</a>
 
                         <li class="simpleCart_shelfItem">
                             <a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
                             </a><div class="view view-first"><a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
                         </a><div class="inner_content clearfix"><a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
                         </a><div class="product_image"><a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
-                            <div class="mask1"><img src="http://localhost:8080/universe/getitems?fotoId=${item.id}" height="400px" width="220"  alt="image" class="img-responsive zoom-img"></div>
+                            <div class="mask1"><img src="http://localhost:8080/universe/fotoserver?fotoId=${item.id}" height="400px" width="220"  alt="image" class="img-responsive zoom-img"></div>
                             <div class="mask">
                                 <div class="info">Quick View</div>
                             </div>
                         </a><div class="product_container"><a class="cbp-vm-image" href="single.html?id=${item.id}">
                             <h4>${item.name}</h4>
                             <p>${item.theme}</p>
-                            <div class="price mount item_price">${item.price}</div>
-                        </a><a class="button item_add cbp-vm-icon cbp-vm-add" href="#">Add to cart</a>
+                            <div class="price mount item_price">${item.price} $</div>
+                        </a>
+                            <div style="display: inline-block">
+                        <a class="button item_add cbp-vm-icon cbp-vm-add" id="addItemTo" onclick="addItemToBucket(${item.id},${item.price})" href="#">Add to cart</a>
+                                <form id="formdelete" method='post' action="getitems">
+                                    <input type="text" style="display: none" value="${item.id}" name="id" >
+                            <button class="button item_add cbp-vm-icon cbp-vm-add">Delete item</button>
+                                </form>
+                        </div>
                         </div>
                         </div>
                         </div>
@@ -324,9 +258,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" action="ajax/items" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
-                    <input type="text" hidden="hidden" id="id" name="id">
-
+                <form class="form-horizontal" action="getitems" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3">Наименование</label>
 
@@ -349,7 +281,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </textarea>>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="price" class="control-label col-xs-3">Цена</label>
 
@@ -420,5 +351,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         })
 
     })
+
+    function addItemToBucket(iid,price) {
+        var dataObj = {
+            itemId : iid,
+            totalPrice : price
+        }
+        $.ajax({
+            type: 'Post',
+            url: "checkout",
+            data: dataObj
+        });
+
+        var res = parseInt($(".simpleCart_total").html())+price;
+        $(".simpleCart_total").html(res + ' $ ');
+        var quantity = parseInt($("#simpleCart_quantity").html());
+        quantity++;
+        $("#simpleCart_quantity").html(quantity);
+    }
+
+    function emptyCart() {
+        $("#simpleCart_quantity").html(0);
+        $('#simpleCart_total').html("0 $");
+        $.ajax({
+            type : 'Put',
+            url : "checkout"
+        });
+    }
 </script>
 </html>

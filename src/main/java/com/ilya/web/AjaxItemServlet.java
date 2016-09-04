@@ -57,30 +57,6 @@ public class AjaxItemServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Part part = req.getPart("file");
-        String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-        InputStream is = part.getInputStream();
-        byte[] buff = new byte[1024];
-        int k=0;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        while((k=is.read(buff,0,1024))!=-1){
-            baos.write(buff,0,k);
-        }
-        baos.flush();
-        Item item = new Item();
-        item.setName(req.getParameter("name"));
-        item.setPrice(Integer.parseInt(req.getParameter("price")));
-        item.setDescription(req.getParameter("description"));
-        item.setTheme(req.getParameter("theme"));
-        item.setQuantity(Integer.parseInt(req.getParameter("quantity")));
-        item.setFoto(baos.toByteArray());
-        itemRepository.save(item);
-//        req.getRequestDispatcher("Items.jsp").forward(req,resp);
-         resp.sendRedirect("/universe/getitems");
-    }
-
-    @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         itemRepository.deleteItem(Integer.parseInt(req.getParameter("id")));
     }
