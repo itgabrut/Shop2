@@ -4,8 +4,14 @@ import com.ilya.dao.ItemRepository;
 import com.ilya.dao.ItemRepositoryImpl;
 import com.ilya.model.Item;
 import com.ilya.utils.BucketCheckerUtils;
+import com.ilya.utils.FotoSaver;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
     ItemRepository itemRepository = new ItemRepositoryImpl();
 
     public Item getItem(int id) {
-        return null;
+        return itemRepository.getItem(id);
     }
 
     public List<Item> getAll() {
@@ -49,5 +55,46 @@ public class ItemServiceImpl implements ItemService {
             return list;
         }
         return list;
+    }
+
+    public void saveFotoToFileSystem(HttpServletRequest req)throws ServletException, IOException {
+             if(req.getPart("file1")!=null){
+                 FotoSaver.saveFotoToFileSystem(req.getPart("file1").getInputStream(),req.getParameter("theme"),req.getParameter("itemName"),"1");
+             }
+            if(req.getPart("file2")!=null){
+            FotoSaver.saveFotoToFileSystem(req.getPart("file2").getInputStream(),req.getParameter("theme"),req.getParameter("itemName"),"2");
+             }
+            if(req.getPart("file3")!=null){
+            FotoSaver.saveFotoToFileSystem(req.getPart("file3").getInputStream(),req.getParameter("theme"),req.getParameter("itemName"),"3");
+             }
+    }
+
+    @Override
+    public void redactItem(HttpServletRequest request)throws ServletException, IOException {
+        Item item = new Item();
+        item.setId(Integer.parseInt(request.getParameter("id")));
+        item.setName(request.getParameter("name"));
+        item.setDescription(request.getParameter("description"));
+        item.setTheme(request.getParameter("theme"));
+        item.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+        item.setPrice(Integer.parseInt(request.getParameter("price")));
+        InputStream inputStream = request.getPart("file").getInputStream();
+        if(!item.getTheme().equals(request.getParameter("oldTheme")) || ! item.getName().equals(request.getParameter("oldName"))){
+            FotoSaver.renameFotoDirectory(item.getName(),item.getTheme(),request.getParameter("oldName"),request.getParameter("oldTheme"));
+        }
+        if(inputStream.available()>0){
+            byte[] buff = new byte[1024];
+            int k=0;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            while((k=inputStream.read(buff,0,1024))!=-1){
+                baos.write(buff,0,k);
+            }
+            baos.flush();
+            item.setFoto(baos.toByteArray());
+            itemRepository.save(item);
+        }
+        else{
+            itemRepository.saveWithoutFoto(item);
+        }
     }
 }

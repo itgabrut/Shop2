@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: ilya
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html><head>
     <title>Watches an E-Commerce online Shopping Category Flat Bootstrap Responsive Website Template| Single :: w3layouts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -200,6 +202,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
 </div>
+<jsp:useBean id="item" scope="request" type="com.ilya.model.Item"/>
 <div class="men">
     <div class="container">
         <div class="col-md-9 single_top">
@@ -207,31 +210,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="labout span_1_of_a1">
                     <div class="flexslider">
                         <ul class="slides">
-                            <li data-thumb="images/s1.jpg">
-                                <img src="images/s1.jpg" />
+                            <li data-thumb="fotoserver?fotoId=${item.id}">
+                                <img src="fotoserver?fotoId=${item.id}" />
                             </li>
-                            <li data-thumb="images/s2.jpg">
-                                <img src="images/s2.jpg" />
+                            <c:forEach items="${fotosList}" var="uri">
+                            <li data-thumb="fotoserver?path=${uri}">
+                                <img src="fotoserver?path=${uri}" />
                             </li>
-                            <li data-thumb="images/s3.jpg">
-                                <img src="images/s3.jpg" />
-                            </li>
-                            <li data-thumb="images/s4.jpg">
-                                <img src="images/s4.jpg" />
-                            </li>
+                            </c:forEach>
                         </ul>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="cont1 span_2_of_a1 simpleCart_shelfItem">
-                    <h1>Duis autem</h1>
-                    <p class="availability">Availability: <span class="color">In stock</span></p>
+                    <h1>${item.name}</h1>
+                    <p class="availability">Availability: <span class="color"><%=item.getQuantity()>0 ? "In stock" : "unavailable"%></span></p>
                     <div class="price_single">
-
-                        <span class="amount item_price actual">$120.00</span>
+                        <fmt:setLocale value="en_US"/>
+                        <span class="amount item_price actual"><fmt:formatNumber value = "${item.price}" type ="currency"/> </span>
                     </div>
                     <h2 class="quick">Quick Overview:</h2>
-                    <p class="quick_desc"> Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; es</p>
+                    <p class="quick_desc"> ${item.description}</p>
 
                     <ul class="size">
                         <h3>Length</h3>
@@ -278,11 +277,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
         </div>
         <div class="col-md-3 form-group">
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="single" method="post" id="filesForm" enctype="multipart/form-data" data-toggle="validator" role="form">
+                <input type="text" style="display: none" name="theme" value="${item.theme}">
+                <input type="text" style="display: none" name="itemName" value="${item.name}">
+                <input type="text" style="display: none" name="id" value="${item.id}">
                 <div class="form-group" style="margin-left: 20px">
                     <div class="col-xs-9">
                         <label class="btn btn-primary" for="my-file-selector1">
-                            <input id="my-file-selector1" name="file" type="file" style="display:none;" onchange="$('#upload-file-info1').html($(this).val());">
+                            <input id="my-file-selector1" name="file1" type="file" style="display:none;" onchange="$('#upload-file-info1').html($(this).val());">
                             Upload file
                         </label>
                         <span class='label label-info' id="upload-file-info1"></span>
@@ -291,7 +293,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="form-group" style="margin-left: 20px">
                     <div class="col-xs-9">
                         <label class="btn btn-primary" for="my-file-selector2">
-                            <input id="my-file-selector2" name="file" type="file" style="display:none;" onchange="$('#upload-file-info2').html($(this).val());">
+                            <input id="my-file-selector2" name="file2" type="file" style="display:none;" onchange="$('#upload-file-info2').html($(this).val());">
                             Upload file
                         </label>
                         <span class='label label-info' id="upload-file-info2"></span>
@@ -300,7 +302,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="form-group" style="margin-left: 20px">
                     <div class="col-xs-9">
                         <label class="btn btn-primary" for="my-file-selector3">
-                            <input id="my-file-selector3" name="file" type="file" style="display:none;" onchange="$('#upload-file-info3').html($(this).val());">
+                            <input id="my-file-selector3" name="file3" type="file" style="display:none;" onchange="$('#upload-file-info3').html($(this).val());">
                             Upload file
                         </label>
                         <span class='label label-info' id="upload-file-info3"></span>
@@ -310,19 +312,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </form>
             <div>
                 <ul>
+                    <c:forEach items="${fotosList}" var="uri">
                     <li style="margin-bottom: 20%">
-                        <img src="images/m3.jpg" style="height: 120px ; width: 120px">
-                        <button class="btn btn-danger" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</button>
+                        <img src="fotoserver?path=${uri}" style="height: 120px ; width: 120px">
+                        <a class="btn btn-danger" href="fotoserver?delete=${uri}&itemId=${item.id}" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</a>
                     </li>
+                    </c:forEach>
 
-                    <li style="margin-bottom: 20%">
-                        <img src="images/m1.jpg"  style="height: 120px ; width: 120px">
-                        <button class="btn btn-danger" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</button>
-                    </li>
-                    <li style="margin-bottom: 20%" >
-                        <img src="images/m3.jpg" style="height: 120px ; width: 120px">
-                        <button class="btn btn-danger" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</button>
-                    </li>
+                    <%--<li style="margin-bottom: 20%">--%>
+                        <%--<img src="images/m1.jpg"  style="height: 120px ; width: 120px">--%>
+                        <%--<button class="btn btn-danger" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</button>--%>
+                    <%--</li>--%>
+                    <%--<li style="margin-bottom: 20%" >--%>
+                        <%--<img src="images/m3.jpg" style="height: 120px ; width: 120px">--%>
+                        <%--<button class="btn btn-danger" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</button>--%>
+                    <%--</li>--%>
                 </ul>
             </div>
             <a class="btn btn-primary btn-normal" onclick="addCat()" style="margin-left: 15% ">Redact item</a>
@@ -381,41 +385,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" action="getitems" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
+                <form class="form-horizontal" action="single" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3">Наименование</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Как товар называется" maxlength="15" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="${item.name}" value="${item.name}" maxlength="15" required>
                         </div>
                     </div>
+                    <input type="text" style="display: none" name="id" value="${item.id}">
+                    <input type="text" style="display: none" name="oldTheme" value="${item.theme}">
+                    <input type="text" style="display: none" name="oldName" value="${item.name}">
                     <div class="form-group">
                         <label for="theme" class="control-label col-xs-3">Категория</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="theme" name="theme" placeholder="Категория" maxlength="15" required>
+                            <input type="text" class="form-control" id="theme" name="theme" placeholder="${item.theme}" value="${item.theme}" maxlength="15" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="description" class="control-label col-xs-3">Описание</label>
 
                         <div class="col-xs-9">
-                            <textarea class="form-control" id="description" name="description" placeholder="Какой товар" maxlength="100" required>
-                                </textarea>>
+                            <textarea class="form-control" id="description" name="description" placeholder="${item.description}" maxlength="100" required>
+                                ${item.description}
+                                </textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="price" class="control-label col-xs-3">Цена</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Цена в рублях" required>
+                            <input type="text" class="form-control" id="price" name="price" placeholder="${item.price}" value="${item.price}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="quantity" class="control-label col-xs-3">Количество</label>
 
                         <div class="col-xs-9">
-                            <input type="number" min="0" class="form-control" id="quantity" name="quantity" placeholder="Количество на складе" required>
+                            <input type="number" min="0" class="form-control" id="quantity" name="quantity" placeholder="${item.quantity}" value="${item.quantity}" required>
                         </div>
                     </div>
                     <div class="form-group">

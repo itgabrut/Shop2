@@ -5,6 +5,7 @@ import com.ilya.dao.ItemRepositoryImpl;
 import com.ilya.model.Item;
 import com.ilya.service.ItemService;
 import com.ilya.service.ItemServiceImpl;
+import com.ilya.utils.FotoSaver;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -17,9 +18,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * Created by ilya on 31.08.2016.
@@ -38,11 +38,7 @@ public class ItemServlet extends HttpServlet {
             List<String> themes = itemRepository.getThemes();
             req.setAttribute("themeList",themes);
             List<Item> list = itemRepository.getItemsByTheme(req.getParameter("theme")==null ? themes.get(0) : req.getParameter("theme") );
-            Map<String, byte[]> map = new HashMap<String, byte[]>();
-            for (Item i : list) {
-                map.put(String.valueOf(i.getId()), i.getFoto());
-            }
-            req.getSession().setAttribute("Map", map);
+            FotoSaver.saveListFotosToMemory(req.getSession(),list);
             req.setAttribute("itemList",list);
             req.getRequestDispatcher("/Items.jsp").forward(req,resp);
 

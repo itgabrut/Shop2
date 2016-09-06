@@ -15,6 +15,7 @@ public interface ItemRepository {
     boolean deleteItem(int itemId);
 
     List<Item> getAll();
+    void saveWithoutFoto(Item item);
 
     boolean save(Item item);
      List<String> getThemes();

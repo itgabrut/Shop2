@@ -171,10 +171,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <a class="itemId" style="display:none;">${item.id}</a>
 
                         <li class="simpleCart_shelfItem">
-                            <a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
-                            </a><div class="view view-first"><a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
-                        </a><div class="inner_content clearfix"><a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
-                        </a><div class="product_image"><a class="cbp-vm-image" href="http://localhost:8080/universe/getitems?id=${item.id}">
+                            <a class="cbp-vm-image" href="single?id=${item.id}">
+                            </a><div class="view view-first"><a class="cbp-vm-image" href="single?id=${item.id}">
+                        </a><div class="inner_content clearfix"><a class="cbp-vm-image" href="single?id=${item.id}">
+                        </a><div class="product_image"><a class="cbp-vm-image" href="single?id=${item.id}">
                             <div class="mask1"><img src="http://localhost:8080/universe/fotoserver?fotoId=${item.id}" height="400px" width="220"  alt="image" class="img-responsive zoom-img"></div>
                             <div class="mask">
                                 <div class="info">Quick View</div>

@@ -2,7 +2,9 @@ package com.ilya.service;
 
 import com.ilya.model.Item;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -21,4 +23,7 @@ public interface ItemService {
     boolean addItem(Item item);
 
     List<Item> getBucketItemsFromSession(HttpServletRequest req);
+
+    void saveFotoToFileSystem(HttpServletRequest request) throws ServletException, IOException;
+    void redactItem(HttpServletRequest request) throws ServletException, IOException;
 }

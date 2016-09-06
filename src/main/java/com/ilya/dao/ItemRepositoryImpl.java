@@ -15,6 +15,13 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     private EntityManagerFactory entityManagerFactory = HibernateUtil.getEntityManagerFactory();
 
+    @Override
+    public void saveWithoutFoto(Item item) {
+        Item old = getItem(item.getId());
+        item.setFoto(old.getFoto());
+        save(item);
+    }
+
     public Item getItem(int itemId) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         return entityManager.find(Item.class,itemId);
@@ -42,7 +49,13 @@ public class ItemRepositoryImpl implements ItemRepository {
     public boolean save(Item item) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(item);
+        if(item.getId()==0) {
+            int a = (int) entityManager.createQuery("select count(i.name) from Item i where i.name =: curr").setParameter("curr", item.getName()).getSingleResult();
+            if (a < 1) {
+                entityManager.persist(item);
+            }
+        }
+        else entityManager.merge(item);
         entityManager.getTransaction().commit();
         if(entityManager.isOpen())return false;
         return true;
