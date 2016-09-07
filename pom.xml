@@ -3,10 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>irst.dd</groupId>
   <artifactId>FirstApp</artifactId>
-  <packaging>war</packaging>
+  <packaging>pom</packaging>
   <version>1.0</version>
   <name>FirstApp Maven Webapp</name>
   <url>http://maven.apache.org</url>
+
+    <modules>
+        <module>dao</module>
+        <module>service</module>
+        <module>web</module>
+    </modules>
 
   <properties>
   <java.version>1.8</java.version>
@@ -23,80 +29,30 @@
       <jackson-json.version>2.7.3</jackson-json.version>
 
   </properties>
-  <dependencies>
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-entitymanager</artifactId>
-          <version>${hibernate.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-java8</artifactId>
-          <version>${hibernate.version}</version>
-      </dependency>
-      <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-      <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>5.1.38</version>
-      </dependency>
-
-      <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>2.3.2</version>
-      </dependency>
-    <dependency>
+    <dependencies>
+        <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
           <version>3.8.1</version>
           <scope>test</scope>
     </dependency>
-    <dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>jstl</artifactId>
-          <version>1.2</version>
-    </dependency>
-    <!--Web-->
-    <dependency>
-          <groupId>org.apache.tomcat</groupId>
-          <artifactId>tomcat-servlet-api</artifactId>
-          <version>${tomcat.version}</version>
-          <scope>provided</scope>
-    </dependency>
-      <dependency>
-          <groupId>org.webjars</groupId>
-          <artifactId>bootstrap</artifactId>
-          <version>${webjars-bootstrap.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.webjars</groupId>
-          <artifactId>jquery</artifactId>
-          <version>${webjars-jquery.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.webjars.bower</groupId>
-          <artifactId>datetimepicker</artifactId>
-          <version>${webjars-datetimepicker.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.webjars</groupId>
-          <artifactId>datatables</artifactId>
-          <version>${webjars-datatables.version}</version>
-      </dependency>
-
-      <!--JSON-->
-      <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-databind</artifactId>
-          <version>${jackson-json.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>com.fasterxml.jackson.datatype</groupId>
-          <artifactId>jackson-datatype-jsr310</artifactId>
-          <version>${jackson-json.version}</version>
-      </dependency>
-
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--JSON-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-json.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-json.version}</version>
+        </dependency>
 
   </dependencies>
   <build>
@@ -108,6 +64,17 @@
               <configuration>
                   <source>1.7</source>
                   <target>1.7</target>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.2</version>
+              <configuration>
+                  <url>http://localhost:8089/manager</url>
+                  <username>tomcat</username>
+                  <password>tomcat</password>
+                  <path>/${project.build.finalName}</path>
               </configuration>
           </plugin>
       </plugins>
