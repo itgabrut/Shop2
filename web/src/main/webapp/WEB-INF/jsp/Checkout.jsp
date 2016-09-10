@@ -30,9 +30,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
     <!-- start menu -->
     <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all">
-    <script type="text/javascript" src="../js/megamenu.js"></script>
+    <script type="text/javascript" src="js/megamenu.js"></script>
     <%--<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>--%>
-    <script src="/js/jquery.easydropdown.js"></script>
+    <script src="js/jquery.easydropdown.js"></script>
 </head>
 <body>
 <div class="men_banner">
@@ -166,7 +166,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             <fmt:setLocale value="en_US"/>
             <div class="col-md-3 cart-total">
-                <a class="continue" href="#">Continue to basket</a>
+                <a class="continue" href="getitems">Continue to store</a>
                 <div class="price-details">
                     <h3>Price Details</h3>
                     <span>Total</span>
@@ -185,7 +185,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="clearfix"></div>
-                <a class="order" href="#">Place Order</a>
+                <c:if test="${loggedClient==null}">
+                <a class="order" href="Register.jsp">Place Order</a>
+                </c:if>
+                <c:if test="${loggedClient!=null}">
+                    <a class="order" onclick="sendToPermitOrder()" href="#">Place Order</a>
+                </c:if>
 
             </div>
             <div class="clearfix"></div>
@@ -252,6 +257,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             method : 'Post',
             data : data
         });
+    }
+    
+    function sendToPermitOrder() {
+
+        var mass = [];
+        if ($('.close1').length<1) {
+            alert("Your Card is empty");
+            return false;
+        }
+        $('.close1').each(function () {
+            var id = $(this).attr('id');
+            var quan = $('#quantity'+id).html();
+            var obj = {
+                itemId : id,
+                quantity : quan
+            }
+            mass.push(obj);
+        })
+        var jssobj = {
+            arr : mass
+        }
+
+        $.ajax({
+            url: 'orders?ClientId=${loggedClient.id}',
+            method: "POST",
+            data: JSON.stringify(jssobj),
+            success: function () {
+                window.location.href = 'orders?ClientId=${loggedClient.id}'
+            }
+        })
     }
 </script>
 </body>

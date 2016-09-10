@@ -31,7 +31,7 @@ public class Single  extends HttpServlet {
         req.setAttribute("item",item);
         List<Path> fotos = FotoSaver.getPathsOfFotos(item);
         req.setAttribute("fotosList",fotos);
-        req.getRequestDispatcher("/Single.jsp").forward(req,resp);
+        req.getRequestDispatcher("WEB-INF/jsp/Single.jsp").forward(req,resp);
     }
 
    /** Save redacted item to database

@@ -42,7 +42,7 @@ public class ItemServlet extends HttpServlet {
                 FotoSaver.saveListFotosToMemory(req.getSession(), list);
                 req.setAttribute("itemList", list);
             }
-            req.getRequestDispatcher("/Items.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/jsp/Items.jsp").forward(req,resp);
 
     }
 

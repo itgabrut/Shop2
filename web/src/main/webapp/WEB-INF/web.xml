@@ -10,7 +10,7 @@
 
     <filter>
         <filter-name>FormEncodingSetterFilter</filter-name>
-        <filter-class>utils.FormEncodingSetterFilter</filter-class>
+        <filter-class>com.ilya.fiters.FormEncodingSetterFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -21,5 +21,14 @@
         <filter-name>FormEncodingSetterFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>SimpleFilter</filter-name>
+        <filter-class>com.ilya.fiters.SimpleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SimpleFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
 
 </web-app>

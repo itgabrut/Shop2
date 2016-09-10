@@ -3,6 +3,7 @@ package com.ilya.service;
 import com.ilya.dao.ClientRepository;
 import com.ilya.dao.ClientRepositoryImpl;
 import com.ilya.model.Client;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -30,10 +31,21 @@ public class ClientServiceImpl implements ClientService {
         return repository.save(client);
     }
 
+    public Client logIn(String mail,String pass){
+        Client client = repository.getByEmail(mail);
+       return BCrypt.checkpw(pass,client.getPassword()) == true ? client : null;
+    }
+
+
+
     public boolean addClient(Client client) {
-        if (client.getAdress()==null){
-            return false;
-        }
+        String hashed = BCrypt.hashpw(client.getPassword(),BCrypt.gensalt());
+        client.setPassword(hashed);
         return repository.save(client);
+    }
+
+    @Override
+    public Client getByEmail(String mail) {
+       return repository.getByEmail(mail);
     }
 }

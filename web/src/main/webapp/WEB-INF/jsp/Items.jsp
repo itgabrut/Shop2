@@ -59,7 +59,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="header_top_right">
 
                 <ul class="header_user_info">
-                    <a class="login" href="login.html">
+                    <c:if test="${loggedClient==null}">
+                    <a class="login" href="Register.jsp">
+                        </c:if>
+                        <c:if test="${loggedClient!=null}">
+                            <a class="login" href="Order.jsp">
+                        </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
                     </a>
@@ -97,8 +102,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li style="display: inline;"><a class="color10" href="brands.html">Clients list</a></li>
-                    <li style="display: inline;"><a class="color3" href="index.html">Orders list</a></li>
+                    <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders?ClientId=${loggedClient.id}">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>

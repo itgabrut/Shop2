@@ -46,7 +46,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="header_top">
             <div class="header_top_left">
                 <div class="box_11"><a href="checkout.html">
-                    <h4><p>Cart: <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)</p><img src="../images/bag.png" alt=""><div class="clearfix"> </div></h4>
+                    <h4><p>Cart: <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)</p><img src="images/bag.png" alt=""><div class="clearfix"> </div></h4>
                 </a></div>
                 <p class="empty"><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
                 <div class="clearfix"> </div>
@@ -71,8 +71,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                 </div>
                 <!----search-scripts---->
-                <script src="../js/classie1.js"></script>
-                <script src="../js/uisearch.js"></script>
+                <script src="js/classie1.js"></script>
+                <script src="js/uisearch.js"></script>
                 <script>
                     new UISearch( document.getElementById( 'sb-search' ) );
                 </script>

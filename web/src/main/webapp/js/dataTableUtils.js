@@ -22,10 +22,12 @@ function add() {
     $('#id').val(0);
     $('#editRow').modal();
     $('#datetimepicker1').datetimepicker({pickTime: false});
+    $('#inputPassword').prop('required',true);
+    $('#inputPasswordConfirm').prop('required',true);
 }
 
 function check() {
-    if($('#InputPassword').val()!==$('#inputPasswordConfirm').val()){
+    if($('#inputPassword').val()!==$('#inputPasswordConfirm').val()){
         $('#passcnf').removeClass('hidden');
      $('#passcnf').addClass('show alert alert-danger');
         return false;
@@ -48,6 +50,8 @@ function deleteRow(id) {
 }
 function updateRow(id) {
     var form = $('#editRow');
+    $('#inputPassword').removeAttr('required');
+    $('#inputPasswordConfirm').removeAttr('required');
     $.get(ajaxUrl + '?id='+id, function (data) {
         $.each(data, function (key, value) {
             if(key=='adress'){
@@ -56,6 +60,7 @@ function updateRow(id) {
                     form.find("input[name='" + key2 + "']").val(value2);
                 })
             }
+            if(key=='password')form.find("input[name='" + key + "']").val('');
             else
             form.find("input[name='" + key + "']").val(value);
         });

@@ -16,4 +16,6 @@ public interface ClientRepository {
     List<Client> getAll();
 
     boolean save(Client client);
+
+    Client getByEmail(String mail);
 }

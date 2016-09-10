@@ -58,7 +58,7 @@
                 <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" method="post" id="detailsForm" data-toggle="validator" role="form">
+                <form class="form-horizontal" id="detailsForm" data-toggle="validator" role="form">
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
@@ -82,7 +82,7 @@
                         <div class="col-xs-9">
                             <input type="email" class="form-control" id="email" name="email" placeholder="email"
                                    data-error="Bruh, that email address is invalid" required>
-                            <div class="help-block with-errors"></div>
+                            <div class="help-block invisible alert-danger">Choose another e-mail</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -127,7 +127,7 @@
                         <label for="app" class="control-label col-xs-3">Apartment</label>
 
                         <div class="col-xs-9">
-                            <input type="number" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15" required>
+                            <input type="number" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15" >
                         </div>
                     </div>
                     <div class="form-group">
@@ -139,17 +139,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="InputPassword" class="control-label col-xs-3">Password</label>
+                        <label for="inputPassword" class="control-label col-xs-3">Password</label>
                         <div class="form-inline row">
                           <div class="col-xs-4">
-                            <input type="password" class="form-control" minlength="6" id="InputPassword" name="password" placeholder="" required>
+                            <input type="password" class="form-control" minlength="6" id="inputPassword" name="password" placeholder="" required>
                             <div class="help-block">Minimum of 6 characters</div>
                           </div>
                             <div class="col-xs-4">
                                 <input type="password" class="form-control" minlength="6" id="inputPasswordConfirm"
-                                       name="password" placeholder="" required data-match-error="Whoops, these don't match">
+                                       name="password" placeholder="" required>
                                 <div class="help-block hidden" id="passcnf">Whoops, these don't match</div>
-                                <div class="help-block with-errors"></div>
                             </div>
                             </div>
                     </div>
@@ -184,16 +183,16 @@
     }
     function save() {
         var form = $('#detailsForm');
-         $.ajax({
-             type: "POST",
-             url: ajaxUrl,
-             data: form.serialize(),
-             success: function () {
-                 $('#editRow').modal('hide');
-                 updateTable();
-                 // successNoty('Saved');
-             }
-         });
+//         $.ajax({
+//             type: "POST",
+//             url: ajaxUrl,
+//             data: form.serialize(),
+//             success: function () {
+//                 $('#editRow').modal('hide');
+//                 updateTable();
+//                 // successNoty('Saved');
+//             }
+//         });
         var arr = form.serializeArray();
 
         var toSend = {
@@ -219,6 +218,10 @@
             success : function () {
                 $('#editRow').modal('hide');
                 updateTable();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(thrownError);
+                $('.help-block.invisible').removeClass('invisible');
             }
         })
     }
@@ -265,8 +268,8 @@
                 {
                     "data": "adress",
                     "render" : function (data,type,row) {
-                        return data.country+" "+data.city+" "+data.street+" "
-                                +" "+data.house+"/"+data.app+" zip: "+data.zip;
+                        return data.country+" \n"+data.city+" \n"+data.street+" "
+                                +" "+data.house+"/"+data.app+" \nzip: "+data.zip;
                     }
                 },
                 {

@@ -18,4 +18,7 @@ public interface ClientService {
     boolean updateClient(Client client);
 
     boolean addClient(Client client);
+
+    Client getByEmail(String mail);
+    Client logIn(String mail,String pass);
 }

@@ -10,8 +10,7 @@ import javax.persistence.*;
 public class OrderForItem {
 
     @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,6 +21,10 @@ public class OrderForItem {
     private Item item;
     @Column(name = "quantity")
     private int quantity;
+
+    public int getId() {
+        return id;
+    }
 
     public Order getOrder() {
         return order;

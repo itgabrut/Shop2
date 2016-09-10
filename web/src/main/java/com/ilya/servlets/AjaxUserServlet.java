@@ -54,6 +54,7 @@ public class AjaxUserServlet extends HttpServlet {
             sb.append(json);
         }
         Client client = objectMapper.readValue(sb.toString(),Client.class);
-        service.addClient(client);
+        if(!service.addClient(client))req.getRequestDispatcher("/WEB-INF/jsp/Client_Ajax.jsp");
     }
+
 }

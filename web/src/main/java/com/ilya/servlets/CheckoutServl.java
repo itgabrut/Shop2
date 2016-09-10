@@ -27,7 +27,7 @@ public class CheckoutServl extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
           List<Item> list =  itemService.getBucketItemsFromSession(req);
           req.setAttribute("itemsToCheckout",list);
-        req.getRequestDispatcher("/Checkout.jsp").forward(req,resp);
+        req.getRequestDispatcher("WEB-INF/jsp/Checkout.jsp").forward(req,resp);
     }
          /**
           * Method process request from Items.jsp with parameters totalPrice and itemId (Add item to bucket) or

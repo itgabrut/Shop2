@@ -67,5 +67,5 @@ CREATE TABLE order_item
   quantity  INTEGER NOT NULL ,
   CONSTRAINT orders_items_idx UNIQUE (item_id,order_id),
   FOREIGN KEY (item_id) REFERENCES items(id) ON  DELETE CASCADE ,
-  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON UPDATE CASCADE
 ) AUTO_INCREMENT = 10;

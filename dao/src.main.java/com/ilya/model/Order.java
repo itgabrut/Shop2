@@ -5,6 +5,7 @@ import com.ilya.model.enums_utils.Delivery_status;
 import com.ilya.model.enums_utils.Pay_status;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,11 +21,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonIgnore
     @Column(name = "payway")
     private String payway;
 
     @Column(name = "delivery")
     private String delivery;
+
+    @Column(name = "date")
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -37,8 +42,17 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(name = "pay_status")
     private Pay_status pay_status;
-    @OneToMany(mappedBy = "order" ,fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "order" ,fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private List<OrderForItem> orderForItems;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public int getId() {
         return id;
@@ -94,5 +108,15 @@ public class Order {
 
     public void setOrderForItems(List<OrderForItem> orderForItems) {
         this.orderForItems = orderForItems;
+    }
+
+
+    public static Order getSimpleOrder(){
+        Order order = new Order();
+        order.setPayway("credit card");
+        order.setPay_status(Pay_status.WAITING);
+        order.setDelivery("airmail");
+        order.setDelivery_status(Delivery_status.WAIT_FOR_PAYMENT);
+        return order;
     }
 }
