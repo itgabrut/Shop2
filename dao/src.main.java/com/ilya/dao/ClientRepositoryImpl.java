@@ -43,7 +43,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public Client getByEmail(String email) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-       Client cl = (Client) entityManager.createQuery("select u from Client u where u.email =:email").setParameter("email",email).getSingleResult();
+       Client cl = (Client) entityManager.createQuery("select u from Client u where u.email =:email",Client.class).setParameter("email",email).getSingleResult();
        entityManager.close();
         return cl;
     }

@@ -11,13 +11,14 @@ import java.util.Map;
 public class BucketCheckerUtils {
 
     public static void saveItemsAndPricesInSession(HttpServletRequest req){
+        int adder = req.getParameter("quantityToAdd") == null ? 1 : Integer.parseInt(req.getParameter("quantityToAdd"));
         HttpSession session = req.getSession();
         if(session.getAttribute("totalPrice")==null) session.setAttribute("totalPrice",Integer.parseInt(req.getParameter("totalPrice")));
         else session.setAttribute("totalPrice",(Integer)session.getAttribute("totalPrice")+Integer.parseInt(req.getParameter("totalPrice")));
-        session.setAttribute("quantity",session.getAttribute("quantity") == null ? 1 : (Integer)session.getAttribute("quantity")+1);
+        session.setAttribute("quantity",session.getAttribute("quantity") == null ? adder : (Integer)session.getAttribute("quantity")+adder);
         if (session.getAttribute("itemsMap")==null)session.setAttribute("itemsMap", new HashMap<String,Integer>());
         Integer quant = ((Map<String,Integer>)session.getAttribute("itemsMap")).get(req.getParameter("itemId"));
-        ((Map<String,Integer>)session.getAttribute("itemsMap")).put(req.getParameter("itemId"),quant == null ? 1 : quant+1);
+        ((Map<String,Integer>)session.getAttribute("itemsMap")).put(req.getParameter("itemId"),quant == null ? adder : quant+adder);
     }
 
     public static void clearBucket(HttpServletRequest req){

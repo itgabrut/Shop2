@@ -18,7 +18,11 @@ function renderEditBtn(data, type, row) {
 
 
 function add() {
-    $('.modal-title').text("Данные клиента");
+    $('#editRow input').each(function () {
+        $(this).val('');
+    });
+
+    $('.modal-title').text("Customer data");
     $('#id').val(0);
     $('#editRow').modal();
     $('#datetimepicker1').datetimepicker({pickTime: false});

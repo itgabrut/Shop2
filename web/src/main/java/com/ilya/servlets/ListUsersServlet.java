@@ -6,7 +6,6 @@ import com.ilya.dao.ItemRepositoryImpl;
 
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +16,8 @@ import java.io.IOException;
 /**
  * Created by ilya on 28.08.2016.
  */
-@WebServlet(urlPatterns = "/help")
-@MultipartConfig
-public class AjaxHelpServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/help",name = "ListUsers")
+public class ListUsersServlet extends HttpServlet {
 
     ItemRepository itemRepository = new ItemRepositoryImpl();
 

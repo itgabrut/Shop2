@@ -43,7 +43,7 @@ public class Order {
     @Column(name = "pay_status")
     private Pay_status pay_status;
     @JsonIgnore
-    @OneToMany(mappedBy = "order" ,fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "order" ,fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<OrderForItem> orderForItems;
 
     public Date getDate() {

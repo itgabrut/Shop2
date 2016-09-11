@@ -33,15 +33,22 @@ public class ClientServiceImpl implements ClientService {
 
     public Client logIn(String mail,String pass){
         Client client = repository.getByEmail(mail);
-       return BCrypt.checkpw(pass,client.getPassword()) == true ? client : null;
+       return BCrypt.checkpw(pass,client.getPassword()) ? client : null;
     }
 
 
 
     public boolean addClient(Client client) {
-        String hashed = BCrypt.hashpw(client.getPassword(),BCrypt.gensalt());
-        client.setPassword(hashed);
-        return repository.save(client);
+        if(client.getPassword().equals("") && client.getId()!=0){
+           Client old =  repository.getClient(client.getId());
+            client.setPassword(old.getPassword());
+            return repository.save(client);
+        }
+        else {
+            String hashed = BCrypt.hashpw(client.getPassword(), BCrypt.gensalt());
+            client.setPassword(hashed);
+            return repository.save(client);
+        }
     }
 
     @Override

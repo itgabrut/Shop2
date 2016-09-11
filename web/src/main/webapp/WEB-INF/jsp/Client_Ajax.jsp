@@ -5,7 +5,8 @@
   Time: 21:24
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -15,11 +16,23 @@
     <link rel="stylesheet" href="webjars/datatables/1.10.11/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
-
+    <link href="css/megamenu.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/bootstrap-checkbox.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 </head>
 
 
 <body>
+
+<div class="menu">
+    <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
+        <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+        <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
+        <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
+        <div class="clearfix"> </div>
+    </ul>
+</div>
 
 <div class="jumbotron">
     <div class="container">
@@ -58,7 +71,7 @@
                 <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="detailsForm" data-toggle="validator" role="form">
+                <form class="form-horizontal" id="detailsForm" autocomplete="off" data-toggle="validator" role="form">
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
@@ -137,6 +150,13 @@
                             <input type="number" class="form-control" id="zip" name="zip" placeholder="Zip">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="check" class="control-label col-xs-3 checkbox">Make Admin</label>
+
+                        <div class="col-xs-9">
+                            <input type="checkbox" class="form-control" id="check" name="check">
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="inputPassword" class="control-label col-xs-3">Password</label>
@@ -164,6 +184,7 @@
     </div>
 </div>
 </body>
+<%--contentType: "application/json; charset=UTF-8",--%>
 
 <script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
 <%--<script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>--%>
@@ -209,12 +230,14 @@
                 app : arr[9].value,
                 zip : arr[10].value
             },
-            password : arr[11].value
+            roles : arr[11].value == 'on' ? 'ROLE_ADMIN' : 'ROLE_USER',
+            password : arr[12].value
         };
+        var ddd = JSON.stringify(toSend);
         $.ajax({
             type : "POST",
             url : ajaxUrl,
-            data : JSON.stringify(toSend),
+            data : ddd,
             success : function () {
                 $('#editRow').modal('hide');
                 updateTable();
@@ -268,8 +291,8 @@
                 {
                     "data": "adress",
                     "render" : function (data,type,row) {
-                        return data.country+" \n"+data.city+" \n"+data.street+" "
-                                +" "+data.house+"/"+data.app+" \nzip: "+data.zip;
+                        return data.country+" </br>"+data.city+" </br>"+data.street+" "
+                                +" "+data.house+"/"+data.app+" </br> zip: "+data.zip;
                     }
                 },
                 {
@@ -293,6 +316,7 @@
         datatableApi.column(0).visible(false);
         updateTable();
         makeEditable();
+        $(':checkbox').checkboxpicker();
     });
 </script>
 </html>

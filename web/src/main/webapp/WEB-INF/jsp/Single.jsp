@@ -1,3 +1,5 @@
+<%@ page import="com.ilya.model.enums_utils.Role" %>
+<%@ page import="com.ilya.model.Client" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -45,20 +47,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container">
         <div class="header_top">
             <div class="header_top_left">
-                <div class="box_11"><a href="checkout.html">
-                    <h4><p>Cart: <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)</p><img src="images/bag.png" alt=""><div class="clearfix"> </div></h4>
+                <div class="box_11"><a href="checkout">
+                    <h4><p>Cart: <span class="simpleCart_total" id="simpleCart_total">
+                        <c:if test="${totalPrice!=null}">${totalPrice} $ </c:if>
+                        <c:if test="${totalPrice==null}">0 $ </c:if>
+                    </span>
+                        <span id="simpleCart_quantity" class="simpleCart_quantity">
+                            <c:if test="${quantity!=null}">${quantity}</c:if>
+                         <c:if test="${quantity==null}">0</c:if>
+                        </span> items</p>
+                        <img src="images/bag.png" alt="">
+                        <div class="clearfix"> </div></h4>
                 </a></div>
-                <p class="empty"><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+                <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty">Empty Cart</a></p>
                 <div class="clearfix"> </div>
             </div>
             <div class="header_top_right">
 
                 <ul class="header_user_info">
-                    <a class="login" href="login.html">
-                        <i class="user"> </i>
-                        <li class="user_desc">My Account</li>
-                    </a>
-                    <div class="clearfix"> </div>
+                    <c:if test="${loggedClient==null}">
+                    <a class="login" href="Register.jsp"/>
+                        </c:if>
+                        <c:if test="${loggedClient!=null}">
+                        <a class="login" href="Orders.jsp">
+                            </c:if>
+                            <i class="user"> </i>
+                            <li class="user_desc">My Account</li>
+                        </a>
+                        <div class="clearfix"> </div>
                 </ul>
                 <!-- start search-->
                 <div class="search-box">
@@ -83,118 +99,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <div class="header_bottom">
             <div class="logo">
-                <h1><a href="index.html"><span class="m_1">F</span>urniture</a></h1>
+                <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
             </div>
+            <c:if test="${loggedClient != null}">
+            <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
+            </c:if>
             <div class="menu">
                 <ul class="megamenu skyblue"><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li class="active grid" style="display: inline-block;"><a class="color2" href="#">Mens</a>
-                        <!--<div class="megapanel" style="display: none; opacity: 1;">-->
-                        <!--<div class="row">-->
-                        <!--<div class="col1">-->
-                        <!--<div class="h_nav">-->
-                        <!--<h4>Men</h4>-->
-                        <!--<ul>-->
-                        <!--<li><a href="men.html">Watches</a></li>-->
-                        <!--<li><a href="men.html">watches</a></li>-->
-                        <!--<li><a href="men.html">Blazers</a></li>-->
-                        <!--<li><a href="men.html">Suits</a></li>-->
-                        <!--<li><a href="men.html">Trousers</a></li>-->
-                        <!--<li><a href="men.html">Jeans</a></li>-->
-                        <!--<li><a href="men.html">Shirts</a></li>-->
-                        <!--<li><a href="men.html">Sweatshirts &amp; Hoodies</a></li>-->
-                        <!--<li><a href="men.html">Swim Wear</a></li>-->
-                        <!--<li><a href="men.html">Accessories</a></li>-->
-                        <!--</ul>-->
-                        <!--</div>-->
-                        <!--</div>-->
-
-
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</li>-->
-                        <!--<li style="display: inline-block;"><a class="color4" href="#">womens</a>-->
-                        <!--<div class="megapanel" style="display: none; opacity: 1;">-->
-                        <!--<div class="row">-->
-                        <!--<div class="col1">-->
-                        <!--<div class="h_nav">-->
-                        <!--<h4>Men</h4>-->
-                        <!--<ul>-->
-                        <!--<li><a href="men.html">Watches</a></li>-->
-                        <!--<li><a href="men.html">watches</a></li>-->
-                        <!--<li><a href="men.html">Blazers</a></li>-->
-                        <!--<li><a href="men.html">Suits</a></li>-->
-                        <!--<li><a href="men.html">Trousers</a></li>-->
-                        <!--<li><a href="men.html">Jeans</a></li>-->
-                        <!--<li><a href="men.html">Shirts</a></li>-->
-                        <!--<li><a href="men.html">Sweatshirts &amp; Hoodies</a></li>-->
-                        <!--<li><a href="men.html">Swim Wear</a></li>-->
-                        <!--<li><a href="men.html">Accessories</a></li>-->
-                        <!--</ul>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col1">-->
-                        <!--<div class="h_nav">-->
-                        <!--<h4>Women</h4>-->
-                        <!--<ul>-->
-                        <!--<li><a href="men.html">Watches</a></li>-->
-                        <!--<li><a href="men.html">Outerwear</a></li>-->
-                        <!--<li><a href="men.html">Dresses</a></li>-->
-                        <!--<li><a href="men.html">Handbags</a></li>-->
-                        <!--<li><a href="men.html">Trousers</a></li>-->
-                        <!--<li><a href="men.html">Jeans</a></li>-->
-                        <!--<li><a href="men.html">T-Shirts</a></li>-->
-                        <!--<li><a href="men.html">Shoes</a></li>-->
-                        <!--<li><a href="men.html">Coats</a></li>-->
-                        <!--<li><a href="men.html">Accessories</a></li>-->
-                        <!--</ul>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col2">-->
-                        <!--<div class="h_nav">-->
-                        <!--<h4>Trends</h4>-->
-                        <!--<ul>-->
-                        <!--<li class="">-->
-                        <!--<div class="p_left">-->
-                        <!--<img src="../images/p1.jpg" class="img-responsive" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="p_right">-->
-                        <!--<h4><a href="#">Denim shirt</a></h4>-->
-                        <!--<span class="item-cat"><small><a href="#">watches</a></small></span>-->
-                        <!--<span class="price">29.99 $</span>-->
-                        <!--</div>-->
-                        <!--<div class="clearfix"> </div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                        <!--<div class="p_left">-->
-                        <!--<img src="../images/p2.jpg" class="img-responsive" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="p_right">-->
-                        <!--<h4><a href="#">Denim shirt</a></h4>-->
-                        <!--<span class="item-cat"><small><a href="#">watches</a></small></span>-->
-                        <!--<span class="price">29.99 $</span>-->
-                        <!--</div>-->
-                        <!--<div class="clearfix"> </div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                        <!--<div class="p_left">-->
-                        <!--<img src="../images/p3.jpg" class="img-responsive" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="p_right">-->
-                        <!--<h4><a href="#">Denim shirt</a></h4>-->
-                        <!--<span class="item-cat"><small><a href="#">watches</a></small></span>-->
-                        <!--<span class="price">29.99 $</span>-->
-                        <!--</div>-->
-                        <!--<div class="clearfix"> </div>-->
-                        <!--</li>-->
-                        <!--</ul>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
                     </li>
-                    <li style="display: inline-block;"><a class="color10" href="brands.html">Brands</a></li>
-                    <li style="display: inline-block;"><a class="color3" href="index.html">Sale</a></li>
-                    <li style="display: inline-block;"><a class="color7" href="404.html">News</a></li>
+                    <c:if test="${isAdmin}">
+                    <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+                    </c:if>
+                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
+                    <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -232,15 +149,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <h2 class="quick">Quick Overview:</h2>
                     <p class="quick_desc"> ${item.description}</p>
 
-                    <ul class="size">
-                        <h3>Length</h3>
-                        <li><a href="#">32</a></li>
-                        <li><a href="#">34</a></li>
-                    </ul>
                     <div class="quantity_box">
                         <ul class="product-qty">
                             <span>Quantity:</span>
-                            <select>
+                            <select id="selectf">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -252,7 +164,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <div class="clearfix"></div>
                     </div>
-                    <a href="#" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" target="_self">Add to cart</a>
+                    <a href="#" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" onclick="addItemToBucket(${item.id},${item.price},$('#selectf').val())" target="_self">Add to cart</a>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -276,7 +188,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
             </div>
         </div>
+        <c:if test="${isAdmin}">
         <div class="col-md-3 form-group">
+
             <form class="form-horizontal" action="single" method="post" id="filesForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                 <input type="text" style="display: none" name="theme" value="${item.theme}">
                 <input type="text" style="display: none" name="itemName" value="${item.name}">
@@ -310,6 +224,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <button type="submit" class="btn btn-info" style="margin-block-start: 2%; margin-left: 60px;">Save changes</button>
             </form>
+
             <div>
                 <ul>
                     <c:forEach items="${fotosList}" var="uri">
@@ -329,8 +244,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <%--</li>--%>
                 </ul>
             </div>
+
             <a class="btn btn-primary btn-normal" onclick="addCat()" style="margin-left: 15% ">Redact item</a>
         </div>
+        </c:if>
         <div class="clearfix"> </div>
     </div>
 </div>
@@ -458,6 +375,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     function closeform() {
         $('#weditRow').removeClass("in");
         $('#weditRow').css({ display: "none" });
+    }
+
+    function addItemToBucket(iid,price,quan) {
+        var adder = price*parseInt(quan);
+        var dataObj = {
+            itemId : iid,
+            totalPrice : adder,
+            quantityToAdd : parseInt(quan)
+        }
+        $.ajax({
+            type: 'Post',
+            url: "checkout",
+            data: dataObj
+        });
+
+        var res = parseInt($(".simpleCart_total").html())+adder;
+        $(".simpleCart_total").html(res + ' $ ');
+        var quantity = parseInt($("#simpleCart_quantity").html());
+        quantity = quantity + parseInt(quan);
+        $("#simpleCart_quantity").html(quantity);
+    }
+
+    function emptyCart() {
+        $("#simpleCart_quantity").html(0);
+        $('#simpleCart_total').html("0 $");
+        $.ajax({
+            type : 'Put',
+            url : "checkout"
+        });
     }
 </script>
 

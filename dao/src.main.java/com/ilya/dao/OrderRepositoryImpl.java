@@ -8,8 +8,11 @@ import com.ilya.utils.HibernateUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ilya on 21.08.2016.
@@ -17,6 +20,24 @@ import java.util.List;
 public class OrderRepositoryImpl implements OrderRepository {
 
     private EntityManagerFactory entityManagerFactory = HibernateUtil.getEntityManagerFactory();
+
+    @Override
+    public Map<Item,Integer> getItemsOfOrder(int orderId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        Order or = entityManager.find(Order.class, orderId);
+        List<OrderForItem> list = or.getOrderForItems();
+        if (list != null) {
+            Map<Item, Integer> map = new HashMap<>();
+            for (OrderForItem orf : list) {
+                map.put(orf.getItem(), orf.getQuantity());
+            }
+            entityManager.getTransaction().commit();
+            entityManager.close();
+            return map;
+        }
+        return null;
+    }
 
     @Override
     public List<Order> getByClientId(int id) {

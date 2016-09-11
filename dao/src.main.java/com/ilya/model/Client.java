@@ -2,6 +2,7 @@ package com.ilya.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ilya.model.enums_utils.Role;
 
 import javax.persistence.*;
@@ -46,6 +47,10 @@ public class Client {
 
     @Embedded
     private Adress adress;
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public Adress getAdress(){return adress;}
 

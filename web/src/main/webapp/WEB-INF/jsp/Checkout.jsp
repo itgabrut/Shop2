@@ -1,4 +1,9 @@
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.ilya.model.Item" %>
+<%@ page import="com.ilya.model.enums_utils.Role" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="com.ilya.model.Client" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -48,7 +53,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="header_top_right">
 
                 <ul class="header_user_info">
-                    <a class="login" href="login.html">
+                    <c:if test="${loggedClient==null}">
+                    <a class="login" href="Register.jsp">
+                        </c:if>
+                        <c:if test="${loggedClient!=null}">
+                        <a class="login" href="Orders.jsp">
+                            </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
                     </a>
@@ -77,12 +87,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <div class="header_bottom">
             <div class="logo">
-                <h1><a href="index.html"><span class="m_1">F</span>urniture</a></h1>
+                <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
             </div>
+            <c:if test="${loggedClient != null}">
+                <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
+            </c:if>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li style="display: inline;"><a class="color10" href="brands.html">Clients list</a></li>
-                    <li style="display: inline;"><a class="color3" href="index.html">Orders list</a></li>
+
+                    <c:if test='${isAdmin}'>
+                    <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+                    </c:if>
+                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -131,7 +147,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                 </div>
                 </c:forEach>
-
                 <%--<script>$(document).ready(function(c) {--%>
                     <%--$('.close2').on('click', function(c){--%>
                         <%--$('.cart-header2').fadeOut('slow', function(c){--%>
@@ -176,12 +191,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span>Discount</span>
                     <span class="total1">---</span>
                     <span>Delivery Charges</span>
-                    <span class="total1"><fmt:formatNumber pattern="#,##0" value="150"/></span>
+                    <span class="total1"><fmt:formatNumber pattern="#,##0 $" value="150"/></span>
                     <div class="clearfix"></div>
                 </div>
                 <ul class="total_price">
                     <li class="last_price"> <h4>TOTAL</h4></li>
-                    <li class="last_price"><span><fmt:formatNumber pattern="#,##0 $" value="${totalPrice}"/></span></li>
+                    <li class="last_price"><span id="lastPrice"></span></li>
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="clearfix"></div>
@@ -229,15 +244,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
 </div>
 <script>
-      var vv = numeral(${totalPrice}).format('0,0$');
+      var vv = numeral(${totalPrice}).format('0,0 $');
+      var vv1 = numeral(${totalPrice}+150).format('0,0 $');
       $('span.total').html(vv);
+    $('#lastPrice').html(vv1);
 </script>
 <script>
     function closeMyclose(el) {
         var summmTotal = numeral().unformat($('span.total').html());
         var itemPrice = $('#price'+el).attr("name");
         summmTotal -= itemPrice;
-        $('span.total').html(numeral(summmTotal).format('0,0$'));
+        $('span.total').html(numeral(summmTotal).format('0,0 $'));
+        summmTotal +=150;
+        $('#lastPrice').html(numeral(summmTotal).format('0,0 $'));
         var count = $('#quantity'+el).html();
         if(count==1) {
             $('#' + el).parent().fadeOut('slow', function (c) {
@@ -278,13 +297,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var jssobj = {
             arr : mass
         }
+        var toSend = JSON.stringify(jssobj);
 
         $.ajax({
-            url: 'orders?ClientId=${loggedClient.id}',
+            url: 'orderstopost?clientId=${loggedClient.id}',
             method: "POST",
-            data: JSON.stringify(jssobj),
+            data: toSend ,
             success: function () {
-                window.location.href = 'orders?ClientId=${loggedClient.id}'
+                window.location.href = 'orders?clientId=${loggedClient.id}'
             }
         })
     }

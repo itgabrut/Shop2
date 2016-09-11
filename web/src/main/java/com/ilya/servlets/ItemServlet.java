@@ -43,7 +43,6 @@ public class ItemServlet extends HttpServlet {
                 req.setAttribute("itemList", list);
             }
             req.getRequestDispatcher("WEB-INF/jsp/Items.jsp").forward(req,resp);
-
     }
 
     @Override

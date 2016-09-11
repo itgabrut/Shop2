@@ -2,10 +2,15 @@ package com.ilya.service;
 
 import com.ilya.dao.ItemRepository;
 import com.ilya.dao.ItemRepositoryImpl;
+import com.ilya.dao.OrderRepository;
+import com.ilya.dao.OrderRepositoryImpl;
 import com.ilya.model.Item;
+import com.ilya.model.OrderForItem;
+import com.ilya.utils.HibernateUtil;
 import utils.BucketCheckerUtils;
 import utils.FotoSaver;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
@@ -21,6 +26,9 @@ import java.util.Map;
 public class ItemServiceImpl implements ItemService {
 
     ItemRepository itemRepository = new ItemRepositoryImpl();
+    OrderRepository repository = new OrderRepositoryImpl();
+
+
 
     public Item getItem(int id) {
         return itemRepository.getItem(id);
@@ -40,6 +48,15 @@ public class ItemServiceImpl implements ItemService {
 
     public boolean addItem(Item item) {
         return false;
+    }
+
+    @Override
+    public Map<Item, Integer> getItemsAndQuantityByOrder(int orderId) {
+        EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
+        entityManager.getTransaction().begin();
+        Map<Item,Integer> map = repository.getItemsOfOrder(orderId);
+        assert map!=null;
+        return map;
     }
 
     public List<Item> getBucketItemsFromSession(HttpServletRequest req) {

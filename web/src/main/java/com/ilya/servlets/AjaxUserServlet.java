@@ -1,7 +1,11 @@
 package com.ilya.servlets;
 
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ilya.model.Client;
+import com.ilya.model.enums_utils.Role;
 import com.ilya.service.ClientService;
 import com.ilya.service.ClientServiceImpl;
 
@@ -15,6 +19,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * Created by ilya on 26.08.2016.
@@ -27,7 +35,7 @@ public class AjaxUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         objectMapper.setDateFormat(df);
         resp.setContentType("application/json");
         String id;
@@ -45,16 +53,27 @@ public class AjaxUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         objectMapper.setDateFormat(df);
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         String json;
         StringBuilder sb = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(req.getInputStream()));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(req.getInputStream(),"UTF-8"));
         while((json=bufferedReader.readLine())!=null){
             sb.append(json);
         }
-        Client client = objectMapper.readValue(sb.toString(),Client.class);
-        if(!service.addClient(client))req.getRequestDispatcher("/WEB-INF/jsp/Client_Ajax.jsp");
+        try {
+            Client client = objectMapper.readValue(sb.toString(), Client.class);
+//            boolean adm = objectMapper.readValue(sb.toString(), JsonNode.class).get("roles").asText().equals("on");
+//            client.setRoles(new HashSet<Role>());
+//            client.getRoles().add( adm ? Role.ROLE_ADMIN : Role.ROLE_USER);
+
+            if (!service.addClient(client)) req.getRequestDispatcher("/WEB-INF/jsp/Client_Ajax.jsp");
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            resp.sendRedirect("getitems");
+        }
     }
 
 }

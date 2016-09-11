@@ -27,6 +27,7 @@ public class Single  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Item item = itemService.getItem(Integer.parseInt(req.getParameter("id")));
+        assert item != null;
         FotoSaver.saveFotoToMemory(req.getSession(),item);
         req.setAttribute("item",item);
         List<Path> fotos = FotoSaver.getPathsOfFotos(item);

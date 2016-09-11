@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.ilya.model.enums_utils.Role" %>
+<%@ page import="com.ilya.model.Client" %><%--
   Created by IntelliJ IDEA.
   User: ilya
   Date: 31.08.2016
@@ -63,7 +64,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a class="login" href="Register.jsp">
                         </c:if>
                         <c:if test="${loggedClient!=null}">
-                            <a class="login" href="Order.jsp">
+                            <a class="login" href="Orders.jsp">
                         </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
@@ -100,10 +101,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="logo">
                 <h1><a href="index.html"><span class="m_1">F</span>urniture</a></h1>
             </div>
+            <c:if test="${loggedClient != null}">
+                <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
+            </c:if>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
+                    <c:if test="${isAdmin}">
                     <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
-                    <li style="display: inline;"><a class="color3" href="orders?ClientId=${loggedClient.id}">Orders list</a></li>
+                    </c:if>
+                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -121,7 +127,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li class="cat-item cat-item-42"><a href="getitems?theme=${theme}">${theme}</a> </li>
                 </c:forEach>
             </ul>
+            <c:if test="${isAdmin}">
             <input type="button" value="Add item" class="btn btn-info" placeholder="Add item" id="additem" onclick="addCat()"/>
+            </c:if>
 
         </div>
         <div class="col-md-8 mens_right">
@@ -191,10 +199,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a>
                             <div style="display: inline-block">
                         <a class="button item_add cbp-vm-icon cbp-vm-add" id="addItemTo" onclick="addItemToBucket(${item.id},${item.price})" href="#">Add to cart</a>
+                                <c:if test="${isAdmin}">
                                 <form id="formdelete" method='post' action="getitems">
                                     <input type="text" style="display: none" value="${item.id}" name="id" >
                             <button class="button item_add cbp-vm-icon cbp-vm-add">Delete item</button>
                                 </form>
+                                </c:if>
                         </div>
                         </div>
                         </div>
