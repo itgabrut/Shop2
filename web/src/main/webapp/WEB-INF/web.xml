@@ -20,7 +20,7 @@
     </filter>
     <filter-mapping>
         <filter-name>FormEncodingSetterFilter</filter-name>
-        <url-pattern>/ff</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -37,9 +37,10 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
-        <servlet-name>Ajax_Orders</servlet-name>
         <servlet-name>Orders</servlet-name>
         <servlet-name>SingleOrder</servlet-name>
+        <servlet-name>AuthOrd</servlet-name>
+        <servlet-name>ListUsers</servlet-name>
     </filter-mapping>
 
 

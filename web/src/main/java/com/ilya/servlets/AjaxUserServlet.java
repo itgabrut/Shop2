@@ -19,9 +19,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
+
 
 
 /**
@@ -64,10 +63,10 @@ public class AjaxUserServlet extends HttpServlet {
         }
         try {
             Client client = objectMapper.readValue(sb.toString(), Client.class);
-//            boolean adm = objectMapper.readValue(sb.toString(), JsonNode.class).get("roles").asText().equals("on");
-//            client.setRoles(new HashSet<Role>());
-//            client.getRoles().add( adm ? Role.ROLE_ADMIN : Role.ROLE_USER);
-
+            if(client.getRoles() == null) {
+                client.setRoles(new HashSet<Role>());
+                client.getRoles().add(Role.ROLE_USER);
+            }
             if (!service.addClient(client)) req.getRequestDispatcher("/WEB-INF/jsp/Client_Ajax.jsp");
         }
         catch (NullPointerException e){

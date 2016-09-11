@@ -64,11 +64,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a class="login" href="Register.jsp">
                         </c:if>
                         <c:if test="${loggedClient!=null}">
-                            <a class="login" href="Orders.jsp">
+                            <a class="login" href="orders?clientId=${loggedClient.id}">
                         </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
                     </a>
+                            <c:if test="${loggedClient!=null}">
+                            <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                                </c:if>
                     <div class="clearfix"> </div>
                 </ul>
                 <!-- start search-->
@@ -99,7 +102,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
         <div class="header_bottom">
             <div class="logo">
-                <h1><a href="index.html"><span class="m_1">F</span>urniture</a></h1>
+                <h1><a href="#"><span class="m_1">F</span>urniture</a></h1>
             </div>
             <c:if test="${loggedClient != null}">
                 <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
@@ -198,7 +201,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="price mount item_price">${item.price} $</div>
                         </a>
                             <div style="display: inline-block">
+                                <c:if test="${item.quantity > 0}">
                         <a class="button item_add cbp-vm-icon cbp-vm-add" id="addItemTo" onclick="addItemToBucket(${item.id},${item.price})" href="#">Add to cart</a>
+                                </c:if>
                                 <c:if test="${isAdmin}">
                                 <form id="formdelete" method='post' action="getitems">
                                     <input type="text" style="display: none" value="${item.id}" name="id" >
@@ -292,8 +297,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <label for="description" class="control-label col-xs-3">Описание</label>
 
                         <div class="col-xs-9">
-                            <textarea class="form-control" id="description" name="description" placeholder="Какой товар" maxlength="100" required>
-                                </textarea>>
+                            <textarea class="form-control" id="description" name="description" placeholder="Какой товар">
+                                </textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -392,6 +397,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             type : 'Put',
             url : "checkout"
         });
+    }
+
+    function logoutt() {
+        $.ajax({
+            type : 'PUT',
+            url : 'login',
+            success: function () {
+                window.location.href = "getitems";
+            }
+        })
     }
 </script>
 </html>

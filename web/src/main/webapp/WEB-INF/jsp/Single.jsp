@@ -69,11 +69,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a class="login" href="Register.jsp"/>
                         </c:if>
                         <c:if test="${loggedClient!=null}">
-                        <a class="login" href="Orders.jsp">
+                        <a class="login" href="orders?clientId=${loggedClient.id}">
                             </c:if>
                             <i class="user"> </i>
                             <li class="user_desc">My Account</li>
                         </a>
+                    <c:if test="${loggedClient!=null}">
+                        <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                    </c:if>
                         <div class="clearfix"> </div>
                 </ul>
                 <!-- start search-->
@@ -164,7 +167,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <div class="clearfix"></div>
                     </div>
+                    <c:if test="${item.quantity > 0}">
                     <a href="#" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" onclick="addItemToBucket(${item.id},${item.price},$('#selectf').val())" target="_self">Add to cart</a>
+                    </c:if>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -324,7 +329,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <label for="description" class="control-label col-xs-3">Описание</label>
 
                         <div class="col-xs-9">
-                            <textarea class="form-control" id="description" name="description" placeholder="${item.description}" maxlength="100" required>
+                            <textarea class="form-control" id="description" name="description" placeholder="${item.description}">
                                 ${item.description}
                                 </textarea>
                         </div>
@@ -404,6 +409,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             type : 'Put',
             url : "checkout"
         });
+    }
+
+    function logoutt() {
+        $.ajax({
+            type : 'PUT',
+            url : 'login',
+            success: function () {
+                window.location.href = "getitems";
+            }
+        })
     }
 </script>
 

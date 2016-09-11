@@ -19,6 +19,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     public void saveWithoutFoto(Item item) {
         Item old = getItem(item.getId());
         item.setFoto(old.getFoto());
+        item.setVersion(old.getVersion());
         save(item);
     }
 
@@ -50,7 +51,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         if(item.getId()==0) {
-            int a = (int) entityManager.createQuery("select count(i.name) from Item i where i.name =: curr").setParameter("curr", item.getName()).getSingleResult();
+            long a = (long) entityManager.createQuery("select count(i.name) from Item i where i.name =:curr").setParameter("curr", item.getName()).getSingleResult();
             if (a < 1) {
                 entityManager.persist(item);
             }

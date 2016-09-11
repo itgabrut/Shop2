@@ -53,6 +53,7 @@
                         <th>Registered</th>
                         <th>Birthday</th>
                         <th>Adress</th>
+                        <th>Orders</th>
                         <th>Act</th>
                         <th>Act</th>
                     </tr>
@@ -293,6 +294,13 @@
                     "render" : function (data,type,row) {
                         return data.country+" </br>"+data.city+" </br>"+data.street+" "
                                 +" "+data.house+"/"+data.app+" </br> zip: "+data.zip;
+                    }
+                },
+                {
+                    "defaultContent" : "Orders",
+                    "orderable" : "false",
+                    "render" : function (data,type,row) {
+                        return "<a href='orders?clientId="+row.id+"'>Orders</a>";
                     }
                 },
                 {

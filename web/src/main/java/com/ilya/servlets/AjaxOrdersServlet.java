@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by ilya on 09.09.2016.
  */
-@WebServlet(urlPatterns = "/ajax/orders",name = "Ajax_Orders")
+@WebServlet(urlPatterns = "/ajax/orders",name = "AuthOrd")
 public class AjaxOrdersServlet extends HttpServlet {
 
     OrderService service = new OrderServiceImpl();
@@ -27,7 +27,7 @@ public class AjaxOrdersServlet extends HttpServlet {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         objectMapper.setDateFormat(df);
         resp.setContentType("application/json");
-        assert req.getParameter("clientId")!=null;
+        String str =  req.getParameter("clientId");
         try{
             objectMapper.writeValue(resp.getOutputStream(),service.getOrdersByClientId(Integer.parseInt(req.getParameter("clientId"))));
         }

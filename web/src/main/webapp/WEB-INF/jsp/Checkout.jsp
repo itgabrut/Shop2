@@ -57,11 +57,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a class="login" href="Register.jsp">
                         </c:if>
                         <c:if test="${loggedClient!=null}">
-                        <a class="login" href="Orders.jsp">
+                        <a class="login" href="orders?clientId=${loggedClient.id}">
                             </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
                     </a>
+                            <c:if test="${loggedClient!=null}">
+                            <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                            </c:if>
                     <div class="clearfix"> </div>
                 </ul>
                 <!-- start search-->
@@ -250,6 +253,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     $('#lastPrice').html(vv1);
 </script>
 <script>
+    function logoutt() {
+        $.ajax({
+            type : 'PUT',
+            url : 'login',
+            success: function () {
+                window.location.href = "getitems";
+            }
+        })
+    }
+
     function closeMyclose(el) {
         var summmTotal = numeral().unformat($('span.total').html());
         var itemPrice = $('#price'+el).attr("name");

@@ -22,6 +22,9 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Version
+    @Column(name = "version" , nullable = false, columnDefinition = "integer default 0")
+    private long version;
     @Column(name = "name", unique = true)
     private String name;
     @Column(name = "price")
@@ -36,6 +39,14 @@ public class Item {
     @Lob
     @JsonIgnore
     private byte[] foto;
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
 
     public int getId() {
         return id;

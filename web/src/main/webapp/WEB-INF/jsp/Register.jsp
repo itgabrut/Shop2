@@ -194,7 +194,7 @@
                                     <label for="InputPasswordConfirm" class="control-label col-xs-3">Confirm a password</label>
                                         <div class="col-xs-8">
                                             <input type="password" class="form-control" minlength="6" id="inputPasswordConfirm"
-                                                   name="password" placeholder="" required data-match-error="Whoops, these don't match">
+                                                   name="password" placeholder="" required >
                                             <div class="help-block hidden" id="passcnf">Whoops, these don't match</div>
                                             <div class="help-block with-errors"></div>
                                         </div>
@@ -267,7 +267,25 @@
 </script>
 
 </body>
+<script type="text/javascript" src="js/moments/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="js/css/bootstrap-datetimepicker.min.css" />
 <script>
+
+    $('#datetimepicker1').datetimepicker({pickTime: false});
+
+    function check() {
+        if($('#inputPassword').val()!==$('#inputPasswordConfirm').val()){
+            $('#passcnf').removeClass('hidden');
+            $('#passcnf').addClass('show alert alert-danger');
+            return false;
+        }
+        else{
+            $('#passcnf').addClass('hidden');
+            return true;
+        }
+    }
+
     function sendRegistration() {
         if(check()==true) {
             var form = $('#register-form');
@@ -302,6 +320,7 @@
             })
             return false;
         }
+        else return false;
     }
     function check() {
         if($('#inputPassword').val()!==$('#inputPasswordConfirm').val()){

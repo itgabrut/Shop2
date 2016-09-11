@@ -26,17 +26,20 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest)request;
         HttpServletResponse resp = (HttpServletResponse)response;
         HttpSession session = req.getSession(false);
-        Client client;
-        String par = req.getParameter("clientId");
-        if(session == null)resp.sendRedirect("getitems");
-
-        else if(req.getParameter("clientId") == null || (client =(Client) session.getAttribute("loggedClient"))==null){
-            resp.sendRedirect("Register.jsp");
+        try {
+            Client client = (Client) session.getAttribute("loggedClient");
+            String par = req.getParameter("clientId");
+            if (req.getParameter("clientId") == null || client == null) {
+                if (client != null && client.getRoles().contains(Role.ROLE_ADMIN)) chain.doFilter(request, response);
+                else resp.sendRedirect("Register.jsp");
+            } else if (req.getParameter("clientId").equals(String.valueOf(client.getId())) || client.getRoles().contains(Role.ROLE_ADMIN)) {
+                chain.doFilter(request, response);
+            } else resp.sendRedirect("getitems");
         }
-        else if(req.getParameter("clientId").equals(String.valueOf(client.getId())) || client.getRoles().contains(Role.ROLE_ADMIN)){
-            chain.doFilter(request,response);
+        catch (NullPointerException e){
+            e.printStackTrace();
+            resp.sendRedirect("getitems");
         }
-        else resp.sendRedirect("getitems");
     }
 
     @Override

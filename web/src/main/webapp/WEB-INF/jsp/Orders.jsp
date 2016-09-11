@@ -39,6 +39,9 @@
             <i class="user"> </i>
             <li class="user_desc">My Account</li>
           </a>
+            <c:if test="${loggedClient!=null}">
+                <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+            </c:if>
           <div class="clearfix"> </div>
         </ul>
         <!-- start search-->
@@ -76,6 +79,7 @@
     </div>
   </div>
 </div>
+<c:if test="${clientId == null}"><h1>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</h1></c:if>
 
 <div class="container">
     <div class="jumbotron">
@@ -155,8 +159,18 @@
         datatableApi.rows.add(data).draw();
     }
 
+    function logoutt() {
+        $.ajax({
+            type : 'PUT',
+            url : 'login',
+            success: function () {
+                window.location.href = "getitems";
+            }
+        })
+    }
+
     function updateTable() {
-        var addr = 'ajax/orders?clientId=${loggedClient.id}';
+        var addr = 'ajax/orders?clientId=${clientId}';
         $.get(addr, function (data) {
             painterrr(data);
         });

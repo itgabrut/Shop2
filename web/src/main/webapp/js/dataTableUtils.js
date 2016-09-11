@@ -10,7 +10,7 @@ function renderDeleteBtn(data, type, row) {
 }
 function renderEditBtn(data, type, row) {
     if (type == 'display') {
-        return '<a class="btn btn-xs btn-danger" onclick="updateRow(' + row.id + ');">Edit</a>';
+        return '<a class="btn btn-xs btn-normal" onclick="updateRow(' + row.id + ');">Edit</a>';
     }
     return data;
 }

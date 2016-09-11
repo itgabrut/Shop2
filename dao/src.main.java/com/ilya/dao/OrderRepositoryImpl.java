@@ -6,9 +6,7 @@ import com.ilya.model.Order;
 import com.ilya.model.OrderForItem;
 import com.ilya.utils.HibernateUtil;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,9 +49,28 @@ public class OrderRepositoryImpl implements OrderRepository {
     public  boolean addOrder(Order order) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(order);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        try {
+            int a = 0;
+            for (OrderForItem orderForItem : order.getOrderForItems()) {
+                Item i = entityManager.find(Item.class, orderForItem.getItem().getId());
+                entityManager.lock(i, LockModeType.OPTIMISTIC);
+                if ((a = (i.getQuantity() - orderForItem.getQuantity())) < 0) {
+                    entityManager.getTransaction().rollback();
+                    return false;
+                }
+                i.setQuantity(a);
+            }
+            entityManager.persist(order);
+            entityManager.getTransaction().commit();
+        }
+        catch (OptimisticLockException exc){
+            exc.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+        finally {
+            entityManager.close();
+        }
         return true;
     }
 

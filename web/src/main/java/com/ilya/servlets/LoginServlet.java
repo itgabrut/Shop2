@@ -30,4 +30,9 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("getitems");
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().setAttribute("loggedClient",null);
+    }
 }

@@ -34,21 +34,25 @@ public class ForOrdersAjaxPost extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
         String json;
         StringBuilder sb = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(req.getInputStream(),"UTF-8"));
-        while((json=bufferedReader.readLine())!=null){
-            sb.append(json);
-        }
-        JsonNode node =  objectMapper.readTree(sb.toString()).get("arr");
-        Map<Integer,Integer> map = new HashMap<>();
-        if(node.isArray()){
-            for (JsonNode nn : node){
-                map.put(nn.get("itemId").asInt(),nn.get("quantity").asInt());
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(req.getInputStream(), "UTF-8"));
+            while ((json = bufferedReader.readLine()) != null) {
+                sb.append(json);
             }
+            JsonNode node = objectMapper.readTree(sb.toString()).get("arr");
+            Map<Integer, Integer> map = new HashMap<>();
+            if (node.isArray()) {
+                for (JsonNode nn : node) {
+                    map.put(nn.get("itemId").asInt(), nn.get("quantity").asInt());
+                }
+            }
+            Client asked = clientService.getClient(Integer.parseInt(req.getParameter("clientId")));
+            if (asked == null || !service.addOrder(map, asked)) resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            else BucketCheckerUtils.clearBucket(req);
         }
-//        Client current = (Client)req.getSession().getAttribute("loggedClient");
-        Client current = clientService.getClient(Integer.parseInt(req.getParameter("clientId")));
-        if(current!=null) service.addOrder(map,current);
-        else resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        BucketCheckerUtils.clearBucket(req);
+        catch (NullPointerException e){
+            e.printStackTrace();
+            resp.sendRedirect("getitems");
+        }
     }
 }
