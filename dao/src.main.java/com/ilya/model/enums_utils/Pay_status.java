@@ -5,5 +5,5 @@ package com.ilya.model.enums_utils;
  */
 public enum Pay_status {
     WAITING,
-    PAYED;
+    PAYED
 }

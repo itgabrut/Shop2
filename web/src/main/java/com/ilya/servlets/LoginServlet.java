@@ -14,6 +14,8 @@ import java.io.IOException;
 
 /**
  * Created by ilya on 08.09.2016.
+ *
+ * Process Log in and log out operations
  */
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {

@@ -3,8 +3,7 @@ package com.ilya.servlets;
 import com.ilya.model.Item;
 import com.ilya.service.ItemService;
 import com.ilya.service.ItemServiceImpl;
-import utils.FotoSaver;
-
+import utils.BucketCheckerUtils;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,18 +15,20 @@ import java.util.Map;
 
 /**
  * Created by ilya on 10.09.2016.
+ *
+ * Process requests to show details of specific order
  */
 @WebServlet(urlPatterns = "/singleorder",name = "SingleOrder")
 public class SingleOrderServlet extends HttpServlet {
 
-    ItemService service = new ItemServiceImpl();
+    private ItemService service = new ItemServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         assert req.getParameter("orderId") !=null;
         try {
             Map<Item,Integer> map = service.getItemsAndQuantityByOrder(Integer.parseInt(req.getParameter("orderId")));
-            FotoSaver.saveListFotosToMemory(req.getSession(),new ArrayList<Item>(map.keySet()));
+            BucketCheckerUtils.saveListFotosToMemory(req.getSession(),new ArrayList<>(map.keySet()));
             req.setAttribute("itemsForOrderMap",map);
             req.getRequestDispatcher("WEB-INF/jsp/Order.jsp").forward(req,resp);
         }

@@ -1,14 +1,19 @@
 package utils;
 
+import com.ilya.model.Item;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by ilya on 03.09.2016.
  */
-public class BucketCheckerUtils {
+public final class BucketCheckerUtils {
+
+    private BucketCheckerUtils(){}
 
     public static void saveItemsAndPricesInSession(HttpServletRequest req){
         int adder = req.getParameter("quantityToAdd") == null ? 1 : Integer.parseInt(req.getParameter("quantityToAdd"));
@@ -33,6 +38,12 @@ public class BucketCheckerUtils {
         map.put(String.valueOf(id),b);
     }
 
+    public static void transmitListFotoToSessionMap(List<Item> list,HttpSession session){
+        for(Item i : list){
+            transmittFotoToSessionMap(i.getFoto(),i.getId(),session);
+        }
+    }
+
     public static void removeItemFromBucket(HttpServletRequest req){
         String itemId = req.getParameter("itemId");
         String itemPrice = req.getParameter("itemPrice");
@@ -47,5 +58,18 @@ public class BucketCheckerUtils {
         Integer totalPrice = (Integer)sess.getAttribute("totalPrice");
         totalPrice = totalPrice - Integer.parseInt(itemPrice);
         sess.setAttribute("totalPrice",totalPrice);
+    }
+
+    public static void saveFotoToMemory(HttpSession session,Item item){
+        Map<String,byte[]> fotoMap = (Map<String,byte[]>)session.getAttribute("Map");
+        fotoMap.put(String.valueOf(item.getId()),item.getFoto());
+    }
+
+    public static void saveListFotosToMemory(HttpSession session,List<Item> list){
+        Map<String, byte[]> map = new HashMap<>();
+        for (Item i : list) {
+            map.put(String.valueOf(i.getId()), i.getFoto());
+        }
+        session.setAttribute("Map", map);
     }
 }

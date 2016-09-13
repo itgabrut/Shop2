@@ -5,17 +5,10 @@ import com.ilya.dao.ItemRepositoryImpl;
 import com.ilya.dao.OrderRepository;
 import com.ilya.dao.OrderRepositoryImpl;
 import com.ilya.model.Item;
-import com.ilya.model.OrderForItem;
-import com.ilya.utils.HibernateUtil;
-import utils.BucketCheckerUtils;
-import utils.FotoSaver;
-
-import javax.persistence.EntityManager;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import com.ilya.utils.EntManUtl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +18,25 @@ import java.util.Map;
  */
 public class ItemServiceImpl implements ItemService {
 
-    ItemRepository itemRepository = new ItemRepositoryImpl();
-    OrderRepository repository = new OrderRepositoryImpl();
+    private ItemRepository itemRepository = new ItemRepositoryImpl();
+    private OrderRepository orderRepository = new OrderRepositoryImpl();
 
+    private static final Logger LOG = LoggerFactory.getLogger(ItemServiceImpl.class);
 
+//    static {
+//        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+//        // print logback's internal status
+//        StatusPrinter.print(lc);
+//
+//    }
 
+    /**
+     *
+     * @param id Id of Item entity
+     * @return   Item object
+     */
     public Item getItem(int id) {
+        LOG.info("Item {} asks get method",id);
         return itemRepository.getItem(id);
     }
 
@@ -38,79 +44,115 @@ public class ItemServiceImpl implements ItemService {
         return null;
     }
 
+    /**
+     * Removes Item entity from db using it Id
+     * @param id Id
+     * @return true on success
+     */
     public boolean deleteItem(int id) {
-        return false;
-    }
-
-    public boolean updateItem(Item item) {
-        return false;
+        try {
+            EntManUtl.startTransaction();
+            itemRepository.deleteItem(id);
+            EntManUtl.commitTransaction();
+            LOG.info("Item {} delete success",id);
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            EntManUtl.rollback();
+            LOG.error("Error during Item {} delete --- rollbacked",id);
+            return false;
+        }
+        finally {
+            EntManUtl.closeEManager();
+        }
     }
 
     public boolean addItem(Item item) {
         return false;
     }
 
+    /**
+     * It provides information about ordering
+     * @param orderId  Id of Order entity
+     * @return          Map, represents Item entity as key, and quantity as value
+     */
     @Override
     public Map<Item, Integer> getItemsAndQuantityByOrder(int orderId) {
-        EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
-        entityManager.getTransaction().begin();
-        Map<Item,Integer> map = repository.getItemsOfOrder(orderId);
+        Map<Item,Integer> map = orderRepository.getItemsOfOrder(orderId);
         assert map!=null;
+        LOG.info("Items counted for order id = {}",orderId);
         return map;
     }
 
-    public List<Item> getBucketItemsFromSession(HttpServletRequest req) {
-        Map<String,Integer> map = (Map<String,Integer>)req.getSession().getAttribute("itemsMap");
-        List<Item> list = new ArrayList<Item>();
+    /**
+     *  List of Items from db
+     * @param map Map containing Id's of client's card
+     * @return List of Item entities
+     */
+    public List<Item> getBucketItemsFromSession(Map<String,Integer> map) {
+//        Map<String,Integer> map = (Map<String,Integer>)req.getSession().getAttribute("itemsMap");
+        List<Item> list = new ArrayList<>();
         if(map!=null) {
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
                 Item item = itemRepository.getItem(Integer.parseInt(entry.getKey()));
                 list.add(item);
-                BucketCheckerUtils.transmittFotoToSessionMap(item.getFoto(),item.getId(), req.getSession());
             }
+            LOG.info("Items from Client card");
             return list;
         }
         return list;
     }
 
-    public void saveFotoToFileSystem(HttpServletRequest req)throws ServletException, IOException {
-             if(req.getPart("file1")!=null){
-                 FotoSaver.saveFotoToFileSystem(req.getPart("file1").getInputStream(),req.getParameter("theme"),req.getParameter("itemName"),"1");
-             }
-            if(req.getPart("file2")!=null){
-            FotoSaver.saveFotoToFileSystem(req.getPart("file2").getInputStream(),req.getParameter("theme"),req.getParameter("itemName"),"2");
-             }
-            if(req.getPart("file3")!=null){
-            FotoSaver.saveFotoToFileSystem(req.getPart("file3").getInputStream(),req.getParameter("theme"),req.getParameter("itemName"),"3");
-             }
+    /**
+     * Returns List Item entities by categories (theme)
+     * @param s String, Item theme
+     * @return  Returns List Item entities
+     */
+    @Override
+    public List<Item> getItemsByTheme(String s) {
+        List<Item> list = itemRepository.getItemsByTheme(s);
+        EntManUtl.closeEManager();
+        return list;
     }
 
+    /**
+     *
+     * @return List of String objects from db, representing existing Item categories
+     */
     @Override
-    public void redactItem(HttpServletRequest request)throws ServletException, IOException {
-        Item item = new Item();
-        item.setId(Integer.parseInt(request.getParameter("id")));
-        item.setName(request.getParameter("name"));
-        item.setDescription(request.getParameter("description"));
-        item.setTheme(request.getParameter("theme"));
-        item.setQuantity(Integer.parseInt(request.getParameter("quantity")));
-        item.setPrice(Integer.parseInt(request.getParameter("price")));
-        InputStream inputStream = request.getPart("file").getInputStream();
-        if(!item.getTheme().equals(request.getParameter("oldTheme")) || ! item.getName().equals(request.getParameter("oldName"))){
-            FotoSaver.renameFotoDirectory(item.getName(),item.getTheme(),request.getParameter("oldName"),request.getParameter("oldTheme"));
-        }
-        if(inputStream.available()>0){
-            byte[] buff = new byte[1024];
-            int k=0;
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            while((k=inputStream.read(buff,0,1024))!=-1){
-                baos.write(buff,0,k);
+    public List<String> getThemes() {
+        List<String> list = itemRepository.getThemes();
+        EntManUtl.closeEManager();
+        return list;
+    }
+
+    /**
+     * Edits Item if no Id present or adds it to db
+     * @param item Item entity
+     */
+    @Override
+    public void addOrRedactItem(Item item) {
+        try {
+            EntManUtl.startTransaction();
+            if (item.getFoto()!=null) {
+                itemRepository.save(item);
+                EntManUtl.commitTransaction();
+                LOG.info("Item {} successfully saved with foto",item.getId());
+            } else {
+                itemRepository.saveWithoutFoto(item);
+                LOG.info("Item {} successfully saved without foto",item.getId());
+                EntManUtl.commitTransaction();
             }
-            baos.flush();
-            item.setFoto(baos.toByteArray());
-            itemRepository.save(item);
         }
-        else{
-            itemRepository.saveWithoutFoto(item);
+        catch (PersistenceException e){
+            e.printStackTrace();
+            EntManUtl.rollback();
+            LOG.error("Item {} hadn't been added/redacted",item.getId());
+        }
+        finally {
+            EntManUtl.closeEManager();
         }
     }
+
 }

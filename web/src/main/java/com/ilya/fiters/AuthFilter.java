@@ -28,7 +28,7 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
         try {
             Client client = (Client) session.getAttribute("loggedClient");
-            String par = req.getParameter("clientId");
+//            String par = req.getParameter("clientId");
             if (req.getParameter("clientId") == null || client == null) {
                 if (client != null && client.getRoles().contains(Role.ROLE_ADMIN)) chain.doFilter(request, response);
                 else resp.sendRedirect("Register.jsp");

@@ -1,8 +1,7 @@
 package com.ilya.servlets;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ilya.model.Client;
 import com.ilya.model.enums_utils.Role;
@@ -25,6 +24,9 @@ import java.util.HashSet;
 
 /**
  * Created by ilya on 26.08.2016.
+ *
+ * CRUD operations with Clients using AJAX requests
+ *
  */
 @WebServlet(urlPatterns = "/ajax/users")
 public class AjaxUserServlet extends HttpServlet {

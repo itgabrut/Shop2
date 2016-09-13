@@ -22,12 +22,14 @@ import java.util.Map;
 
 /**
  * Created by ilya on 11.09.2016.
+ *
+ *  Unmarshals  Item Id's and quantities from json request, and tries to create Order for  Client
  */
 @WebServlet(urlPatterns = "/orderstopost")
 public class ForOrdersAjaxPost extends HttpServlet {
 
-    OrderService service = new OrderServiceImpl();
-    ClientService clientService = new ClientServiceImpl();
+    private OrderService service = new OrderServiceImpl();
+    private ClientService clientService = new ClientServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

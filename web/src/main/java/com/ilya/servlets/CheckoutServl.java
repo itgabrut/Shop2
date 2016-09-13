@@ -13,20 +13,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 /**
  * Created by ilya on 03.09.2016.
+ *
+ *   Forwards to Checkout.jsp adding List Checked Items from client card
  */
 @WebServlet(urlPatterns = "/checkout")
 public class CheckoutServl extends HttpServlet {
 
-    ItemService itemService = new ItemServiceImpl();
+    private ItemService itemService = new ItemServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-          List<Item> list =  itemService.getBucketItemsFromSession(req);
-          req.setAttribute("itemsToCheckout",list);
+        Map<String,Integer> map = (Map<String,Integer>)req.getSession().getAttribute("itemsMap");
+        List<Item> list =  itemService.getBucketItemsFromSession(map);
+        BucketCheckerUtils.transmitListFotoToSessionMap(list,req.getSession());
+        req.setAttribute("itemsToCheckout",list);
         req.getRequestDispatcher("WEB-INF/jsp/Checkout.jsp").forward(req,resp);
     }
          /**

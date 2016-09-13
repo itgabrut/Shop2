@@ -19,14 +19,15 @@ public interface ItemService {
 
     boolean deleteItem(int id);
 
-    boolean updateItem(Item item);
-
     boolean addItem(Item item);
 
     Map<Item,Integer> getItemsAndQuantityByOrder(int orderId);
 
-    List<Item> getBucketItemsFromSession(HttpServletRequest req);
+    List<Item> getBucketItemsFromSession(Map<String,Integer> map);
 
-    void saveFotoToFileSystem(HttpServletRequest request) throws ServletException, IOException;
-    void redactItem(HttpServletRequest request) throws ServletException, IOException;
+    void addOrRedactItem(Item item);
+
+    List<String> getThemes();
+
+    List<Item> getItemsByTheme(String s);
 }

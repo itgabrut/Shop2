@@ -2,7 +2,7 @@ package com.ilya.model;
 
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.ilya.model.enums_utils.Role;
 
 import javax.persistence.*;

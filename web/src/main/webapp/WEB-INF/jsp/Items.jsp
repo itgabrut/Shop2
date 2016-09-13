@@ -195,7 +195,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="mask">
                                 <div class="info">Quick View</div>
                             </div>
-                        </a><div class="product_container"><a class="cbp-vm-image" href="single.html?id=${item.id}">
+                        </a><div class="product_container"><a class="cbp-vm-image" href="single?id=${item.id}">
                             <h4>${item.name}</h4>
                             <p>${item.theme}</p>
                             <div class="price mount item_price">${item.price} $</div>
@@ -207,7 +207,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <c:if test="${isAdmin}">
                                 <form id="formdelete" method='post' action="getitems">
                                     <input type="text" style="display: none" value="${item.id}" name="id" >
-                            <button class="button item_add cbp-vm-icon cbp-vm-add">Delete item</button>
+                            <input type="submit" class="button item_add cbp-vm-icon cbp-vm-add" value="Delete item"/>
                                 </form>
                                 </c:if>
                         </div>

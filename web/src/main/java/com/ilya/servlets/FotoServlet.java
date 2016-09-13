@@ -18,6 +18,8 @@ import java.util.HashMap;
 
 /**
  * Created by ilya on 31.08.2016.
+ *
+ * Process requests for images
  */
 @WebServlet(urlPatterns = "/fotoserver")
 public class FotoServlet extends HttpServlet {

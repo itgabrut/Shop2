@@ -14,16 +14,32 @@ import java.util.Map;
 /**
  * Created by ilya on 04.09.2016.
  */
-public class FotoSaver {
+public final class FotoSaver {
 
+    private FotoSaver(){}
 
-    public static void saveFotoToFileSystem(InputStream in, String cathegory, String name, String num) throws IOException{
-        Path p = Paths.get("/foto/"+cathegory+"/"+name);
+    /**
+     * Copies image file to filesystem using parameters to create directories
+     * @param in            Source
+     * @param category      Item's category. Serves as part of file path
+     * @param name          Items' name
+     * @param num           Number of image.
+     * @throws IOException
+     */
+    public static void saveFotoToFileSystem(InputStream in, String category, String name, String num) throws IOException{
+        Path p = Paths.get("/foto/"+category+"/"+name);
         Files.createDirectories(p);
         Path res = p.resolve("file"+num+".jpg");
         if(in.available()>0)
         Files.copy(in,res, StandardCopyOption.REPLACE_EXISTING);
     }
+
+    /**
+     *
+     * @param item Item entity
+     * @return List of Path objects
+     * @throws IOException
+     */
     public static List<Path> getPathsOfFotos(Item item)throws IOException{
         Path p = Paths.get("/foto/"+item.getTheme()+"/"+item.getName().trim());
         List<Path> list = new ArrayList<>();
@@ -39,23 +55,24 @@ public class FotoSaver {
         return list;
     }
 
+    /**
+     *  Tries to delete File
+     * @param p String representation of Path to object
+     * @throws IOException
+     */
     public static void deleteFile(String p)throws IOException{
 
         Files.deleteIfExists(Paths.get(p));
     }
 
-    public static void saveFotoToMemory(HttpSession session,Item item){
-        Map<String,byte[]> fotoMap = (Map<String,byte[]>)session.getAttribute("Map");
-        fotoMap.put(String.valueOf(item.getId()),item.getFoto());
-    }
-    public static void saveListFotosToMemory(HttpSession session,List<Item> list){
-        Map<String, byte[]> map = new HashMap<String, byte[]>();
-        for (Item i : list) {
-            map.put(String.valueOf(i.getId()), i.getFoto());
-        }
-        session.setAttribute("Map", map);
-    }
-
+    /**
+     *  Move all files from path, represented by [old] to new location
+     * @param name Part of new location path
+     * @param theme Part of new location path
+     * @param oldName Part of old location path
+     * @param oldTheme  Part of old location path
+     * @throws IOException
+     */
     public static void renameFotoDirectory(String name,String theme,String oldName,String oldTheme)throws IOException{
         Path old = Paths.get("/foto/"+oldTheme+"/"+oldName.trim());
         Path hadash = Paths.get("/foto/"+theme+"/"+name.trim());

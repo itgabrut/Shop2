@@ -6,5 +6,5 @@ package com.ilya.model.enums_utils;
 public enum Delivery_status {
     WAIT_FOR_PAYMENT,
     PROCESSED,
-    DELIVERED;
+    DELIVERED
 }

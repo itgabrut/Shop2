@@ -15,11 +15,13 @@ import java.text.SimpleDateFormat;
 
 /**
  * Created by ilya on 09.09.2016.
+ *
+ *  Returns All orders of Client by it Id
  */
 @WebServlet(urlPatterns = "/ajax/orders",name = "AuthOrd")
 public class AjaxOrdersServlet extends HttpServlet {
 
-    OrderService service = new OrderServiceImpl();
+    private OrderService service = new OrderServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +31,7 @@ public class AjaxOrdersServlet extends HttpServlet {
         resp.setContentType("application/json");
         String str =  req.getParameter("clientId");
         try{
-            objectMapper.writeValue(resp.getOutputStream(),service.getOrdersByClientId(Integer.parseInt(req.getParameter("clientId"))));
+            objectMapper.writeValue(resp.getOutputStream(),service.getOrdersByClientId(Integer.parseInt(str)));
         }
         catch (NumberFormatException e){
             resp.sendRedirect("getitems");

@@ -3,6 +3,7 @@ package com.ilya.dao;
 
 
 import com.ilya.model.Client;
+import com.ilya.utils.EntManUtl;
 import com.ilya.utils.HibernateUtil;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -19,54 +20,47 @@ import java.util.List;
 public class ClientRepositoryImpl implements ClientRepository {
 
 
-   private EntityManagerFactory entityManagerFactory = HibernateUtil.getEntityManagerFactory();
-//            HibernateUtil.getEntityManagerFactory().createEntityManager();
-
+    /**
+     * Returns Client instance from db
+     * @param clientId Id of Client entity
+     * @return          Client entity
+     */
     public Client getClient(int clientId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = EntManUtl.getEManager();
         return entityManager.find(Client.class,clientId);
     }
-    public boolean deleteClient(int clientId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+    /**
+     * Removes Client entity from db
+     * @param clientId
+     */
+    public void deleteClient(int clientId) {
+        EntityManager entityManager = EntManUtl.getEManager();
         Client client = entityManager.find(Client.class,clientId);
-        entityManager.getTransaction().begin();
         entityManager.remove(client);
-        entityManager.getTransaction().commit();
-        if(entityManager.getTransaction().isActive()){
-            entityManager.getTransaction().rollback();
-            return false;
-        }
-        entityManager.close();
-        return true;
     }
 
+    /**
+     *
+     * @param email
+     * @return
+     */
     @Override
     public Client getByEmail(String email) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-       Client cl = (Client) entityManager.createQuery("select u from Client u where u.email =:email",Client.class).setParameter("email",email).getSingleResult();
-       entityManager.close();
-        return cl;
+        EntityManager entityManager = EntManUtl.getEManager();
+        return entityManager.createQuery("select u from Client u where u.email =:email",Client.class).setParameter("email",email).getSingleResult();
     }
 
-    public boolean save(Client client){
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        try {
-            if (client.getId() == 0) {
-                entityManager.persist(client);
-            } else entityManager.merge(client);
-            entityManager.getTransaction().commit();
+    public void save(Client client){
+        EntityManager entityManager = EntManUtl.getEManager();
+        if (client.getId() == 0) {
+            entityManager.persist(client);
         }
-        catch (ConstraintViolationException e){
-            entityManager.getTransaction().rollback();
-            entityManager.close();
-            return false;
-        }
-        return true;
+        else entityManager.merge(client);
     }
 
     public List<Client> getAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = EntManUtl.getEManager();
         return entityManager.createNamedQuery("Client.getAll",Client.class).getResultList();
     }
 }

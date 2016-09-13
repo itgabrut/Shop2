@@ -15,7 +15,7 @@ public interface ClientService {
 
     boolean deleteClient(int id);
 
-    boolean updateClient(Client client);
+//    boolean updateClient(Client client);
 
     boolean addClient(Client client);
 

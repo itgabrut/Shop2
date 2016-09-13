@@ -1,10 +1,9 @@
 package com.ilya.dao;
 
 import com.ilya.model.Item;
-import com.ilya.utils.HibernateUtil;
+import com.ilya.utils.EntManUtl;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import java.util.List;
  */
 public class ItemRepositoryImpl implements ItemRepository {
 
-    private EntityManagerFactory entityManagerFactory = HibernateUtil.getEntityManagerFactory();
 
     @Override
     public void saveWithoutFoto(Item item) {
@@ -24,32 +22,25 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public Item getItem(int itemId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = EntManUtl.getEManager();
         return entityManager.find(Item.class,itemId);
     }
 
-    public boolean deleteItem(int itemId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+    public void deleteItem(int itemId) {
+        EntityManager entityManager = EntManUtl.getEManager();
         Item item = entityManager.find(Item.class,itemId);
-        entityManager.getTransaction().begin();
         entityManager.remove(item);
-        entityManager.getTransaction().commit();
-        if(entityManager.getTransaction().isActive()){
-            entityManager.getTransaction().rollback();
-            return false;
-        }
-        entityManager.close();
-        return true;
     }
 
     public List<Item> getAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.createQuery("select i from Item i",Item.class).getResultList();
+        EntityManager entityManager = EntManUtl.getEManager();
+        List<Item> list = entityManager.createQuery("select i from Item i",Item.class).getResultList();
+        EntManUtl.closeEManager();
+        return list;
     }
 
-    public boolean save(Item item) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
+    public void save(Item item) {
+        EntityManager entityManager = EntManUtl.getEManager();
         if(item.getId()==0) {
             long a = (long) entityManager.createQuery("select count(i.name) from Item i where i.name =:curr").setParameter("curr", item.getName()).getSingleResult();
             if (a < 1) {
@@ -57,18 +48,15 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
         }
         else entityManager.merge(item);
-        entityManager.getTransaction().commit();
-        if(entityManager.isOpen())return false;
-        return true;
     }
 
     public List<String> getThemes(){
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = EntManUtl.getEManager();
          return entityManager.createNamedQuery("Item.getThemes",String.class).getResultList();
     }
 
     public List<Item> getItemsByTheme(String theme){
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = EntManUtl.getEManager();
         TypedQuery<Item> query = entityManager.createQuery("select i from Item i where i.theme = :nameOfTheme",Item.class);
         return query.setParameter("nameOfTheme",theme).getResultList();
     }

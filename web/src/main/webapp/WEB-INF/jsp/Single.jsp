@@ -144,7 +144,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
                 <div class="cont1 span_2_of_a1 simpleCart_shelfItem">
                     <h1>${item.name}</h1>
-                    <p class="availability">Availability: <span class="color"><%=item.getQuantity()>0 ? "In stock" : "unavailable"%></span></p>
+                    <c:if test="${item.quantity >0}">
+                    <p class="availability">Availability: <span class="color">In stock : ${item.quantity}</span></p>
+                    </c:if>
+                    <c:if test="${item.quantity == 0}">
+                        <p class="availability">Availability: <span class="color">Unavailable</span></p>
+                    </c:if>
                     <div class="price_single">
                         <fmt:setLocale value="en_US"/>
                         <span class="amount item_price actual"><fmt:formatNumber value = "${item.price}" type ="currency"/> </span>
@@ -156,17 +161,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <ul class="product-qty">
                             <span>Quantity:</span>
                             <select id="selectf">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
+                                <%--<option>1</option>--%>
+                                <%--<option>2</option>--%>
+                                <%--<option>3</option>--%>
+                                <%--<option>4</option>--%>
+                                <%--<option>5</option>--%>
+                                <%--<option>6</option>--%>
                             </select>
                         </ul>
 
                         <div class="clearfix"></div>
                     </div>
+                    <script>
+                        var quan = ${item.quantity};
+                        if(quan==0)$('.quantity_box').css({display : 'none'});
+                        for(var i=1;i<=quan;i++){
+                            $('#selectf').append('<option>'+i+'</option>')
+                            if(i>6)break;
+                        }
+                    </script>
                     <c:if test="${item.quantity > 0}">
                     <a href="#" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" onclick="addItemToBucket(${item.id},${item.price},$('#selectf').val())" target="_self">Add to cart</a>
                     </c:if>
@@ -371,7 +384,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script>
     function addCat() {
-        $('.modal-title').text("Add item");
+        $('.modal-title').text("Redact item");
 //        $('#id').val("0");
         $('#weditRow').addClass("in");
         $('#weditRow').css({ display: "block" });

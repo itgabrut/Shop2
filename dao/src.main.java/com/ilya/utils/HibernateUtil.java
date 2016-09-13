@@ -13,7 +13,9 @@ import java.nio.file.Paths;
 /**
  * Created by ilya on 18.08.2016.
  */
-public class HibernateUtil {
+public final class HibernateUtil {
+
+    private HibernateUtil(){}
 
     private static EntityManagerFactory entityManagerFactory;
 

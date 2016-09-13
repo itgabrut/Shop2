@@ -38,10 +38,10 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "delivery_status")
-    private Delivery_status delivery_status;
+    private Delivery_status deliveryStatus;
     @Enumerated(EnumType.STRING)
     @Column(name = "pay_status")
-    private Pay_status pay_status;
+    private Pay_status payStatus;
     @JsonIgnore
     @OneToMany(mappedBy = "order" ,fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<OrderForItem> orderForItems;
@@ -70,12 +70,12 @@ public class Order {
         return client;
     }
 
-    public Delivery_status getDelivery_status() {
-        return delivery_status;
+    public Delivery_status getDeliveryStatus() {
+        return deliveryStatus;
     }
 
-    public Pay_status getPay_status() {
-        return pay_status;
+    public Pay_status getPayStatus() {
+        return payStatus;
     }
 
     public List<OrderForItem> getOrderForItems() {
@@ -98,12 +98,12 @@ public class Order {
         this.client = client;
     }
 
-    public void setDelivery_status(Delivery_status delivery_status) {
-        this.delivery_status = delivery_status;
+    public void setDeliveryStatus(Delivery_status deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 
-    public void setPay_status(Pay_status pay_status) {
-        this.pay_status = pay_status;
+    public void setPayStatus(Pay_status payStatus) {
+        this.payStatus = payStatus;
     }
 
     public void setOrderForItems(List<OrderForItem> orderForItems) {
@@ -114,9 +114,9 @@ public class Order {
     public static Order getSimpleOrder(){
         Order order = new Order();
         order.setPayway("credit card");
-        order.setPay_status(Pay_status.WAITING);
+        order.setPayStatus(Pay_status.WAITING);
         order.setDelivery("airmail");
-        order.setDelivery_status(Delivery_status.WAIT_FOR_PAYMENT);
+        order.setDeliveryStatus(Delivery_status.WAIT_FOR_PAYMENT);
         return order;
     }
 }
