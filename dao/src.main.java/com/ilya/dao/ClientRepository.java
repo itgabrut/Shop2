@@ -11,11 +11,11 @@ public interface ClientRepository {
 
     Client getClient(int clientId);
 
-    boolean deleteClient(int clientId);
+    void deleteClient(int clientId);
 
     List<Client> getAll();
 
-    boolean save(Client client);
+    void save(Client client);
 
     Client getByEmail(String mail);
 }

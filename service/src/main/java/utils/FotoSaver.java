@@ -44,17 +44,6 @@ public class FotoSaver {
         Files.deleteIfExists(Paths.get(p));
     }
 
-    public static void saveFotoToMemory(HttpSession session,Item item){
-        Map<String,byte[]> fotoMap = (Map<String,byte[]>)session.getAttribute("Map");
-        fotoMap.put(String.valueOf(item.getId()),item.getFoto());
-    }
-    public static void saveListFotosToMemory(HttpSession session,List<Item> list){
-        Map<String, byte[]> map = new HashMap<String, byte[]>();
-        for (Item i : list) {
-            map.put(String.valueOf(i.getId()), i.getFoto());
-        }
-        session.setAttribute("Map", map);
-    }
 
     public static void renameFotoDirectory(String name,String theme,String oldName,String oldTheme)throws IOException{
         Path old = Paths.get("/foto/"+oldTheme+"/"+oldName.trim());

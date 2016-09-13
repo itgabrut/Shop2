@@ -27,6 +27,7 @@
 
 <div class="menu">
     <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
+        <li style="display: inline;"><a class="color10" href="getitems">Main</a></li>
         <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
         <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
         <li style="display: inline;"><a class="color7" href="404.html">News</a></li>

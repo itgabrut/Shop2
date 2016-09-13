@@ -139,7 +139,7 @@
                 {
                     "defaultContent": "Show items",
                     "render" : function (data,type,row) {
-                        return "<a href='singleorder?clientId=${loggedClient.id}&orderId="+row.id+"' id='myOrder'>My Order </a>"
+                        return "<a href='singleorder?clientId=${loggedClient.id}&orderId="+row.id+"' id='myOrder'>Order details </a>"
                     }
                 }
             ],

@@ -19,11 +19,13 @@ public class OrdersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String str = req.getParameter("clientId");
+        if(str == null){
+            resp.sendRedirect("getitems");
+            return;
+        }
         req.setAttribute("clientId",str);
         req.getRequestDispatcher("WEB-INF/jsp/Orders.jsp").forward(req,resp);
-
     }
 
 }

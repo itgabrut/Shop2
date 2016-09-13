@@ -3,8 +3,7 @@ package com.ilya.servlets;
 import com.ilya.model.Item;
 import com.ilya.service.ItemService;
 import com.ilya.service.ItemServiceImpl;
-import utils.FotoSaver;
-
+import utils.BucketCheckerUtils;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +26,7 @@ public class SingleOrderServlet extends HttpServlet {
         assert req.getParameter("orderId") !=null;
         try {
             Map<Item,Integer> map = service.getItemsAndQuantityByOrder(Integer.parseInt(req.getParameter("orderId")));
-            FotoSaver.saveListFotosToMemory(req.getSession(),new ArrayList<Item>(map.keySet()));
+            BucketCheckerUtils.saveListFotosToMemory(req.getSession(),new ArrayList<Item>(map.keySet()));
             req.setAttribute("itemsForOrderMap",map);
             req.getRequestDispatcher("WEB-INF/jsp/Order.jsp").forward(req,resp);
         }

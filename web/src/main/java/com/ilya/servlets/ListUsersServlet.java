@@ -1,8 +1,7 @@
 package com.ilya.servlets;
 
 
-import com.ilya.dao.ItemRepository;
-import com.ilya.dao.ItemRepositoryImpl;
+
 
 
 import javax.servlet.ServletException;
@@ -18,8 +17,6 @@ import java.io.IOException;
  */
 @WebServlet(urlPatterns = "/help",name = "ListUsers")
 public class ListUsersServlet extends HttpServlet {
-
-    ItemRepository itemRepository = new ItemRepositoryImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -12,12 +12,15 @@ public interface ItemRepository {
 
     Item getItem(int itemId);
 
-    boolean deleteItem(int itemId);
+    void deleteItem(int itemId);
 
     List<Item> getAll();
+
     void saveWithoutFoto(Item item);
 
-    boolean save(Item item);
+     void save(Item item);
+
      List<String> getThemes();
+
      List<Item> getItemsByTheme(String theme);
 }
