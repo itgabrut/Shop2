@@ -113,7 +113,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
                     </c:if>
                     <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
+                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -167,19 +167,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a href="#" class="cbp-vm-icon cbp-vm-grid cbp-vm-selected" data-view="cbp-vm-view-grid" title="grid">Grid View</a>
                     <a href="#" class="cbp-vm-icon cbp-vm-list" data-view="cbp-vm-view-list" title="list">List View</a>
                 </div>
-                <div class="pages">
-                    <div class="limiter visible-desktop">
-                        <label>Show</label>
-                        <select>
-                            <option value="" selected="selected">
-                                9                </option>
-                            <option value="">
-                                15                </option>
-                            <option value="">
-                                30                </option>
-                        </select> per page
-                    </div>
-                </div>
+                <%--<div class="pages">--%>
+                    <%--<div class="limiter visible-desktop">--%>
+                        <%--<label>Show</label>--%>
+                        <%--<select>--%>
+                            <%--<option value="" selected="selected">--%>
+                                <%--9                </option>--%>
+                            <%--<option value="">--%>
+                                <%--15                </option>--%>
+                            <%--<option value="">--%>
+                                <%--30                </option>--%>
+                        <%--</select> per page--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <div class="clearfix"></div>
                 <ul>
                     <c:forEach items="${itemList}" var="item">
@@ -255,7 +255,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <li><a href="#">Terms</a></li>
                 <li><a href="#">Shop</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
         </div>
         <ul class="social">
@@ -265,7 +265,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </ul>
         <div class="clearfix"></div>
         <div class="copy">
-            <p> � 2015 Watches. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p>
+            <p>  Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p>
         </div>
     </div>
 </div>
@@ -280,21 +280,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="modal-body">
                 <form class="form-horizontal" action="getitems" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                     <div class="form-group">
-                        <label for="name" class="control-label col-xs-3">Наименование</label>
+                        <label for="name" class="control-label col-xs-3">Name</label>
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="name" name="name" placeholder="Как товар называется" maxlength="15" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="theme" class="control-label col-xs-3">Категория</label>
+                        <label for="theme" class="control-label col-xs-3">Category</label>
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="theme" name="theme" placeholder="Категория" maxlength="15" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="control-label col-xs-3">Описание</label>
+                        <label for="description" class="control-label col-xs-3">Description</label>
 
                         <div class="col-xs-9">
                             <textarea class="form-control" id="description" name="description" placeholder="Какой товар">
@@ -302,14 +302,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="price" class="control-label col-xs-3">Цена</label>
+                        <label for="price" class="control-label col-xs-3">Price</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Цена в рублях" required>
+                            <input type="text" class="form-control" id="price" name="price" placeholder="Цена" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="quantity" class="control-label col-xs-3">Количество</label>
+                        <label for="quantity" class="control-label col-xs-3">Quantity</label>
 
                         <div class="col-xs-9">
                             <input type="number" min="0" class="form-control" id="quantity" name="quantity" placeholder="Количество на складе" required>
@@ -319,7 +319,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="col-xs-9">
                             <label class="btn btn-primary" for="my-file-selector">
                                 <input id="my-file-selector" name="file" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());">
-                                Загрузить фото
+                                Upload image
                             </label>
                             <span class='label label-info' id="upload-file-info"></span>
                         </div>

@@ -8,14 +8,10 @@ import com.ilya.model.Order;
 import com.ilya.model.OrderForItem;
 import com.ilya.utils.EntManUtl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.OptimisticLockException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static com.ilya.utils.EntManUtl.getEManager;
 
 /**
  * Created by ilya on 09.09.2016.
@@ -52,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderForItem> list = new ArrayList<>();
         for(Map.Entry<Integer,Integer> entr : m.entrySet()){
             Item item = new Item();
-            item.setId(entr.getKey());
+//            item.setId(entr.getKey());
             OrderForItem orderForItem = new OrderForItem();
             orderForItem.setQuantity(entr.getValue());
             orderForItem.setItem(item);

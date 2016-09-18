@@ -30,7 +30,7 @@
         <li style="display: inline;"><a class="color10" href="getitems">Main</a></li>
         <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
         <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-        <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
+        <li style="display: inline;"><a class="color7" href="#">News</a></li>
         <div class="clearfix"> </div>
     </ul>
 </div>

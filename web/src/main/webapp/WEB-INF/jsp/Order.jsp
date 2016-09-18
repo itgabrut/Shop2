@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <title>Title</title>
+    <title>Order details</title>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <link href="css/component.css" rel="stylesheet" type="text/css">
@@ -62,7 +62,7 @@
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
                     <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
+                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>

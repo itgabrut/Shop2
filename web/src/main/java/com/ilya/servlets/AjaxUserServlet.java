@@ -69,7 +69,7 @@ public class AjaxUserServlet extends HttpServlet {
                 client.setRoles(new HashSet<Role>());
                 client.getRoles().add(Role.ROLE_USER);
             }
-            if (!service.addClient(client)) req.getRequestDispatcher("/WEB-INF/jsp/Client_Ajax.jsp");
+            if (service.addClient(client) == null) req.getRequestDispatcher("/WEB-INF/jsp/Client_Ajax.jsp");
         }
         catch (NullPointerException e){
             e.printStackTrace();

@@ -1,8 +1,5 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="com.ilya.model.Item" %>
 <%@ page import="com.ilya.model.enums_utils.Role" %>
-<%@ page import="java.util.Set" %>
 <%@ page import="com.ilya.model.Client" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -16,7 +13,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Watches an E-Commerce online Shopping Category Flat Bootstrap Responsive Website Template| Checkout :: w3layouts</title>
+    <title> Checkout</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="keywords" content="Watches Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -102,7 +99,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
                     </c:if>
                     <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
+                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>

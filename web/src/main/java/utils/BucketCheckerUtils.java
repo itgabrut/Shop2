@@ -33,14 +33,16 @@ public final class BucketCheckerUtils {
         session.setAttribute("itemsMap",new HashMap<String,Integer>());
     }
 
-    public static void transmittFotoToSessionMap(byte[] b,int id,HttpSession session){
+    private static void transmittFotoToSessionMap(byte[] b,int id,HttpSession session){
         HashMap<String, byte[]> map = (HashMap<String, byte[]>) session.getAttribute("Map");
         map.put(String.valueOf(id),b);
     }
 
     public static void transmitListFotoToSessionMap(List<Item> list,HttpSession session){
+        HashMap<String, byte[]> map = (HashMap<String, byte[]>) session.getAttribute("Map");
         for(Item i : list){
-            transmittFotoToSessionMap(i.getFoto(),i.getId(),session);
+//            transmittFotoToSessionMap(i.getFoto(),i.getId(),session);
+            map.put(String.valueOf(i.getId()),i.getFoto());
         }
     }
 

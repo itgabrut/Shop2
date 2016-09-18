@@ -39,6 +39,17 @@ public class Item {
     @Lob
     @JsonIgnore
     private byte[] foto;
+    @JsonIgnore
+    @Transient
+    private int proxyId;
+
+    public int getProxyId() {
+        return proxyId;
+    }
+
+    public void setProxyId(int proxyId) {
+        this.proxyId = proxyId;
+    }
 
     public long getVersion() {
         return version;
@@ -76,9 +87,9 @@ public class Item {
         return foto;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public void setName(String name) {
         this.name = name;

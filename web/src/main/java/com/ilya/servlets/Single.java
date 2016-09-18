@@ -58,7 +58,8 @@ public class Single  extends HttpServlet {
         }
        else if(req.getPart("file")!=null){
             Item item = new Item();
-            item.setId(Integer.parseInt(req.getParameter("id")));
+//            item.setId(Integer.parseInt(req.getParameter("id")));
+            item.setProxyId(Integer.parseInt(req.getParameter("id")));
             item.setName(req.getParameter("name"));
             item.setDescription(req.getParameter("description"));
             item.setTheme(req.getParameter("theme"));

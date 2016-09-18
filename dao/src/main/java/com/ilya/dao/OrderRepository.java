@@ -2,7 +2,6 @@ package com.ilya.dao;
 
 import com.ilya.model.Item;
 import com.ilya.model.Order;
-import com.ilya.model.OrderForItem;
 
 import java.util.List;
 import java.util.Map;

@@ -135,15 +135,9 @@ public class ItemServiceImpl implements ItemService {
     public void addOrRedactItem(Item item) {
         try {
             EntManUtl.startTransaction();
-            if (item.getFoto()!=null) {
-                itemRepository.save(item);
-                EntManUtl.commitTransaction();
-                LOG.info("Item {} successfully saved with foto",item.getId());
-            } else {
-                itemRepository.saveWithoutFoto(item);
-                LOG.info("Item {} successfully saved without foto",item.getId());
-                EntManUtl.commitTransaction();
-            }
+            itemRepository.save(item);
+            LOG.info("Item {} successfully saved",item.getId());
+            EntManUtl.commitTransaction();
         }
         catch (PersistenceException e){
             e.printStackTrace();

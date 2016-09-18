@@ -16,8 +16,6 @@ public interface ItemRepository {
 
     List<Item> getAll();
 
-    void saveWithoutFoto(Item item);
-
      void save(Item item);
 
      List<String> getThemes();

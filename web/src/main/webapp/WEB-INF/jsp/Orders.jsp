@@ -71,7 +71,7 @@
             <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
                 </c:if>
             <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-            <li style="display: inline;"><a class="color7" href="404.html">News</a></li>
+            <li style="display: inline;"><a class="color7" href="#">News</a></li>
           <div class="clearfix"> </div>
         </ul>
       </div>
@@ -125,10 +125,10 @@
                     "data": "id"
                 },
                 {
-                    "data": "delivery_status"
+                    "data": "deliveryStatus"
                 },
                 {
-                    "data": "pay_status"
+                    "data": "payStatus"
                 },
                 {
                     "data": "date"
@@ -151,7 +151,7 @@
             ]
         });
         updateTable();
-//        painterrr({id:67,delivery_status:'ss',date:'dd',pay_status:'ss',delivery:'dd'})
+//        painterrr({id:67,delivery_status:'proxyId',date:'dd',pay_status:'proxyId',delivery:'dd'})
     });
 
     function painterrr(data) {

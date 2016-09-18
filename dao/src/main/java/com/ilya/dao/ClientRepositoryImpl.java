@@ -4,12 +4,7 @@ package com.ilya.dao;
 
 import com.ilya.model.Client;
 import com.ilya.utils.EntManUtl;
-import com.ilya.utils.HibernateUtil;
-import org.hibernate.exception.ConstraintViolationException;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.UniqueConstraint;
 import java.util.List;
 
 
@@ -51,12 +46,13 @@ public class ClientRepositoryImpl implements ClientRepository {
         return entityManager.createQuery("select u from Client u where u.email =:email",Client.class).setParameter("email",email).getSingleResult();
     }
 
-    public void save(Client client){
+    public Client save(Client client){
         EntityManager entityManager = EntManUtl.getEManager();
         if (client.getId() == 0) {
             entityManager.persist(client);
+            return client;
         }
-        else entityManager.merge(client);
+        else return entityManager.merge(client);
     }
 
     public List<Client> getAll() {

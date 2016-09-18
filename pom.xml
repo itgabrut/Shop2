@@ -27,13 +27,14 @@
       <webjars-noty.version>2.3.8</webjars-noty.version>
       <webjars-datatables.version>1.10.11</webjars-datatables.version>
       <jackson-json.version>2.7.3</jackson-json.version>
+      <junit.version>4.12</junit.version>
 
   </properties>
     <dependencies>
         <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
-          <version>3.8.1</version>
+          <version>${junit.version}</version>
           <scope>test</scope>
     </dependency>
         <dependency>
@@ -61,9 +62,10 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.1</version>
               <configuration>
-                  <source>1.7</source>
-                  <target>1.7</target>
+                  <source>1.8</source>
+                  <target>1.8</target>
               </configuration>
           </plugin>
           <plugin>
@@ -71,10 +73,15 @@
               <artifactId>tomcat7-maven-plugin</artifactId>
               <version>2.2</version>
               <configuration>
-                  <url>http://localhost:8089/manager</url>
-                  <username>tomcat</username>
-                  <password>tomcat</password>
-                  <path>/${project.build.finalName}</path>
+                  <contextFile>../dao/src/main/resources/tomcat/context.xml</contextFile>
+                  <systemProperties>
+                      <file.encoding>UTF-8</file.encoding>
+                  </systemProperties>
+                  <url>http://localhost:8080/universe</url>
+                  <!--<username>tomcat</username>-->
+                  <!--<password>tomcat</password>-->
+                  <path>/universe</path>
+                  <uriEncoding>UTF-8</uriEncoding>
               </configuration>
           </plugin>
       </plugins>

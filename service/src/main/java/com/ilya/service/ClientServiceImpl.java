@@ -82,7 +82,7 @@ public class ClientServiceImpl implements ClientService {
      * @param client Client entity
      * @return true on success
      */
-    public boolean addClient(Client client) {
+    public Client addClient(Client client) {
         try {
             EntManUtl.startTransaction();
             if (client.getPassword().isEmpty() && client.getId() != 0) {
@@ -95,12 +95,12 @@ public class ClientServiceImpl implements ClientService {
             }
             repository.save(client);
             EntManUtl.commitTransaction();
-            return true;
+            return client;
         }
         catch (Exception e){
             e.printStackTrace();
             EntManUtl.rollback();
-            return false;
+            return null;
         }
         finally {
             EntManUtl.closeEManager();

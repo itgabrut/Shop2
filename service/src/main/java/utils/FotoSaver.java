@@ -2,14 +2,11 @@ package utils;
 
 import com.ilya.model.Item;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by ilya on 04.09.2016.

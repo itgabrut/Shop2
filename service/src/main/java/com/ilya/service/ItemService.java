@@ -2,9 +2,6 @@ package com.ilya.service;
 
 import com.ilya.model.Item;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
