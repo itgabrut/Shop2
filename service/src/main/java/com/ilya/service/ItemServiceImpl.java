@@ -1,14 +1,12 @@
 package com.ilya.service;
 
 import com.ilya.dao.ItemRepository;
-import com.ilya.dao.ItemRepositoryImpl;
 import com.ilya.dao.OrderRepository;
-import com.ilya.dao.OrderRepositoryImpl;
 import com.ilya.model.Item;
-import com.ilya.utils.EntManUtl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.persistence.PersistenceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +14,13 @@ import java.util.Map;
 /**
  * Created by ilya on 02.09.2016.
  */
+@Service
 public class ItemServiceImpl implements ItemService {
 
-    private ItemRepository itemRepository = new ItemRepositoryImpl();
-    private OrderRepository orderRepository = new OrderRepositoryImpl();
+    @Autowired
+    private ItemRepository itemRepository;
+    @Autowired
+    private OrderRepository orderRepository ;
 
     private static final Logger LOG = LoggerFactory.getLogger(ItemServiceImpl.class);
 
@@ -50,22 +51,9 @@ public class ItemServiceImpl implements ItemService {
      * @return true on success
      */
     public boolean deleteItem(int id) {
-        try {
-            EntManUtl.startTransaction();
-            itemRepository.deleteItem(id);
-            EntManUtl.commitTransaction();
-            LOG.info("Item {} delete success",id);
-            return true;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            EntManUtl.rollback();
-            LOG.error("Error during Item {} delete --- rollbacked",id);
-            return false;
-        }
-        finally {
-            EntManUtl.closeEManager();
-        }
+        itemRepository.deleteItem(id);
+        LOG.info("Item {} delete success",id);
+        return true;
     }
 
     public boolean addItem(Item item) {
@@ -112,7 +100,6 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getItemsByTheme(String s) {
         List<Item> list = itemRepository.getItemsByTheme(s);
-        EntManUtl.closeEManager();
         return list;
     }
 
@@ -123,7 +110,6 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<String> getThemes() {
         List<String> list = itemRepository.getThemes();
-        EntManUtl.closeEManager();
         return list;
     }
 
@@ -133,20 +119,8 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public void addOrRedactItem(Item item) {
-        try {
-            EntManUtl.startTransaction();
-            itemRepository.save(item);
-            LOG.info("Item {} successfully saved",item.getId());
-            EntManUtl.commitTransaction();
-        }
-        catch (PersistenceException e){
-            e.printStackTrace();
-            EntManUtl.rollback();
-            LOG.error("Item {} hadn't been added/redacted",item.getId());
-        }
-        finally {
-            EntManUtl.closeEManager();
-        }
+        itemRepository.save(item);
+        LOG.info("Item {} successfully saved",item.getId());
     }
 
 }

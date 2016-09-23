@@ -3,8 +3,10 @@ package com.ilya.service;
 import com.ilya.dao.ClientRepository;
 import com.ilya.dao.ClientRepositoryImpl;
 import com.ilya.model.Client;
-import com.ilya.utils.EntManUtl;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,9 +14,11 @@ import java.util.List;
 /**
  * Created by ilya on 20.08.2016.
  */
+@Service
 public class ClientServiceImpl implements ClientService {
 
-    private ClientRepository repository = new ClientRepositoryImpl();
+    @Autowired
+    private ClientRepository repository;
 
     /**
      *  Get Client entity from db by Id
@@ -23,7 +27,6 @@ public class ClientServiceImpl implements ClientService {
      */
     public Client getClient(int id) {
         Client client =  repository.getClient(id);
-        EntManUtl.closeEManager();
         return client;
     }
 
@@ -33,7 +36,6 @@ public class ClientServiceImpl implements ClientService {
      */
     public List<Client> getAll() {
         List<Client> list =  repository.getAll();
-        EntManUtl.closeEManager();
         return list;
     }
 
@@ -42,21 +44,10 @@ public class ClientServiceImpl implements ClientService {
      * @param id Id
      * @return true if removed, otherwise false
      */
+    @Transactional
     public boolean deleteClient(int id) {
-        try {
-            EntManUtl.startTransaction();
-            repository.deleteClient(id);
-            EntManUtl.commitTransaction();
-            return true;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            EntManUtl.rollback();
-            return false;
-        }
-        finally {
-            EntManUtl.closeEManager();
-        }
+        repository.deleteClient(id);
+        return true;
     }
 
 //    public boolean updateClient(Client client) {
@@ -71,7 +62,6 @@ public class ClientServiceImpl implements ClientService {
      */
     public Client logIn(String mail,String pass){
         Client client = repository.getByEmail(mail);
-        EntManUtl.closeEManager();
         if(client == null)return null;
        return BCrypt.checkpw(pass,client.getPassword()) ? client : null;
     }
@@ -82,31 +72,19 @@ public class ClientServiceImpl implements ClientService {
      * @param client Client entity
      * @return true on success
      */
+    @Transactional
     public Client addClient(Client client) {
-        try {
-            EntManUtl.startTransaction();
-            if (client.getPassword().isEmpty() && client.getId() != 0) {
-                Client old = repository.getClient(client.getId());
-                client.setPassword(old.getPassword());
+        if (client.getPassword().isEmpty() && client.getId() != 0) {
+            Client old = repository.getClient(client.getId());
+            client.setPassword(old.getPassword());
 
-            } else {
-                String hashed = BCrypt.hashpw(client.getPassword(), BCrypt.gensalt());
-                client.setPassword(hashed);
-            }
-            repository.save(client);
-            EntManUtl.commitTransaction();
-            return client;
+        } else {
+            String hashed = BCrypt.hashpw(client.getPassword(), BCrypt.gensalt());
+            client.setPassword(hashed);
         }
-        catch (Exception e){
-            e.printStackTrace();
-            EntManUtl.rollback();
-            return null;
-        }
-        finally {
-            EntManUtl.closeEManager();
-        }
+        repository.save(client);
+        return client;
     }
-
     /**
      *
      * @param mail Client's email
@@ -115,7 +93,6 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client getByEmail(String mail) {
        Client client =  repository.getByEmail(mail);
-        EntManUtl.closeEManager();
         return client;
     }
 }

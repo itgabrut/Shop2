@@ -1,14 +1,12 @@
 package com.ilya.service;
 
 import com.ilya.dao.OrderRepository;
-import com.ilya.dao.OrderRepositoryImpl;
 import com.ilya.model.Client;
 import com.ilya.model.Item;
 import com.ilya.model.Order;
 import com.ilya.model.OrderForItem;
-import com.ilya.utils.EntManUtl;
-
-import javax.persistence.OptimisticLockException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +14,11 @@ import java.util.Map;
 /**
  * Created by ilya on 09.09.2016.
  */
+@Service
 public class OrderServiceImpl implements OrderService {
 
-    private OrderRepository repository = new OrderRepositoryImpl();
+    @Autowired
+    private OrderRepository repository ;
 
 //    public boolean addOrder(Order order){
 //        return false;
@@ -57,21 +57,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setOrderForItems(list);
         order.setClient(current);
-        EntManUtl.startTransaction();
-        try {
-           if(repository.addOrder(order)){
-               EntManUtl.commitTransaction();
-           }
-            else EntManUtl.rollback();
-        }
-        catch (OptimisticLockException exc){
-            exc.printStackTrace();
-            EntManUtl.rollback();
-            return false;
-        }
-        finally {
-            EntManUtl.closeEManager();
-        }
+        repository.addOrder(order);
         return true;
     }
 }

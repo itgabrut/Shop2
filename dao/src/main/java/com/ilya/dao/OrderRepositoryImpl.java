@@ -3,23 +3,26 @@ package com.ilya.dao;
 import com.ilya.model.Item;
 import com.ilya.model.Order;
 import com.ilya.model.OrderForItem;
-import com.ilya.utils.EntManUtl;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ilya.utils.EntManUtl.getEManager;
-
 /**
  * Created by ilya on 21.08.2016.
  */
+@Repository
+@Transactional(readOnly = true)
 public class OrderRepositoryImpl implements OrderRepository {
 
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Map<Item,Integer> getItemsOfOrder(int orderId) {
-        EntityManager entityManager = getEManager();
         Order or = entityManager.find(Order.class, orderId);
         List<OrderForItem> list = or.getOrderForItems();
         if (list != null) {
@@ -27,7 +30,6 @@ public class OrderRepositoryImpl implements OrderRepository {
             for (OrderForItem orf : list) {
                 map.put(orf.getItem(), orf.getQuantity());
             }
-            EntManUtl.closeEManager();
             return map;
         }
         return null;
@@ -35,15 +37,12 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<Order> getByClientId(int id) {
-        EntityManager entityManager = getEManager();
         List<Order> list = entityManager.createQuery("SELECT o FROM Order o WHERE o.client.id =:clid",Order.class).setParameter("clid",id).getResultList();
-        EntManUtl.closeEManager();
-        if(entityManager.isOpen())return null;
         return list;
     }
 
+    @Transactional
     public  boolean addOrder(Order order) {
-        EntityManager entityManager = getEManager();
         int a;
         for (OrderForItem orderForItem : order.getOrderForItems()) {
             Item i = entityManager.find(Item.class, orderForItem.getItem().getId());
@@ -67,8 +66,4 @@ public class OrderRepositoryImpl implements OrderRepository {
 //        return true;
 //    }
 
-    public static void main(String[] args) {
-        List<Order> list = new OrderRepositoryImpl().getByClientId(100006);
-
-    }
 }
