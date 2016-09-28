@@ -24,7 +24,7 @@ import java.util.List;
  *
  *  Process CRUD operations for Items
  */
-@WebServlet(urlPatterns = "/getitems")
+//@WebServlet(urlPatterns = "/getitems")
 @MultipartConfig
 public class ItemServlet extends HttpServlet {
 
@@ -38,7 +38,7 @@ public class ItemServlet extends HttpServlet {
             req.setAttribute("themeList",themes);
             if(themes.size()!=0) {
                 List<Item> list = service.getItemsByTheme(req.getParameter("theme") == null ? themes.get(0) : req.getParameter("theme"));
-                BucketCheckerUtils.saveListFotosToMemory(req.getSession(), list);
+//                BucketCheckerUtils.saveListFotosToMemory(req.getSession(), list);
                 req.setAttribute("itemList", list);
             }
             req.getRequestDispatcher("WEB-INF/jsp/Items.jsp").forward(req,resp);

@@ -1,7 +1,6 @@
 package com.ilya.service;
 
 import com.ilya.dao.ClientRepository;
-import com.ilya.dao.ClientRepositoryImpl;
 import com.ilya.model.Client;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +76,6 @@ public class ClientServiceImpl implements ClientService {
         if (client.getPassword().isEmpty() && client.getId() != 0) {
             Client old = repository.getClient(client.getId());
             client.setPassword(old.getPassword());
-
         } else {
             String hashed = BCrypt.hashpw(client.getPassword(), BCrypt.gensalt());
             client.setPassword(hashed);

@@ -2,24 +2,17 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
-    <persistence-unit name="persist.unit">
+    <persistence-unit name="persist.unit.hsql">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!--<non-jta-data-source>java:comp/env/jdbc/firstapp</non-jta-data-source>-->
         <class>com.ilya.model.Client</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
             <!--<property name="hibernate.hbm2ddl.auto" value=""/>-->
             <property name="hibernate.show_sql" value="true" />
-
-
-
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:C:\\hsql\shema1\shema1"/>
-            <!--<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>-->
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/shema1"/>-->
             <property name="javax.persistence.jdbc.user" value="root"/>
-            <!--<property name="javax.persistence.jdbc.password" value="mysql"/>-->
 
             <!--<property name="javax.persistence.schema-generation.database.action"-->
                       <!--value="drop-and-create"/>-->
@@ -29,6 +22,19 @@
                       <!--value="META-INF/sql/initdb.sql" />-->
             <!--<property name="javax.persistence.sql-load-script-source"-->
                       <!--value="META-INF/sql/populatedb.sql" />-->
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="persist.unit.mysql">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.ilya.model.Client</class>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.show_sql" value="true" />
+
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/shema1"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="mysql"/>
         </properties>
     </persistence-unit>
 </persistence>

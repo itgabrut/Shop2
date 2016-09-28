@@ -21,9 +21,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!-- Custom Theme files -->
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/component.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/component.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <!-- Custom Theme files -->
     <!--webfont-->
@@ -31,10 +31,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
     <!-- start menu -->
-    <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all">
-    <script type="text/javascript" src="js/megamenu.js"></script>
+    <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
+    <script type="text/javascript" src="resources/js/megamenu.js"></script>
     <%--<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>--%>
-    <script src="js/jquery.easydropdown.js"></script>
+    <script src="resources/js/jquery.easydropdown.js"></script>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 <div class="men_banner">
@@ -54,7 +57,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a class="login" href="Register.jsp">
                         </c:if>
                         <c:if test="${loggedClient!=null}">
-                        <a class="login" href="orders?clientId=${loggedClient.id}">
+                        <a class="login" href="orders">
                             </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
@@ -98,7 +101,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <c:if test='${isAdmin}'>
                     <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
                     </c:if>
-                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="#">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -128,7 +131,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="close1"  id="${item.id}" onclick="closeMyclose(${item.id})" > </div>
                     <div class="cart-sec simpleCart_shelfItem">
                         <div class="cart-item cyc">
-                            <img src="fotoserver?fotoId=${item.id}" class="img-responsive" alt="">
+                            <img src="fotoserver/db?fotoId=${item.id}" class="img-responsive" alt="">
                         </div>
                         <div class="cart-item-info">
                             <h3><a href="single?id=${item.id}">${item.name}</a></h3>
@@ -201,7 +204,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </ul>
                 <div class="clearfix"></div>
                 <c:if test="${loggedClient==null}">
-                <a class="order" href="Register.jsp">Place Order</a>
+                <a class="order" href="loggin">Place Order</a>
                 </c:if>
                 <c:if test="${loggedClient!=null}">
                     <a class="order" onclick="sendToPermitOrder()" href="#">Place Order</a>
@@ -251,13 +254,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 <script>
     function logoutt() {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
-            type : 'PUT',
-            url : 'login',
-            success: function () {
-                window.location.href = "getitems";
+            url: 'loggout',
+            type: 'POST',
+            data: token,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                window.location = "getitems";
+            },
+            error: function (data) {
+                console.log(data);
             }
-        })
+        });
     }
 
     function closeMyclose(el) {
@@ -281,10 +293,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             itemId : el,
             itemPrice : itemPrice
         };
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
             url : 'checkout',
             method : 'Post',
-            data : data
+            data : data,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
         });
     }
     
@@ -310,11 +327,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var toSend = JSON.stringify(jssobj);
 
         $.ajax({
-            url: 'orderstopost?clientId=${loggedClient.id}',
+            url: 'orderstopost',
             method: "POST",
             data: toSend ,
             success: function () {
-                window.location.href = 'orders?clientId=${loggedClient.id}'
+                window.location.href = 'orders'
             }
         })
     }

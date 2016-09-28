@@ -10,15 +10,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <link href="css/style.css" rel="stylesheet" type="text/css">
-  <link href="css/component.css" rel="stylesheet" type="text/css">
-  <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all">
+  <link href="resources/css/style.css" rel="stylesheet" type="text/css">
+  <link href="resources/css/component.css" rel="stylesheet" type="text/css">
+  <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
   <link href="//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet" type="text/css">
   <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="webjars/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="webjars/datatables/1.10.11/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 
@@ -109,9 +112,9 @@
 
 </body>
 <script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/moments/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="js/css/bootstrap-datetimepicker.min.css" />
+<script type="text/javascript" src="resources/js/moments/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="resources/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="resources/js/css/bootstrap-datetimepicker.min.css" />
 <script type="text/javascript">
 
     var datatableApi;
@@ -160,20 +163,41 @@
     }
 
     function logoutt() {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
-            type : 'PUT',
-            url : 'login',
-            success: function () {
-                window.location.href = "getitems";
+            url: 'loggout',
+            type: 'POST',
+            data: token,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                window.location = "getitems";
+            },
+            error: function (data) {
+                console.log(data);
             }
-        })
+        });
     }
 
     function updateTable() {
-        var addr = 'ajax/orders?clientId=${clientId}';
-        $.get(addr, function (data) {
-            painterrr(data);
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var addr = 'ajax/orders/get';
+        $.ajax({
+            url: addr,
+            type: 'Get',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                painterrr(data);
+            }
         });
+//        $.get(addr, function (data) {
+//            painterrr(data);
+//        });
 
         $(document).ajaxError(function (event, jqXHR, options, jsExc) {
             // failNoty(event, jqXHR, options, jsExc);

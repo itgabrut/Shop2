@@ -21,7 +21,7 @@ import java.util.HashMap;
  *
  * Process requests for images
  */
-@WebServlet(urlPatterns = "/fotoserver")
+//@WebServlet(urlPatterns = "/fotoserver")
 public class FotoServlet extends HttpServlet {
 
     @Override

@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * Process requests from Authorization fllter to pages that display information about orders of specific Client
  */
-@WebServlet(urlPatterns = "/orders",name = "Orders")
+//@WebServlet(urlPatterns = "/orders",name = "Orders")
 public class OrdersServlet extends HttpServlet {
 
 

@@ -3,11 +3,14 @@ package com.ilya.dao;
 
 
 import com.ilya.model.Client;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -62,4 +65,9 @@ public class ClientRepositoryImpl implements ClientRepository {
     public List<Client> getAll() {
         return entityManager.createNamedQuery("Client.getAll",Client.class).getResultList();
     }
+
+//    public static void main(String[] args) {
+//
+//        System.out.println("\n" + Arrays.toString(appCtx.getBeanDefinitionNames()) + "\n");
+//    }
 }

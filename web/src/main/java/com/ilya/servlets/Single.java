@@ -24,7 +24,7 @@ import java.util.List;
  * Process requests to show single Item information.
  * Process requests for Add or Redact single Item
  */
-@WebServlet(urlPatterns = "/single")
+//@WebServlet(urlPatterns = "/single")
 @MultipartConfig
 public class Single  extends HttpServlet {
 
@@ -35,7 +35,7 @@ public class Single  extends HttpServlet {
         try {
             Item item = itemService.getItem(Integer.parseInt(req.getParameter("id")));
 //        assert item != null;
-            BucketCheckerUtils.saveFotoToMemory(req.getSession(), item);
+//            BucketCheckerUtils.saveFotoToMemory(req.getSession(), item);
             req.setAttribute("item", item);
             List<Path> fotos = FotoSaver.getPathsOfFotos(item);
             req.setAttribute("fotosList", fotos);

@@ -21,7 +21,7 @@ import java.util.Map;
  *
  *   Forwards to Checkout.jsp adding List Checked Items from client card
  */
-@WebServlet(urlPatterns = "/checkout")
+//@WebServlet(urlPatterns = "/checkout")
 public class CheckoutServl extends HttpServlet {
 
     private ItemService itemService = new ItemServiceImpl();

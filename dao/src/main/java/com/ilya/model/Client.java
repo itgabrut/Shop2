@@ -3,7 +3,9 @@ package com.ilya.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ilya.model.enums_utils.Role;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -35,7 +37,11 @@ public class Client {
     private String email;
     @Column(name ="password")
     private String password;
+    @Transient
+    @JsonIgnore
+    private String passwordconfirm;
     @Column(name = "registered")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date registered;
     @Transient
     private boolean isAdmin;
@@ -46,7 +52,7 @@ public class Client {
     private Set<Role> roles;
 
     @Embedded
-    private Adress adress;
+    private Adress adress = new Adress();
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
@@ -114,6 +120,14 @@ public class Client {
 
     public void setAdress(Adress adress) {
         this.adress = adress;
+    }
+
+    public String getPasswordconfirm() {
+        return passwordconfirm;
+    }
+
+    public void setPasswordconfirm(String passwordconfirm) {
+        this.passwordconfirm = passwordconfirm;
     }
 
     @Override

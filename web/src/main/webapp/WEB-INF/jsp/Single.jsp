@@ -17,19 +17,19 @@
     <meta name="keywords" content="Watches Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design">
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!-- Custom Theme files -->
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css">
     <!-- Custom Theme files -->
     <!--webfont-->
     <link href="//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <!-- start menu -->
     <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
-    <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all">
-    <script src="js/jquery.easydropdown.js"></script>
-    <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+    <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
+    <script src="resources/js/jquery.easydropdown.js"></script>
+    <script src="resources/js/easyResponsiveTabs.js" type="text/javascript"></script>
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
     <script type="text/javascript">
@@ -56,7 +56,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <c:if test="${quantity!=null}">${quantity}</c:if>
                          <c:if test="${quantity==null}">0</c:if>
                         </span> items</p>
-                        <img src="images/bag.png" alt="">
+                        <img src="resources/images/bag.png" alt="">
                         <div class="clearfix"> </div></h4>
                 </a></div>
                 <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty">Empty Cart</a></p>
@@ -90,8 +90,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                 </div>
                 <!----search-scripts---->
-                <script src="js/classie1.js"></script>
-                <script src="js/uisearch.js"></script>
+                <script src="resources/js/classie1.js"></script>
+                <script src="resources/js/uisearch.js"></script>
                 <script>
                     new UISearch( document.getElementById( 'sb-search' ) );
                 </script>
@@ -130,12 +130,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="labout span_1_of_a1">
                     <div class="flexslider">
                         <ul class="slides">
-                            <li data-thumb="fotoserver?fotoId=${item.id}">
-                                <img src="fotoserver?fotoId=${item.id}" />
+                            <li data-thumb="fotoserver/db?fotoId=${item.id}">
+                                <img src="fotoserver/db?fotoId=${item.id}" />
                             </li>
                             <c:forEach items="${fotosList}" var="uri">
-                            <li data-thumb="fotoserver?path=${uri}">
-                                <img src="fotoserver?path=${uri}" />
+                            <li data-thumb="fotoserver/sys?path=${uri}">
+                                <img src="fotoserver/sys?path=${uri}" />
                             </li>
                             </c:forEach>
                         </ul>
@@ -209,14 +209,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <c:if test="${isAdmin}">
         <div class="col-md-3 form-group">
 
-            <form class="form-horizontal" action="single" method="post" id="filesForm" enctype="multipart/form-data" data-toggle="validator" role="form">
+            <form class="form-horizontal" action="single/files" method="post" id="filesForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                 <input type="text" style="display: none" name="theme" value="${item.theme}">
                 <input type="text" style="display: none" name="itemName" value="${item.name}">
                 <input type="text" style="display: none" name="id" value="${item.id}">
                 <div class="form-group" style="margin-left: 20px">
                     <div class="col-xs-9">
                         <label class="btn btn-primary" for="my-file-selector1">
-                            <input id="my-file-selector1" name="file1" type="file" style="display:none;" onchange="$('#upload-file-info1').html($(this).val());">
+                            <input id="my-file-selector1" name="files" type="file" style="display:none;" onchange="$('#upload-file-info1').html($(this).val());">
                             Upload file
                         </label>
                         <span class='label label-info' id="upload-file-info1"></span>
@@ -225,7 +225,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="form-group" style="margin-left: 20px">
                     <div class="col-xs-9">
                         <label class="btn btn-primary" for="my-file-selector2">
-                            <input id="my-file-selector2" name="file2" type="file" style="display:none;" onchange="$('#upload-file-info2').html($(this).val());">
+                            <input id="my-file-selector2" name="files" type="file" style="display:none;" onchange="$('#upload-file-info2').html($(this).val());">
                             Upload file
                         </label>
                         <span class='label label-info' id="upload-file-info2"></span>
@@ -234,7 +234,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="form-group" style="margin-left: 20px">
                     <div class="col-xs-9">
                         <label class="btn btn-primary" for="my-file-selector3">
-                            <input id="my-file-selector3" name="file3" type="file" style="display:none;" onchange="$('#upload-file-info3').html($(this).val());">
+                            <input id="my-file-selector3" name="files" type="file" style="display:none;" onchange="$('#upload-file-info3').html($(this).val());">
                             Upload file
                         </label>
                         <span class='label label-info' id="upload-file-info3"></span>
@@ -247,8 +247,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <ul>
                     <c:forEach items="${fotosList}" var="uri">
                     <li style="margin-bottom: 20%">
-                        <img src="fotoserver?path=${uri}" style="height: 120px ; width: 120px">
-                        <a class="btn btn-danger" href="fotoserver?delete=${uri}&itemId=${item.id}" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</a>
+                        <img src="fotoserver/sys?path=${uri}" style="height: 120px ; width: 120px">
+                        <a class="btn btn-danger" href="fotoserver/del?delete=${uri}&itemId=${item.id}" style="margin-block-start: 5%; margin-left: 20px;"  >Delete foto</a>
                     </li>
                     </c:forEach>
 
@@ -300,8 +300,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
 </div>
 <!-- FlexSlider -->
-<script defer="" src="js/jquery.flexslider.js"></script>
-<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen">
+<script defer="" src="resources/js/jquery.flexslider.js"></script>
+<link rel="stylesheet" href="resources/css/flexslider.css" type="text/css" media="screen">
 <script>
     // Can also be used with $(document).ready()
     $(window).load(function() {
@@ -320,7 +320,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" action="single" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
+                <form class="form-horizontal" action="single/update" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3">Name</label>
 

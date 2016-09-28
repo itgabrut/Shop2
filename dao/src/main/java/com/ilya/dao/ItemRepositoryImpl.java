@@ -18,7 +18,7 @@ import java.util.List;
 public class ItemRepositoryImpl implements ItemRepository {
 
     @PersistenceContext
-    EntityManager entityManager;
+   private EntityManager entityManager;
 
     public Item getItem(int itemId) {
         return entityManager.find(Item.class,itemId);

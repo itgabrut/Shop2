@@ -17,11 +17,11 @@
     <meta name="keywords" content="Watches Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design">
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!-- Custom Theme files -->
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/component.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/component.css" rel="stylesheet" type="text/css">
     <!-- Custom Theme files -->
     <!--webfont-->
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -29,13 +29,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <%--<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>--%>
     <!-- start menu -->
-    <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all">
+    <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
     <%--<script type="text/javascript" src="js/megamenu.js"></script>--%>
     <%--<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>--%>
-    <script src="js/jquery.easydropdown.js"></script>
+    <script src="resources/js/jquery.easydropdown.js"></script>
     <%--<script src="js/simpleCart.min.js"> </script>--%>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
-
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 <div class="men_banner">
@@ -51,7 +53,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <c:if test="${quantity!=null}">${quantity}</c:if>
                          <c:if test="${quantity==null}">0</c:if>
                         </span> items</p>
-                        <img src="images/bag.png" alt="">
+                        <img src="resources/images/bag.png" alt="">
                         <div class="clearfix"> </div></h4>
                 </a></div>
                 <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty">Empty Cart</a></p>
@@ -61,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 <ul class="header_user_info">
                     <c:if test="${loggedClient==null}">
-                    <a class="login" href="Register.jsp">
+                    <a class="login" href="login">
                         </c:if>
                         <c:if test="${loggedClient!=null}">
                             <a class="login" href="orders?clientId=${loggedClient.id}">
@@ -85,8 +87,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                 </div>
                 <!----search-scripts---->
-                <script src="js/classie1.js"></script>
-                <script src="js/uisearch.js"></script>
+                <script src="resources/js/classie1.js"></script>
+                <script src="resources/js/uisearch.js"></script>
                 <script>
                     new UISearch( document.getElementById( 'sb-search' ) );
                 </script>
@@ -112,7 +114,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <c:if test="${isAdmin}">
                     <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
                     </c:if>
-                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="#">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -191,7 +193,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </a><div class="view view-first"><a class="cbp-vm-image" href="single?id=${item.id}">
                         </a><div class="inner_content clearfix"><a class="cbp-vm-image" href="single?id=${item.id}">
                         </a><div class="product_image"><a class="cbp-vm-image" href="single?id=${item.id}">
-                            <div class="mask1"><img src="http://localhost:8080/universe/fotoserver?fotoId=${item.id}" height="400px" width="220"  alt="image" class="img-responsive zoom-img"></div>
+                            <div class="mask1"><img src="fotoserver/db?fotoId=${item.id}" height="400px" width="220"  alt="image" class="img-responsive zoom-img"></div>
                             <div class="mask">
                                 <div class="info">Quick View</div>
                             </div>
@@ -231,8 +233,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     })
                 })
             </script>
-            <script src="js/cbpViewModeSwitch.js" type="text/javascript"></script>
-            <script src="js/classie.js" type="text/javascript"></script>
+            <script src="resources/js/cbpViewModeSwitch.js" type="text/javascript"></script>
+            <script src="resources/js/classie.js" type="text/javascript"></script>
         </div>
     </div>
 </div>
@@ -338,7 +340,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 </body>
-<script src="js/jquery.bootpag.min.js"></script>
+<script src="resources/js/jquery.bootpag.min.js"></script>
 <script>
     function addCat() {
         $('.modal-title').text("Add item");
@@ -377,10 +379,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             itemId : iid,
             totalPrice : price
         }
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
             type: 'Post',
             url: "checkout",
-            data: dataObj
+            data: dataObj,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
         });
 
         var res = parseInt($(".simpleCart_total").html())+price;
@@ -391,22 +398,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     }
 
     function emptyCart() {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $("#simpleCart_quantity").html(0);
         $('#simpleCart_total').html("0 $");
         $.ajax({
             type : 'Put',
-            url : "checkout"
+            url : "checkout",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
         });
     }
 
     function logoutt() {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
-            type : 'PUT',
-            url : 'login',
-            success: function () {
-                window.location.href = "getitems";
+            url: 'loggout',
+            type: 'POST',
+            data: token,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                window.location = "getitems";
+            },
+            error: function (data) {
+                console.log(data);
             }
-        })
+        });
     }
 </script>
 </html>

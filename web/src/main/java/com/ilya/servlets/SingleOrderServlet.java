@@ -28,7 +28,7 @@ public class SingleOrderServlet extends HttpServlet {
         assert req.getParameter("orderId") !=null;
         try {
             Map<Item,Integer> map = service.getItemsAndQuantityByOrder(Integer.parseInt(req.getParameter("orderId")));
-            BucketCheckerUtils.saveListFotosToMemory(req.getSession(),new ArrayList<>(map.keySet()));
+//            BucketCheckerUtils.saveListFotosToMemory(req.getSession(),new ArrayList<>(map.keySet()));
             req.setAttribute("itemsForOrderMap",map);
             req.getRequestDispatcher("WEB-INF/jsp/Order.jsp").forward(req,resp);
         }

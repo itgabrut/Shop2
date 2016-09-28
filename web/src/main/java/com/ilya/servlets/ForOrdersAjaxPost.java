@@ -28,33 +28,33 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/orderstopost")
 public class ForOrdersAjaxPost extends HttpServlet {
 
-    private OrderService service = new OrderServiceImpl();
+    private OrderService orderService = new OrderServiceImpl();
     private ClientService clientService = new ClientServiceImpl();
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json;
-        StringBuilder sb = new StringBuilder();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(req.getInputStream(), "UTF-8"));
-            while ((json = bufferedReader.readLine()) != null) {
-                sb.append(json);
-            }
-            JsonNode node = objectMapper.readTree(sb.toString()).get("arr");
-            Map<Integer, Integer> map = new HashMap<>();
-            if (node.isArray()) {
-                for (JsonNode nn : node) {
-                    map.put(nn.get("itemId").asInt(), nn.get("quantity").asInt());
-                }
-            }
-            Client asked = clientService.getClient(Integer.parseInt(req.getParameter("clientId")));
-            if (asked == null || !service.addOrder(map, asked)) resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            else BucketCheckerUtils.clearBucket(req);
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-            resp.sendRedirect("getitems");
-        }
-    }
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String json;
+//        StringBuilder sb = new StringBuilder();
+//        try {
+//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(req.getInputStream(), "UTF-8"));
+//            while ((json = bufferedReader.readLine()) != null) {
+//                sb.append(json);
+//            }
+//            JsonNode node = objectMapper.readTree(sb.toString()).get("arr");
+//            Map<Integer, Integer> map = new HashMap<>();
+//            if (node.isArray()) {
+//                for (JsonNode nn : node) {
+//                    map.put(nn.get("itemId").asInt(), nn.get("quantity").asInt());
+//                }
+//            }
+//            Client asked = clientService.getClient(Integer.parseInt(req.getParameter("clientId")));
+//            if (asked == null || !orderService.addOrder(map, asked)) resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//            else BucketCheckerUtils.clearBucket(req);
+//        }
+//        catch (NullPointerException e){
+//            e.printStackTrace();
+//            resp.sendRedirect("getitems");
+//        }
+//    }
 }

@@ -6,14 +6,17 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>Registration</title>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/login.css" rel="stylesheet" type="text/css">
-    <link href="css/component.css" rel="stylesheet" type="text/css">
-    <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all">
+    <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/login.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/component.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
     <link href="//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
@@ -89,124 +92,154 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="login-form" onsubmit="sendLogIn();return false;" style="display: block;">
-                                <div class="form-group">
-                                    <input type="text" name="email" id="username" tabindex="1" class="form-control" placeholder="Email" value="">
+                            <form id="login-form" style="display: block;" action="loggin" method="post">
+                                <div class="form-group ${error == null ? '' : 'has-error'}">
+                                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Email" value="">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group ${error == null ? '' : 'has-error'}">
                                     <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                    <span class="help-block" style="margin-left: 28%">${error}</span>
                                 </div>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <button type="submit" class="btn btn-primary" onsubmit="sendLogIn()">Log In</button>
+                                            <button type="submit" class="btn btn-primary">Log In</button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
 
-                            <form id="register-form" onsubmit="sendRegistration();return false;" style="display: none;">
-                                <div class="form-group">
-                                    <label for="name" class="control-label col-xs-3">Name</label>
-
-                                    <div class="col-xs-8 bot">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="15" required>
+                            <form:form id="register-form" modelAttribute="registration" method="post" action="reg" style="display: none;">
+                                <spring:bind path="name">
+                                    <div class="form-group ${error == null ? '' : 'has-error'}">
+                                        <label for="name" class="control-label col-xs-3">Name</label>
+                                        <div class="col-xs-8 bot">
+                                        <form:input type="text" path="name" class="form-control" id="name" name="name" placeholder="Name" maxlength="15"></form:input>
+                                            <form:errors cssStyle="color: red" path="name"></form:errors>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
+                                </spring:bind>
+                                <spring:bind path="surname">
+                                <div class="form-group ${error == null ? '' : 'has-error'}">
                                     <label for="surname" class="control-label col-xs-3">Surname</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" maxlength="15" required>
+                                        <form:input type="text" path="surname" class="form-control" id="surname" name="surname" placeholder="Surname" maxlength="15"/>
+                                        <form:errors cssStyle="color: red" path="surname"></form:errors>
                                     </div>
                                 </div>
-
+                                </spring:bind>
+                                <spring:bind path="email">
                                 <div class="form-group">
                                     <label for="email" class="control-label col-xs-3">Email</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="email"
-                                               data-error="Bruh, that email address is invalid" required>
-                                        <div class="help-block invisible alert-danger">Bruh, that email address is invalid</div>
+                                        <form:input type="email" path="email" class="form-control" id="email" name="email" placeholder="email"/>
+                                        <form:errors cssStyle="color: red" path="email"></form:errors>
                                     </div>
                                 </div>
+                                </spring:bind>
+                                <spring:bind path="birth">
                                 <div class="form-group">
                                     <label for="birthday" class="control-label col-xs-3">Birthday</label>
 
                                     <div class="col-xs-8 bot" id = "datetimepicker1">
-                                        <input type="date" class="form-control" id="birthday" name="birth" placeholder="Birthday">
+                                        <form:input type="date" path="birth" class="form-control" id="birthday" name="birth" placeholder="Birthday"/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                                     </div>
                                 </div>
+                                </spring:bind>
+                                <spring:bind path="adress.country">
                                 <div class="form-group">
                                     <label for="country" class="control-label col-xs-3">Country</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="text" class="form-control" id="country" name="country" placeholder="Country" maxlength="15" required>
+                                        <form:input type="text" path="adress.country" class="form-control" id="country" name="country" placeholder="Country" maxlength="15"/>
+                                        <form:errors cssStyle="color: red" path="adress.country"></form:errors>
                                     </div>
                                 </div>
+                                </spring:bind>
+                                <spring:bind path="adress.city">
                                 <div class="form-group">
                                     <label for="city" class="control-label col-xs-3">City</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="text" class="form-control" id="city" name="city" placeholder="City" maxlength="15" required>
+                                        <form:input type="text" path="adress.city" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
+                                        <form:errors path="adress.city"></form:errors>
                                     </div>
                                 </div>
+                                </spring:bind>
+                                <spring:bind path="adress.street">
                                 <div class="form-group">
                                     <label for="street" class="control-label col-xs-3">Street</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="text" class="form-control" id="street" name="street" placeholder="Street" maxlength="15" required>
+                                        <form:input type="text" path="adress.street" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
+                                        <form:errors path="adress.street"></form:errors>
                                     </div>
                                 </div>
+                                </spring:bind>
+                                <spring:bind path="adress.house">
                                 <div class="form-group">
                                     <label for="house" class="control-label col-xs-3">House</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="number" class="form-control" id="house" name="house" placeholder="House" maxlength="15" required>
+                                        <form:input type="number" path="adress.house" class="form-control" id="house" name="house" placeholder="House" maxlength="15"/>
+                                        <form:errors path="adress.house"></form:errors>
                                     </div>
                                 </div>
+                                </spring:bind>
+                                <spring:bind path="adress.app">
                                 <div class="form-group">
                                     <label for="app" class="control-label col-xs-3">Apartment</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="number" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15" required>
+                                        <form:input type="number" path="adress.app" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15"/>
+                                        <form:errors path="adress.app"></form:errors>
                                     </div>
                                 </div>
+                                </spring:bind>
+                                <spring:bind path="adress.zip">
                                 <div class="form-group">
                                     <label for="zip" class="control-label col-xs-3">Zip</label>
 
                                     <div class="col-xs-8 bot">
-                                        <input type="number" class="form-control" id="zip" name="zip" placeholder="Zip">
+                                        <form:input type="number" path="adress.zip" class="form-control" maxlength="6" id="zip" name="zip" placeholder="Zip"/>
+                                        <form:errors path="adress.zip"></form:errors>
                                     </div>
                                 </div>
-
+                                </spring:bind>
+                                <spring:bind path="password">
                                 <div class="form-group">
                                     <label for="inputPassword" class="control-label col-xs-3">Password</label>
                                         <div class="col-xs-8">
-                                            <input type="password" class="form-control" minlength="6" id="inputPassword" name="password" placeholder="" required>
+                                            <form:input type="password" path="password" class="form-control" minlength="6" id="inputPassword" name="password" placeholder=""/>
+                                            <form:errors cssStyle="color: red" path="password"></form:errors>
                                             <div class="help-block">Minimum of 6 characters</div>
                                         </div>
                                     </div>
+                                </spring:bind>
+                                <spring:bind path="passwordconfirm">
                                 <div class="form-group">
-                                    <label for="InputPasswordConfirm" class="control-label col-xs-3">Confirm a password</label>
+                                    <label for="inputPasswordConfirm" class="control-label col-xs-3">Confirm a password</label>
                                         <div class="col-xs-8">
-                                            <input type="password" class="form-control" minlength="6" id="inputPasswordConfirm"
-                                                   name="password" placeholder="" required >
-                                            <div class="help-block hidden" id="passcnf">Whoops, these don't match</div>
-                                            <div class="help-block with-errors"></div>
+                                            <form:input type="password" path="passwordconfirm" class="form-control" minlength="6" id="inputPasswordConfirm"
+                                                   name="passwordconfirm" placeholder=""/>
+                                            <form:errors cssStyle="color: red" path="password"></form:errors>
                                         </div>
                                     </div>
+                                </spring:bind>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <button type="submit" class="btn btn-primary" onsubmit="sendRegistration()">Save</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form:form>
                             </div>
                         </div>
                     </div>
@@ -267,9 +300,9 @@
 </script>
 
 </body>
-<script type="text/javascript" src="js/moments/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="js/css/bootstrap-datetimepicker.min.css" />
+<script type="text/javascript" src="resources/js/moments/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="resources/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="resources/js/css/bootstrap-datetimepicker.min.css" />
 <script>
 
     $('#datetimepicker1').datetimepicker({pickTime: false});
@@ -333,20 +366,20 @@
             return true;
         }
     }
-    function sendLogIn() {
-        var form = $('#login-form');
-        $.ajax({
-            type : 'POST',
-            url: 'login',
-            data: form.serialize(),
-            success: function () {
-                window.location.href = "getitems";
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert('ERROR: EMAIL OR PASSWORD INCORRECT');
-            }
-        })
-    }
+//    function sendLogIn() {
+//        var form = $('#login-form');
+//        $.ajax({
+//            type : 'POST',
+//            url: 'login',
+//            data: form.serialize(),
+//            success: function () {
+//                window.location.href = "getitems";
+//            },
+//            error: function (xhr, ajaxOptions, thrownError) {
+//                alert('ERROR: EMAIL OR PASSWORD INCORRECT');
+//            }
+//        })
+//    }
 </script>
 
 </html>

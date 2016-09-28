@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.3.2.RELEASE</version>
+            <version>4.2.5.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -65,8 +65,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
   </dependencies>
+
   <build>
     <finalName>FirstApp</finalName>
       <plugins>

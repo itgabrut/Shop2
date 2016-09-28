@@ -57,4 +57,28 @@ import javax.persistence.Embeddable;
    public String getApp() {
       return app;
    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public void setApp(String app) {
+        this.app = app;
+    }
 }

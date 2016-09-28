@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
  *
  *  Returns All orders of Client by it Id
  */
-@WebServlet(urlPatterns = "/ajax/orders",name = "AuthOrd")
+//@WebServlet(urlPatterns = "/ajax/orders",name = "AuthOrd")
 public class AjaxOrdersServlet extends HttpServlet {
 
     private OrderService service = new OrderServiceImpl();

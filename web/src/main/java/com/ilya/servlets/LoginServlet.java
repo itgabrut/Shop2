@@ -17,7 +17,7 @@ import java.io.IOException;
  *
  * Process Log in and log out operations
  */
-@WebServlet(urlPatterns = "/login")
+//@WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 
     private ClientService service = new ClientServiceImpl();
