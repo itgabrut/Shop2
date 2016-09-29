@@ -8,7 +8,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import javax.persistence.NoResultException;
 
 /**
  * Created by ilya on 26.09.2016.
@@ -36,11 +35,7 @@ public class ClientValidator implements Validator {
         if(client.getSurname().length() < 2 || client.getSurname().length() > 20) errors.rejectValue("surname","SURNAME.FAIL");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"password","NOT.EMPTY");
         if(!client.getPassword().equals(client.getPasswordconfirm())) errors.rejectValue("password","NOT.CONFIRMED");
-        try {
-            if (service.getByEmail(client.getEmail()) != null)
-                errors.rejectValue("email", "Duplicate.userForm.username");
-        }
-        catch (NoResultException e){
-        }
+        if (service.getByEmail(client.getEmail()) != null)
+            errors.rejectValue("email", "Duplicate.userForm.username");
     }
 }

@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.NoResultException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,18 +26,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        try {
             Client client = service.getByEmail(s);
             Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
             for (Role role : client.getRoles()) {
                 grantedAuthorities.add(new SimpleGrantedAuthority(role.name()));
             }
             return new org.springframework.security.core.userdetails.User(client.getEmail(), client.getPassword(), grantedAuthorities);
-        }
-        catch (NoResultException e){
-            e.printStackTrace();
-            throw new UsernameNotFoundException("Username not found");
-        }
+
+
     }
 
 
