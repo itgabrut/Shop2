@@ -2,11 +2,14 @@ package com.ilya.service;
 
 import com.ilya.dao.ClientRepository;
 import com.ilya.model.Client;
+import com.ilya.model.enums_utils.Role;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -65,6 +68,19 @@ public class ClientServiceImpl implements ClientService {
        return BCrypt.checkpw(pass,client.getPassword()) ? client : null;
     }
 
+    @Override
+    public boolean checkPasswOnChange(Client loggedClient, String pass) {
+        return BCrypt.checkpw(pass,loggedClient.getPassword());
+    }
+
+    @Override
+    @Transactional
+    public void changePassOrMerge(Client client) {
+        String hashed = BCrypt.hashpw(client.getPassword(), BCrypt.gensalt());
+        client.setPassword(hashed);
+        repository.save(client);
+    }
+
 
     /**
      * Redacts Client entity with or without password, or adds to db if Client is a new one
@@ -73,12 +89,14 @@ public class ClientServiceImpl implements ClientService {
      */
     @Transactional
     public Client addClient(Client client) {
-        if (client.getPassword().isEmpty() && client.getId() != 0) {
+        if (client.getId() != 0) {
             Client old = repository.getClient(client.getId());
             client.setPassword(old.getPassword());
+            client.setRegistered(old.getRegistered());
         } else {
             String hashed = BCrypt.hashpw(client.getPassword(), BCrypt.gensalt());
             client.setPassword(hashed);
+            client.setRoles(new HashSet<Role>(Collections.singleton(Role.ROLE_USER)));
         }
         repository.save(client);
         return client;

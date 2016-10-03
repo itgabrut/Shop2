@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * Process requests to show details of specific order
  */
-@WebServlet(urlPatterns = "/singleorder",name = "SingleOrder")
+//@WebServlet(urlPatterns = "/singleorder",name = "SingleOrder")
 public class SingleOrderServlet extends HttpServlet {
 
     private ItemService service = new ItemServiceImpl();

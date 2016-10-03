@@ -3,9 +3,15 @@ package com.ilya.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ilya.jsrCustomValidators.MyCustomVal;
+import com.ilya.jsrCustomValidators.UniqueName;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-
+import javax.validation.Constraint;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -22,23 +28,35 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Version
     @Column(name = "version" , nullable = false, columnDefinition = "integer default 0")
     private long version;
+
+    @UniqueName
     @Column(name = "name", unique = true)
     private String name;
+
+   @NotNull @Min(value = 0)
     @Column(name = "price")
     private int price;
+
+    @NotEmpty
     @Column(name = "theme")
     private String theme;
+
+    @Min(value = 0)
     @Column(name = "quantity")
     private int quantity;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "foto")
     @Lob
     @JsonIgnore
     private byte[] foto;
+
     @JsonIgnore
     @Transient
     private int proxyId;

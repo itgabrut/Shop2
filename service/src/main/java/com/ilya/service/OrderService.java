@@ -14,4 +14,8 @@ public interface OrderService {
     boolean addOrder(Map<Integer,Integer> m,Client current);
 
     List<Order> getOrdersByClientId(int id);
+
+    Order getOrderById(int orderId);
+
+    boolean verifyOrderOnLoggedClient(String orderId,int loggedClientId);
 }

@@ -17,7 +17,7 @@ import java.io.IOException;
  *
  * Forwars requests from Authorization filter to Client Admin page
  */
-@WebServlet(urlPatterns = "/help",name = "ListUsers")
+//@WebServlet(urlPatterns = "/help",name = "ListUsers")
 public class ListUsersServlet extends HttpServlet {
 
     @Override

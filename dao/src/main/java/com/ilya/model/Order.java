@@ -1,5 +1,6 @@
 package com.ilya.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ilya.model.enums_utils.Delivery_status;
 import com.ilya.model.enums_utils.Pay_status;
@@ -28,6 +29,7 @@ public class Order {
     @Column(name = "delivery")
     private String delivery;
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yy HH:mm a")
     @Column(name = "date")
     private Date date;
 

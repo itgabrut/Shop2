@@ -38,6 +38,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <meta name="_csrf" content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <style>
+        ul.product-categories li {
+            padding: 9px 9px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            margin-left: 0px;
+        }
+        .list-group-item:first-child {
+            border-top-left-radius: 2px;
+            border-top-right-radius: 41px;
+        }
+        ul.product-categories li {
+            padding: 9px 9px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+            text-transform: none;
+            margin-left: 0px;
+        }
+    </style>
 </head>
 <body>
 <div class="men_banner">
@@ -66,7 +86,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a class="login" href="login">
                         </c:if>
                         <c:if test="${loggedClient!=null}">
-                            <a class="login" href="orders?clientId=${loggedClient.id}">
+                            <a class="login" href="toDetails">
                         </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
@@ -112,7 +132,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
                     <c:if test="${isAdmin}">
-                    <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+                    <li style="display: inline;"><a class="color10" href="toClients">Clients list</a></li>
                     </c:if>
                     <li style="display: inline;"><a class="color3" href="orders">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="#">News</a></li>
@@ -128,10 +148,86 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="col-md-4 sidebar_men">
             <h3>Categories</h3>
             <ul class="product-categories color">
-                <c:forEach items="${themeList}" var="theme">
-                <li class="cat-item cat-item-42"><a href="getitems?theme=${theme}">${theme}</a> </li>
-                </c:forEach>
+                <%--<c:forEach items="${themeList}" var="theme">--%>
+                <%--<li class="cat-item cat-item-42">--%>
+                            <%--<a data-toggle="collapse" href="#collapse${theme}">${theme}</a>--%>
+                    <%--<div id="collapsetheme" class="panel-collapse collapse">--%>
+                        <%--<ul class="list-group">--%>
+                            <%--<li style="display: list-item;" class="list-group-item ">One</li>--%>
+                            <%--<li style="display: list-item;" class="list-group-item "><a href="getitems?theme=${theme}">${theme}</a></li>--%>
+                            <%--<li style="display: list-item;" class="list-group-item">--%>
+                                        <%--<a data-toggle="collapse" href="#collapse4">Additional</a>--%>
+                                <%--<div id="collapse4" class="panel-collapse collapse">--%>
+                                    <%--<ul class="list-group">--%>
+                                        <%--<li class="list-group-item">One</li>--%>
+                                        <%--<li class="list-group-item">Two</li>--%>
+                                        <%--<li class="list-group-item">4444444</li>--%>
+                                    <%--</ul>--%>
+                                <%--</div>--%>
+                            <%--</li>--%>
+                        <%--</ul>--%>
+
+                    <%--</div>--%>
+
+                <%--</li>--%>
+                <%--</c:forEach>--%>
             </ul>
+            <c:forEach items="${themeList}" var="theme">
+                <a class="firstselector" hidden >${theme}</a>
+            </c:forEach>
+            <script>
+                $('.firstselector').each(function () {
+                    var theme = $(this).html();
+                    var arr = theme.split("/");
+                   var sel = arr[0];
+                    for (var i = 0;i<arr.length;i++){
+                        var ilast = i==arr.length-1;
+                        if(i==0) {
+                            var elem = $("ul.product-categories.color");
+                        }
+                        else {
+                            elem = $('div#'+sel+' > ul');
+                            sel +=arr[i];
+                        }
+                            var flagg = true;
+                            var isactive;
+                            var counter1=0;
+                            $('li>a.cl'+sel).each(function () {
+                                if($(this).html()==arr[i]){
+                                    flagg = false;
+                                    isactive = $(this).attr('id');
+                                    counter1++;
+                                }
+                            });
+                            if(counter1 > 1)continue;
+                            if(flagg==false){
+                                if(ilast){
+                                    if(isactive=='passive')elem.append('<li class="cat-item cat-item-42 list-group-item"><a id="active" class="cl'+sel+'" href="getitems?theme='+theme+'">'+arr[i]+'</a></li>');
+                                    else continue;
+                                }
+                                if(!ilast){
+                                    if(isactive=='active')elem.append('<li class="cat-item cat-item-42 list-group-item"><a id="passive" class="cl'+sel+'" data-toggle="collapse" href="#'+sel+'">'+arr[i]+'</a><div id="'+sel+'" class="panel-collapse collapse cl'+i+'"><ul class="list-group"></ul></div></li>');
+                                    else continue;
+                                }
+                            }
+                            else {
+                                if(ilast)elem.append('<li class="cat-item cat-item-42 list-group-item"><a id="active" class="cl'+sel+'" href="getitems?theme='+theme+'">'+arr[i]+'</a></li>');
+                                else elem.append('<li class="cat-item cat-item-42 list-group-item"><a id="passive" class="cl'+sel+'" data-toggle="collapse" href="#'+sel+'">'+arr[i]+'</a><div id="'+sel+'" class="panel-collapse collapse cl'+i+'"><ul class="list-group"></ul></div></li>');
+                            }
+//                        else if(i!==0){
+//                             elem = $('div#collapse'+theme+'>ul');
+//                             flagg = true;
+//                            $('li>a.cl'+i).each(function () {
+//                                if($(this).html()==arr[i]){flagg = false;isactive = $(this).id;return false;}
+//                            });
+//                            if(flagg==false){
+//
+//                            }
+//                        }
+                    }
+                })
+
+            </script>
             <c:if test="${isAdmin}">
             <input type="button" value="Add item" class="btn btn-info" placeholder="Add item" id="additem" onclick="addCat()"/>
             </c:if>
@@ -200,14 +296,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a><div class="product_container"><a class="cbp-vm-image" href="single?id=${item.id}">
                             <h4>${item.name}</h4>
                             <p>${item.theme}</p>
-                            <div class="price mount item_price">${item.price} $</div>
+                            <div class="price mount item_price"><fmt:formatNumber pattern="#,##0 $" value="${item.price}"/></div>
                         </a>
                             <div style="display: inline-block">
                                 <c:if test="${item.quantity > 0}">
                         <a class="button item_add cbp-vm-icon cbp-vm-add" id="addItemTo" onclick="addItemToBucket(${item.id},${item.price})" href="#">Add to cart</a>
                                 </c:if>
                                 <c:if test="${isAdmin}">
-                                <form id="formdelete" method='post' action="getitems">
+                                <form id="formdelete" method='post' action="adminGetitems" enctype="multipart/form-data">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     <input type="text" style="display: none" value="${item.id}" name="id" >
                             <input type="submit" class="button item_add cbp-vm-icon cbp-vm-add" value="Delete item"/>
                                 </form>
@@ -280,11 +377,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" action="getitems" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
+                <form class="form-horizontal" action="adminGetitems" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3">Name</label>
 
                         <div class="col-xs-9">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Как товар называется" maxlength="15" required>
                         </div>
                     </div>
@@ -378,7 +476,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var dataObj = {
             itemId : iid,
             totalPrice : price
-        }
+        };
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({

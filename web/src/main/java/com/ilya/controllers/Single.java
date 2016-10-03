@@ -61,7 +61,7 @@ public class Single {
             }
             catch (IOException e){
                 e.printStackTrace();
-                return "redirect:single" + id;
+                return "redirect:single?id=" + id;
             }
         }
         return "redirect:single?id=" + id;
@@ -77,7 +77,7 @@ public class Single {
             if (!item.getTheme().equals(oldTheme) || !item.getName().equals(oldName)) {
                 FotoSaver.renameFotoDirectory(item.getName(), item.getTheme(), oldName, oldTheme);
             }
-            if(file != null){
+            if(file.getSize() != 0){
                 item.setFoto(file.getBytes());
             }
             item.setProxyId(Integer.valueOf(id));
@@ -85,9 +85,9 @@ public class Single {
         }
         catch (IOException e){
             e.printStackTrace();
-            return "redirect:getitems";
+            return "redirect:/getitems";
         }
-        return "redirect:single?id=" + id;
+        return "redirect:/single?id=" + id;
 
     }
 }

@@ -16,4 +16,6 @@ public interface OrderRepository {
     List<Order> getByClientId(int id);
 
     Map<Item,Integer> getItemsOfOrder(int orderId);
+
+    Order getById(int id);
 }

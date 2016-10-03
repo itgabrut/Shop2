@@ -25,7 +25,7 @@ import java.util.Map;
  *
  *  Unmarshals  Item Id's and quantities from json request, and tries to create Order for  Client
  */
-@WebServlet(urlPatterns = "/orderstopost")
+//@WebServlet(urlPatterns = "/orderstopost")
 public class ForOrdersAjaxPost extends HttpServlet {
 
     private OrderService orderService = new OrderServiceImpl();

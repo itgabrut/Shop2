@@ -3,6 +3,7 @@ package com.ilya.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ilya.model.enums_utils.Role;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,22 +30,37 @@ public class Client {
 
     @Column(name ="name")
     private String name;
+
     @Column(name ="surname")
     private String surname;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     @Column(name ="dateOfBirth")
     private Date birth;
+
     @Column(name ="email",unique = true)
     private String email;
+
     @Column(name ="password")
     private String password;
+
     @Transient
     @JsonIgnore
     private String passwordconfirm;
+
     @Column(name = "registered")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm a")
     private Date registered;
+
     @Transient
     private boolean isAdmin;
+
+    public void setRegistered(Date registered) {
+        this.registered = registered;
+    }
+
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")

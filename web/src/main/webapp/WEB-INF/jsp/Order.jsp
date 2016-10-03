@@ -3,14 +3,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <title>Order details</title>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/component.css" rel="stylesheet" type="text/css">
-    <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all">
+    <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/component.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
     <link href="//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 
@@ -28,10 +31,10 @@
 
                 <ul class="header_user_info">
                     <c:if test="${loggedClient==null}">
-                        <a class="login" href="Register.jsp"/>
+                        <a class="login" href="login"/>
                     </c:if>
                     <c:if test="${loggedClient!=null}">
-                    <a class="login" href="orders?clientId=${loggedClient.id}">
+                    <a class="login" href="orders">
                         </c:if>
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
@@ -61,7 +64,7 @@
             </div>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders">Orders list</a></li>
                     <li style="display: inline;"><a class="color7" href="#">News</a></li>
                     <div class="clearfix"> </div>
                 </ul>
@@ -81,7 +84,7 @@
                     <div class="cart-header" >
                         <div class="cart-sec simpleCart_shelfItem">
                             <div class="cart-item cyc">
-                                <img src="fotoserver?fotoId=${map.key.id}" class="img-responsive" alt="">
+                                <img src="fotoserver/db?fotoId=${map.key.id}" class="img-responsive" alt="">
                             </div>
                             <div class="cart-item-info">
                                 <h3><a href="single?id=${map.key.id}">${map.key.name}</a></h3>
@@ -123,18 +126,27 @@
         var num = numeral(dd).format('0,0 $');
          $(this).html(num);
          tot += dd;
-    })
+    });
 
     $('span#lastPrice').html(numeral(tot).format('0,0 $'));
 
     function logoutt() {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
-            type : 'PUT',
-            url : 'login',
-            success: function () {
-                window.location.href = "getitems";
+            url: 'loggout',
+            type: 'POST',
+            data: token,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                window.location = "getitems";
+            },
+            error: function (data) {
+                console.log(data);
             }
-        })
+        });
     }
 </script>
 </html>

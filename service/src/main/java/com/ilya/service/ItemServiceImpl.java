@@ -19,6 +19,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemRepository itemRepository;
+
     @Autowired
     private OrderRepository orderRepository ;
 

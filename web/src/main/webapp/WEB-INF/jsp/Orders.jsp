@@ -71,7 +71,7 @@
       <div class="menu">
         <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
             <c:if test="${isAdmin}">
-            <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+            <li style="display: inline;"><a class="color10" href="toClients">Clients list</a></li>
                 </c:if>
             <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
             <li style="display: inline;"><a class="color7" href="#">News</a></li>
@@ -82,7 +82,6 @@
     </div>
   </div>
 </div>
-<c:if test="${clientId == null}"><h1>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</h1></c:if>
 
 <div class="container">
     <div class="jumbotron">
@@ -142,7 +141,7 @@
                 {
                     "defaultContent": "Show items",
                     "render" : function (data,type,row) {
-                        return "<a href='singleorder?clientId=${loggedClient.id}&orderId="+row.id+"' id='myOrder'>Order details </a>"
+                        return "<a href='singleorder?orderId="+row.id+"' id='myOrder'>Order details </a>"
                     }
                 }
             ],

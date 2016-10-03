@@ -16,10 +16,13 @@
     <link rel="stylesheet" href="webjars/datatables/1.10.11/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
-    <link href="css/megamenu.css" rel="stylesheet" type="text/css">
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="js/bootstrap-checkbox.min.js"></script>
+    <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="resources/js/bootstrap-checkbox.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 
 
@@ -28,7 +31,7 @@
 <div class="menu">
     <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
         <li style="display: inline;"><a class="color10" href="getitems">Main</a></li>
-        <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+        <li style="display: inline;"><a class="color10" href="toClients">Clients list</a></li>
         <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
         <li style="display: inline;"><a class="color7" href="#">News</a></li>
         <div class="clearfix"> </div>
@@ -41,7 +44,6 @@
             <h3>Список клиентов</h3>
 
             <div class="view-box">
-                <a class="btn btn-sm btn-info" onclick="add()">Добавить клиента</a>
 
                 <table class="table table-striped display" id="datatable">
                     <thead>
@@ -80,14 +82,14 @@
                         <label for="name" class="control-label col-xs-3">Name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="15" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" maxlength="15">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="surname" class="control-label col-xs-3">Surname</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" maxlength="15" required>
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" maxlength="15">
                         </div>
                     </div>
 
@@ -114,28 +116,28 @@
                         <label for="country" class="control-label col-xs-3">Country</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="country" name="country" placeholder="Country" maxlength="15" required>
+                            <input type="text" class="form-control" id="country" name="country" placeholder="Country" maxlength="15">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="city" class="control-label col-xs-3">City</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="city" name="city" placeholder="City" maxlength="15" required>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="City" maxlength="15">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="street" class="control-label col-xs-3">Street</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="street" name="street" placeholder="Street" maxlength="15" required>
+                            <input type="text" class="form-control" id="street" name="street" placeholder="Street" maxlength="15">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="house" class="control-label col-xs-3">House</label>
 
                         <div class="col-xs-9">
-                            <input type="number" class="form-control" id="house" name="house" placeholder="House" maxlength="15" required>
+                            <input type="number" class="form-control" id="house" name="house" placeholder="House" maxlength="15">
                         </div>
                     </div>
                     <div class="form-group">
@@ -156,28 +158,16 @@
                         <label for="check" class="control-label col-xs-3 checkbox">Make Admin</label>
 
                         <div class="col-xs-9">
-                            <input type="checkbox" class="form-control" id="check" name="check">
+                            <%--<input type="checkbox" class="form-control" id="check" name="check">--%>
+                                <select class="form-control" id="event_allDay" name="checkbox" id = "check">
+                                    <option value="0" selected>No</option>
+                                    <option value="1">Yes</option>
+                                </select>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="inputPassword" class="control-label col-xs-3">Password</label>
-                        <div class="form-inline row">
-                          <div class="col-xs-4">
-                            <input type="password" class="form-control" minlength="6" id="inputPassword" name="password" placeholder="" required>
-                            <div class="help-block">Minimum of 6 characters</div>
-                          </div>
-                            <div class="col-xs-4">
-                                <input type="password" class="form-control" minlength="6" id="inputPasswordConfirm"
-                                       name="password" placeholder="" required>
-                                <div class="help-block hidden" id="passcnf">Whoops, these don't match</div>
-                            </div>
-                            </div>
-                    </div>
-
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <button type="submit" class="btn btn-primary" onsubmit="check()">Save</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </form>
@@ -190,19 +180,28 @@
 
 <script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
 <%--<script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>--%>
-<script type="text/javascript" src="js/dataTableUtils.js"></script>
-<script type="text/javascript" src="js/moments/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="js/css/bootstrap-datetimepicker.min.css" />
+<script type="text/javascript" src="resources/js/dataTableUtils.js"></script>
+<script type="text/javascript" src="resources/js/moments/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="resources/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="resources/js/css/bootstrap-datetimepicker.min.css" />
 <script type="text/javascript">
 
-    var ajaxUrl = 'ajax/users';
+    var ajaxUrl = 'rest/admin';
     var datatableApi;
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
 
     function updateTable() {
-        $.get(ajaxUrl, function (data) {
-            updateTableByData(data);
-        });
+        $.ajax({
+            type : "GET",
+            url : ajaxUrl+'/get',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success : function (data) {
+                updateTableByData(data);
+            }
+        })
     }
     function save() {
         var form = $('#detailsForm');
@@ -232,29 +231,32 @@
                 app : arr[9].value,
                 zip : arr[10].value
             },
-            roles : arr[11].value == 'on' ? 'ROLE_ADMIN' : 'ROLE_USER',
-            password : arr[12].value
+            roles : arr[11].value == '1' ? ['ROLE_ADMIN'] : ['ROLE_USER']
         };
         var ddd = JSON.stringify(toSend);
         $.ajax({
             type : "POST",
-            url : ajaxUrl,
+            url : ajaxUrl+'/redact',
             data : ddd,
+            contentType : 'application/json;charset=utf-8',
+            dataType : 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success : function () {
                 $('#editRow').modal('hide');
                 updateTable();
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert(thrownError);
-                $('.help-block.invisible').removeClass('invisible');
+//                alert(thrownError);
+                $('#editRow').modal('hide');
+                updateTable();
             }
         })
     }
     function makeEditable() {
         $('#detailsForm').submit(function () {
-            if(check()==true) {
-                save();
-            }
+            save();
             return false;
         });
 
@@ -301,7 +303,7 @@
                     "defaultContent" : "Orders",
                     "orderable" : "false",
                     "render" : function (data,type,row) {
-                        return "<a href='orders?clientId="+row.id+"'>Orders</a>";
+                        return "<a href='adminOrders?clientId="+row.id+"'>Orders</a>";
                     }
                 },
                 {

@@ -6,9 +6,11 @@ import com.ilya.model.Client;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.List;
@@ -50,10 +52,15 @@ public class ClientRepositoryImpl implements ClientRepository {
      */
     @Override
     public Client getByEmail(String email) {
-        return entityManager.createQuery("select u from Client u where u.email =:email",Client.class).setParameter("email",email).getSingleResult();
+        try {
+            return entityManager.createQuery("select u from Client u where u.email =:email", Client.class).setParameter("email", email).getSingleResult();
+        }
+        catch (NoResultException e){
+            return null;
+        }
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public Client save(Client client){
         if (client.getId() == 0) {
             entityManager.persist(client);

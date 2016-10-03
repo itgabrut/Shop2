@@ -4,6 +4,7 @@ import com.ilya.model.Item;
 import com.ilya.model.Order;
 import com.ilya.model.OrderForItem;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -36,17 +37,22 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public Order getById(int id) {
+        return entityManager.find(Order.class,id);
+    }
+
+    @Override
     public List<Order> getByClientId(int id) {
         List<Order> list = entityManager.createQuery("SELECT o FROM Order o WHERE o.client.id =:clid",Order.class).setParameter("clid",id).getResultList();
         return list;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public  boolean addOrder(Order order) {
         int a;
         for (OrderForItem orderForItem : order.getOrderForItems()) {
-            Item i = entityManager.find(Item.class, orderForItem.getItem().getId());
-            entityManager.lock(i, LockModeType.OPTIMISTIC);
+//            entityManager.lock(i, LockModeType.OPTIMISTIC);
+            Item i = orderForItem.getItem();
             if ((a = (i.getQuantity() - orderForItem.getQuantity())) < 0) {
 //                entityManager.getTransaction().rollback();
                 return false;

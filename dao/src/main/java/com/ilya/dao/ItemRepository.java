@@ -12,6 +12,8 @@ public interface ItemRepository {
 
     Item getItem(int itemId);
 
+    boolean IsUniqueName(String name);
+
     void deleteItem(int itemId);
 
     List<Item> getAll();

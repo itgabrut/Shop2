@@ -24,6 +24,12 @@ public class ItemRepositoryImpl implements ItemRepository {
         return entityManager.find(Item.class,itemId);
     }
 
+    @Override
+   public boolean IsUniqueName(String name) {
+        long a = (long)entityManager.createQuery("select count(i.name) from Item i where i.name =:curr").setParameter("curr",name).getSingleResult();
+       return a == 0;
+    }
+
     @Transactional
     public void deleteItem(int itemId) {
         Item item = entityManager.find(Item.class,itemId);

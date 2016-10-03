@@ -16,7 +16,6 @@
         <spring-security.version>4.1.0.RELEASE</spring-security.version>
     </properties>
     <dependencies>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>

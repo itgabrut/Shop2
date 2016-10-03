@@ -41,6 +41,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         });
     </script>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 <div class="men_banner">
@@ -151,8 +154,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <p class="availability">Availability: <span class="color">Unavailable</span></p>
                     </c:if>
                     <div class="price_single">
-                        <fmt:setLocale value="en_US"/>
-                        <span class="amount item_price actual"><fmt:formatNumber value = "${item.price}" type ="currency"/> </span>
+                        <span class="amount item_price actual"><fmt:formatNumber value = "${item.price}" pattern="#,##0 $"/> </span>
                     </div>
                     <h2 class="quick">Quick Overview:</h2>
                     <p class="quick_desc"> ${item.description}</p>
@@ -176,7 +178,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         var quan = ${item.quantity};
                         if(quan==0)$('.quantity_box').css({display : 'none'});
                         for(var i=1;i<=quan;i++){
-                            $('#selectf').append('<option>'+i+'</option>')
+                            $('#selectf').append('<option>'+i+'</option>');
                             if(i>6)break;
                         }
                     </script>
@@ -213,6 +215,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <input type="text" style="display: none" name="theme" value="${item.theme}">
                 <input type="text" style="display: none" name="itemName" value="${item.name}">
                 <input type="text" style="display: none" name="id" value="${item.id}">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <div class="form-group" style="margin-left: 20px">
                     <div class="col-xs-9">
                         <label class="btn btn-primary" for="my-file-selector1">
@@ -321,6 +324,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" action="single/update" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3">Name</label>
 
@@ -383,6 +387,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 
 <script>
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
     function addCat() {
         $('.modal-title').text("Redact item");
 //        $('#id').val("0");
@@ -405,7 +411,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         $.ajax({
             type: 'Post',
             url: "checkout",
-            data: dataObj
+            data: dataObj,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
         });
 
         var res = parseInt($(".simpleCart_total").html())+adder;
@@ -420,18 +429,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         $('#simpleCart_total').html("0 $");
         $.ajax({
             type : 'Put',
-            url : "checkout"
+            url : "checkout",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
         });
     }
 
     function logoutt() {
         $.ajax({
-            type : 'PUT',
-            url : 'login',
-            success: function () {
-                window.location.href = "getitems";
+            url: 'loggout',
+            type: 'POST',
+            data: token,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                window.location = "getitems";
+            },
+            error: function (data) {
+                console.log(data);
             }
-        })
+        });
     }
 </script>
 

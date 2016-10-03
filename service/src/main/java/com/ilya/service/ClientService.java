@@ -20,5 +20,10 @@ public interface ClientService {
     Client addClient(Client client);
 
     Client getByEmail(String mail);
+
     Client logIn(String mail,String pass);
+
+    boolean checkPasswOnChange(Client loggedClient,String pass);
+
+    void changePassOrMerge(Client client);
 }

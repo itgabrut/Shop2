@@ -17,7 +17,7 @@ function renderEditBtn(data, type, row) {
 
 
 
-function add() {
+function addClient() {
     $('#editRow input').each(function () {
         $(this).val('');
     });
@@ -46,6 +46,9 @@ function deleteRow(id) {
     $.ajax({
         url: ajaxUrl + '?id='+id,
         type: 'DELETE',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
         success: function () {
             updateTable();
             // successNoty('Deleted');
@@ -56,7 +59,7 @@ function updateRow(id) {
     var form = $('#editRow');
     $('#inputPassword').removeAttr('required');
     $('#inputPasswordConfirm').removeAttr('required');
-    $.get(ajaxUrl + '?id='+id, function (data) {
+    $.get(ajaxUrl+'/getOne'+'?id='+id, function (data) {
         $.each(data, function (key, value) {
             if(key=='adress'){
                 var adress = value;

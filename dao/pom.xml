@@ -39,13 +39,18 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
         <version>${hibernate.version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>5.2.4.Final</version>
     </dependency>
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-java8</artifactId>
         <version>${hibernate.version}</version>
-        <scope>provided</scope>
+        <!--<scope>provided</scope>-->
     </dependency>
     <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
     <dependency>

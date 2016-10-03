@@ -9,15 +9,22 @@
     <!--<http pattern="/resources/**" security="none"/>-->
     <!--<http pattern="/webjars/**" security="none"/>-->
     <!--<http pattern="/getitems" security="none"/>-->
-    <!--<http pattern="/fotoserver" security="none"/>-->
+    <!--<http pattern="/getitems" security="none"/>-->
 
     <http auto-config="true" authentication-manager-ref="authenticationManager2">
         <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/orders" access="isAuthenticated()"/>
-        <intercept-url pattern="/single" access="isAuthenticated()"/>
+        <intercept-url pattern="/toDetails" access="isAuthenticated()"/>
+        <intercept-url pattern="/ajax/orders/get" access="isAuthenticated()"/>
+        <intercept-url pattern="/ajax/orders/adminGet" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/single" access="permitAll"/>
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/webjars/**" access="permitAll"/>
+        <intercept-url pattern="/adminOrders" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/adminGetitems" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/toClients" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/adminSingleorder" access="hasRole('ROLE_ADMIN')"/>
         <!--<csrf disabled="true"/>-->
         <form-login login-processing-url="/loggin" login-page='/login' default-target-url="/getitems" authentication-success-handler-ref="authSuccessHandler" authentication-failure-url="/login?error=true" always-use-default-target = "true"/>
         <logout  logout-success-url="/login?logout=true" logout-url="/loggout"/>

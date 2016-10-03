@@ -28,7 +28,7 @@ import java.util.HashSet;
  * CRUD operations with Clients using AJAX requests
  *
  */
-@WebServlet(urlPatterns = "/ajax/users")
+//@WebServlet(urlPatterns = "/ajax/users")
 public class AjaxUserServlet extends HttpServlet {
 
     private ClientService service = new ClientServiceImpl();

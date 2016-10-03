@@ -204,7 +204,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </ul>
                 <div class="clearfix"></div>
                 <c:if test="${loggedClient==null}">
-                <a class="order" href="loggin">Place Order</a>
+                <a class="order" href="login">Place Order</a>
                 </c:if>
                 <c:if test="${loggedClient!=null}">
                     <a class="order" onclick="sendToPermitOrder()" href="#">Place Order</a>
@@ -325,15 +325,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             arr : mass
         }
         var toSend = JSON.stringify(jssobj);
-
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({
             url: 'orderstopost',
             method: "POST",
             data: toSend ,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function () {
                 window.location.href = 'orders'
             }
-        })
+        });
     }
 </script>
 </body>

@@ -5,11 +5,9 @@ import com.ilya.model.Order;
 import com.ilya.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.InterceptingClientHttpRequestFactory;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +26,12 @@ public class RestOrders {
     public List<Order> getOrders(Model model){
         return orderService.getOrdersByClientId(((Client)model.asMap().get("loggedClient")).getId());
     }
+
+    @RequestMapping(value = "/adminGet",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Order> getAdminOrders(@RequestParam(value = "clientId")String clientId){
+        return orderService.getOrdersByClientId(Integer.parseInt(clientId));
+    }
+
+
 
 }

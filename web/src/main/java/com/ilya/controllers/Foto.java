@@ -39,6 +39,6 @@ public class Foto {
     @RequestMapping("/del")
     public String delete(@RequestParam("delete") String delete,@RequestParam("itemId") String itemId)throws IOException{
         FotoSaver.deleteFile(delete);
-        return "redirect:single?id"+itemId;
+        return "redirect:/single?id="+itemId;
     }
 }

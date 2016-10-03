@@ -5,9 +5,12 @@ import com.ilya.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import utils.BucketCheckerUtils;
+
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -43,29 +46,36 @@ public class  Items {
         }
         return "Items";
     }
-    @RequestMapping(value = "/getitems",method = RequestMethod.POST)
-    public String postItems(@RequestParam(value = "id",required = false) String id,
-                            @RequestParam(value = "file",required = false) MultipartFile file,
-                            @RequestParam(value = "name",required = false) String name,
-                            @RequestParam(value = "price",required = false) String price,
-                            @RequestParam(value = "description",required = false) String description,
-                            @RequestParam(value = "theme",required = false) String theme,
-                            @RequestParam(value = "quantity",required = false) String quantity)throws IOException{
-        if(id!=null){
-            service.deleteItem(Integer.parseInt(id));
+    @RequestMapping(value = "/adminGetitems",method = RequestMethod.POST)
+    public String postItems(
+                             @RequestParam(value = "file",required = false) MultipartFile file,
+                             @Valid Item item,
+                             BindingResult result)throws IOException{
+//                            @RequestParam(value = "id",required = false) String id,
+//                            @RequestParam(value = "name",required = false) String name,
+//                            @RequestParam(value = "price",required = false) String price,
+//                            @RequestParam(value = "description",required = false) String description,
+//                            @RequestParam(value = "theme",required = false) String theme,
+//                            @RequestParam(value = "quantity",required = false) String quantity)throws IOException{
+        if(result.hasErrors()){
+            return "redirect:/getitems";
+        }
+        if(item.getId()!= 0 ){
+//            service.deleteItem(Integer.parseInt(id));
+            service.deleteItem(item.getId());
             return "redirect:getitems";
         }
         else{
             byte[] foto = file.getBytes();
-            Item item = new Item();
-            item.setName(name);
-            item.setPrice(Integer.parseInt(price));
-            item.setDescription(description);
-            item.setTheme(theme);
-            item.setQuantity(Integer.parseInt(quantity));
+//            Item item = new Item();
+//            item.setName(name);
+//            item.setPrice(Integer.parseInt(price));
+//            item.setDescription(description);
+//            item.setTheme(theme);
+//            item.setQuantity(Integer.parseInt(quantity));
             item.setFoto(foto);
             service.addOrRedactItem(item);
-            return "redirect:/universe/getitems";
+            return "redirect:getitems";
         }
     }
     @RequestMapping(value = "/checkout",method = RequestMethod.POST)
@@ -95,5 +105,9 @@ public class  Items {
         BucketCheckerUtils.saveListFotosToMemory(mapFoto,list);
         model.addAttribute("itemsToCheckout",list);
         return "Checkout";
+    }
+    @RequestMapping(value = "/toClients")
+    public String toClientsList(){
+        return "Client_Ajax";
     }
 }
