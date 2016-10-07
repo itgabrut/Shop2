@@ -47,7 +47,7 @@ public class Orders {
     @RequestMapping(value = "/adminOrders")
     public String toAdminOrderView(@RequestParam(value = "clientId")String clientId,Model model){
         model.addAttribute("clientId",clientId);
-        return "/OrdersForAdmin.jsp";
+        return "OrdersForAdmin";
     }
 
     @RequestMapping(value = "/orderstopost",method = RequestMethod.POST)

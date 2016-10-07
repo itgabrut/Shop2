@@ -11,9 +11,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link href="../../resources/css/style.css" rel="stylesheet" type="text/css">
-    <link href="../../resources/css/component.css" rel="stylesheet" type="text/css">
-    <link href="../../resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
+    <link href="resources/css/style.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/component.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/megamenu.css" rel="stylesheet" type="text/css" media="all">
     <link href="//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="webjars/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -112,9 +112,9 @@
 
 </body>
 <script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="../../resources/js/moments/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="../../resources/js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="../../resources/js/css/bootstrap-datetimepicker.min.css" />
+<script type="text/javascript" src="resources/js/moments/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="resources/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="resources/js/css/bootstrap-datetimepicker.min.css" />
 <script type="text/javascript">
 
     var datatableApi;

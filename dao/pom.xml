@@ -39,7 +39,7 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
         <version>${hibernate.version}</version>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
     </dependency>
     <dependency>
         <groupId>org.hibernate</groupId>
@@ -50,7 +50,7 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-java8</artifactId>
         <version>${hibernate.version}</version>
-        <!--<scope>provided</scope>-->
+        <scope>provided</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
     <dependency>

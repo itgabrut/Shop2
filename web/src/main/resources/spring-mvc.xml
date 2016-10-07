@@ -9,6 +9,7 @@
     <import resource="/spring/module-config.xml"/>
     <context:component-scan base-package="com.ilya.controllers"/>
     <context:component-scan base-package="com.ilya.validators"/>
+    <context:component-scan base-package="com.ilya.wscontrollers"/>
 
     <!--  all resources inside folder src/main/webapp/resources are mapped so they can be referred to inside JSP files -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
@@ -31,6 +32,18 @@
             </list>
         </property>
     </bean>
+
+    <!--<bean id="xmlMessageConverter"-->
+                <!--class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter">-->
+    <!--</bean>-->
+    <!--<bean-->
+            <!--class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">-->
+        <!--<property name="messageConverters">-->
+            <!--<list>-->
+                <!--<ref bean="xmlMessageConverter" />-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 
     <!--
         <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"

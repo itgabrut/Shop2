@@ -16,8 +16,9 @@ import java.util.Map;
  * Created by ilya on 21.08.2016.
  */
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public class OrderRepositoryImpl implements OrderRepository {
+
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -34,6 +35,11 @@ public class OrderRepositoryImpl implements OrderRepository {
             return map;
         }
         return null;
+    }
+
+    @Override
+    public List<Order> getAll() {
+        return entityManager.createQuery("select o from Order o order by o.date desc").getResultList();
     }
 
     @Override

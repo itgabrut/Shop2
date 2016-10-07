@@ -18,4 +18,6 @@ public interface OrderRepository {
     Map<Item,Integer> getItemsOfOrder(int orderId);
 
     Order getById(int id);
+
+    List<Order> getAll();
 }

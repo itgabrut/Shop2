@@ -318,12 +318,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             var obj = {
                 itemId : id,
                 quantity : quan
-            }
+            };
             mass.push(obj);
-        })
+        });
         var jssobj = {
             arr : mass
-        }
+        };
         var toSend = JSON.stringify(jssobj);
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
