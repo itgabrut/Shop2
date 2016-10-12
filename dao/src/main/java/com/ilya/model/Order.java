@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ilya.model.enums_utils.Delivery_status;
 import com.ilya.model.enums_utils.Pay_status;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,7 +30,8 @@ public class Order {
     @Column(name = "delivery")
     private String delivery;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yy HH:mm a")
+    @DateTimeFormat( pattern = "dd-MM-yyyy")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     @Column(name = "date")
     private Date date;
 

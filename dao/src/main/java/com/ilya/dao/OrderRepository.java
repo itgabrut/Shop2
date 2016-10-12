@@ -20,4 +20,8 @@ public interface OrderRepository {
     Order getById(int id);
 
     List<Order> getAll();
+
+    List<Order> getBetween(String from,String to);
+
+    List<Order> getLazyList(int first, int pageSize, String sortField, String sortOrder, Map<String, String> filters);
 }

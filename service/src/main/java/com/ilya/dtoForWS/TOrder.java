@@ -5,10 +5,8 @@ package com.ilya.dtoForWS;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import utils.jsonutils.CustomDateSerializer;
 
 import java.util.Date;
 import java.util.List;
@@ -23,17 +21,18 @@ public class TOrder {
     private int id;
 
 
-    private int summ;
+    private int sum;
 
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    @JsonSerialize(using = CustomDateSerializer.class)
     private Date date;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+
     private List<TItem> items;
 
-    public TOrder(int id, int summ, Date date, List<TItem> items) {
+    public TOrder(int id, int sum, Date date, List<TItem> items) {
         this.id = id;
-        this.summ = summ;
+        this.sum = sum;
         this.date = date;
         this.items = items;
     }
@@ -42,8 +41,8 @@ public class TOrder {
         return id;
     }
 
-    public int getSumm() {
-        return summ;
+    public int getSum() {
+        return sum;
     }
 
     public Date getDate() {

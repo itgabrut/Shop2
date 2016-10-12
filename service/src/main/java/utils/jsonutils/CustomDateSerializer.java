@@ -1,4 +1,4 @@
-package com.ilya.jsonutils;
+package utils.jsonutils;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;

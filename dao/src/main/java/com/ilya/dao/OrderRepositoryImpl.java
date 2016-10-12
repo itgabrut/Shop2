@@ -8,9 +8,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.criteria.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by ilya on 21.08.2016.
@@ -67,6 +68,78 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
         entityManager.persist(order);
         return true;
+    }
+
+    @Override
+    public List<Order> getBetween(String from, String to) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date dateFrom = simpleDateFormat.parse(from);
+            Date dateTo = simpleDateFormat.parse(to);
+            return (List<Order>)entityManager.createQuery("select o from Order o where o.date between :froms and :to")
+                    .setParameter("froms",dateFrom)
+                    .setParameter("to",dateTo)
+                    .getResultList();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return Collections.EMPTY_LIST;
+        }
+    }
+
+    @Override
+    @Transactional( propagation = Propagation.REQUIRED)
+    public List<Order> getLazyList(int first, int pageSize, String sortField, String sortOrder, Map<String, String> filters) {
+        filters.remove("first");
+        filters.remove("pageSize");
+        filters.remove("sortField");
+        filters.remove("sortOrder");
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Order> q = cb.createQuery(Order.class);
+        Root<Order> site = q.from(Order.class);
+        q.select(site);
+
+        Path<?> path = getPath(sortField, site);
+        if (sortOrder == null){
+            //just don't sort
+        }else if (sortOrder.equals("ASCENDING")){
+            q.orderBy(cb.asc(path));
+        }else if (sortOrder.equals("DESCENDING")){
+            q.orderBy(cb.desc(path));
+        }else if (sortOrder.equals("UNSORTED")){
+            //just don't sort
+        }else{
+            //just don't sort
+        }
+
+        //filter
+
+        Predicate filterCondition = cb.conjunction();
+        for (Map.Entry<String, String> filter : filters.entrySet()) {
+            if (filter.getKey().equals("id")) {
+                Path<?> pathFilterNonString = getPath(filter.getKey(), site);
+                filterCondition = cb.and(filterCondition, cb.equal(pathFilterNonString, filter.getValue()));
+            }
+        }
+        q.where(filterCondition);
+        TypedQuery<Order> tq = entityManager.createQuery(q);
+        if (pageSize >= 0){
+            tq.setMaxResults(pageSize);
+        }
+        if (first >= 0){
+            tq.setFirstResult(first);
+        }
+        return tq.getResultList();
+    }
+
+    private Path<?> getPath(String sortField,Root<Order> site){
+        Path<?> path = null;
+        if(sortField == null){
+            path =  site.get("id");
+        }
+        else if(sortField.equals("date")) path = site.get("date");
+        else path =  site.get("id");
+        return path;
     }
 
 //    public boolean addOFI(OrderForItem orderForItem){
