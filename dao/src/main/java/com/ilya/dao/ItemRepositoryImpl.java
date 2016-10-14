@@ -2,6 +2,7 @@ package com.ilya.dao;
 
 import com.ilya.model.Item;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -17,17 +18,26 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ItemRepositoryImpl implements ItemRepository {
 
+
     @PersistenceContext
    private EntityManager entityManager;
 
     public Item getItem(int itemId) {
-        return entityManager.find(Item.class,itemId);
+        return (Item) entityManager.createQuery("select i from Item i where i.active = true and i.id =:id").setParameter("id",itemId).getSingleResult();
     }
 
     @Override
    public boolean IsUniqueName(String name) {
         long a = (long)entityManager.createQuery("select count(i.name) from Item i where i.name =:curr").setParameter("curr",name).getSingleResult();
        return a == 0;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Item deleteSoft(int itemId) {
+        Item persisted = entityManager.find(Item.class,itemId);
+        if(persisted.isActive())persisted.setActive(false);
+        return persisted;
     }
 
     @Transactional
@@ -71,7 +81,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public List<Item> getItemsByTheme(String theme){
-        TypedQuery<Item> query = entityManager.createQuery("select i from Item i where i.theme = :nameOfTheme",Item.class);
+        TypedQuery<Item> query = entityManager.createQuery("select i from Item i where i.active = true and i.theme = :nameOfTheme",Item.class);
         return query.setParameter("nameOfTheme",theme).getResultList();
     }
 

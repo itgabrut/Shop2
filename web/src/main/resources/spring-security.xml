@@ -12,19 +12,37 @@
     <!--<http pattern="/getitems" security="none"/>-->
 
     <http auto-config="true" authentication-manager-ref="authenticationManager2">
-        <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/orders" access="isAuthenticated()"/>
+        <!--Authentication-->
+        <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/toDetails" access="isAuthenticated()"/>
+        <intercept-url pattern="/changeDetails" access="isAuthenticated()"/>
+        <intercept-url pattern="/pass" access="isAuthenticated()"/>
+        <!--fotoserver==permitall-->
+        <!--Items-->
+        <intercept-url pattern="/adminGetitems" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/checkout" access="permitAll"/>
+        <intercept-url pattern="/toClients" access="hasRole('ROLE_ADMIN')"/>
+        <!--Orders-->
+        <intercept-url pattern="/orders" access="isAuthenticated()"/>
+        <intercept-url pattern="/adminOrders" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/orderstopost" access="isAuthenticated()"/>
+        <intercept-url pattern="/singleorder" access="isAuthenticated()"/>
+        <intercept-url pattern="/adminSingleorder" access="hasRole('ROLE_ADMIN')"/>
+        <!--Single-->
+        <intercept-url pattern="/single" access="permitAll"/>
+        <intercept-url pattern="/single/files" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/single/update" access="hasRole('ROLE_ADMIN')"/>
+        <!--RestClients-->
+        <intercept-url pattern="/rest/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <!--RestOrders-->
         <intercept-url pattern="/ajax/orders/get" access="isAuthenticated()"/>
         <intercept-url pattern="/ajax/orders/adminGet" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/single" access="permitAll"/>
-        <intercept-url pattern="/login" access="permitAll"/>
+        <intercept-url pattern="/ajax/orders/adminGetAll" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/ajax/orders/changeStatus" access="hasRole('ROLE_ADMIN')"/>
+
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/webjars/**" access="permitAll"/>
-        <intercept-url pattern="/adminOrders" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/adminGetitems" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/toClients" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/adminSingleorder" access="hasRole('ROLE_ADMIN')"/>
+
         <!--<csrf disabled="true"/>-->
         <form-login login-processing-url="/loggin" login-page='/login' default-target-url="/getitems" authentication-success-handler-ref="authSuccessHandler" authentication-failure-url="/login?error=true" always-use-default-target = "true"/>
         <logout  logout-success-url="/login?logout=true" logout-url="/loggout"/>

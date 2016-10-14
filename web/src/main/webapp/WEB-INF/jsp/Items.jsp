@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Shop</title>
@@ -214,16 +215,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 if(ilast)elem.append('<li class="cat-item cat-item-42 list-group-item"><a id="active" class="cl'+sel+'" href="getitems?theme='+theme+'">'+arr[i]+'</a></li>');
                                 else elem.append('<li class="cat-item cat-item-42 list-group-item"><a id="passive" class="cl'+sel+'" data-toggle="collapse" href="#'+sel+'">'+arr[i]+'</a><div id="'+sel+'" class="panel-collapse collapse cl'+i+'"><ul class="list-group"></ul></div></li>');
                             }
-//                        else if(i!==0){
-//                             elem = $('div#collapse'+theme+'>ul');
-//                             flagg = true;
-//                            $('li>a.cl'+i).each(function () {
-//                                if($(this).html()==arr[i]){flagg = false;isactive = $(this).id;return false;}
-//                            });
-//                            if(flagg==false){
-//
-//                            }
-//                        }
                     }
                 })
 
@@ -377,20 +368,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h2 class="modal-title"></h2>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" action="adminGetitems" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
+                <form class="form-horizontal" action="adminGetitems" onsubmit="return submitForm()" method="post" id="detailsForm" enctype="multipart/form-data" data-toggle="validator" role="form">
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3">Name</label>
 
                         <div class="col-xs-9">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Как товар называется" maxlength="15" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Как товар называется" maxlength="30" required/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="theme" class="control-label col-xs-3">Category</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="theme" name="theme" placeholder="Категория" maxlength="15" required>
+                            <input type="text" class="form-control" id="theme" name="theme" placeholder="Категория" maxlength="100" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -405,7 +396,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <label for="price" class="control-label col-xs-3">Price</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Цена" required>
+                            <input type="text" data-smk-pattern="[0-9]+" class="form-control" id="price" name="price" placeholder="Цена" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -439,7 +430,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 </body>
 <script src="resources/js/jquery.bootpag.min.js"></script>
+<script type="text/javascript" src="resources/js/smoke.min.js"></script>
+<link rel="stylesheet" href="resources/css/smoke.css" />
 <script>
+
+    function submitForm() {
+        if( $('#detailsForm').smkValidate() ){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     function addCat() {
         $('.modal-title').text("Add item");
         $('#id').val("0");
@@ -456,7 +458,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         var amountPages = Math.ceil(mass.length/9);
         mass.forEach(function (item,i,arr) {
             if(i>8){arr[i].style.display = "none";}
-        })
+        });
         $("#page-selection").bootpag({
             total : amountPages
         }).on("page",function (event,numm) {
@@ -470,7 +472,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             }
         })
 
-    })
+    });
 
     function addItemToBucket(iid,price) {
         var dataObj = {

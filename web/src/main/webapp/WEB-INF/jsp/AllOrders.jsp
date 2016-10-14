@@ -1,14 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
   User: ilya
-  Date: 30.09.2016
-  Time: 12:32
+  Date: 13.10.2016
+  Time: 13:28
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.ilya.model.enums_utils.Role" %>
 <%@ page import="com.ilya.model.Client" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <link href="resources/css/style.css" rel="stylesheet" type="text/css">
@@ -39,7 +40,7 @@
             <div class="header_top_right">
 
                 <ul class="header_user_info">
-                    <a class="login" href="#">
+                    <a class="login" href="toDetails">
                         <i class="user"> </i>
                         <li class="user_desc">My Account</li>
                     </a>
@@ -87,7 +88,7 @@
 <div class="container">
     <div class="jumbotron">
         <div class="shadow">
-            <h3>Orders of  ${loggedClient.name}</h3>
+            <h3> All Orders</h3>
             <br>
 
             <div class="view-box">
@@ -100,6 +101,7 @@
                         <th>Date</th>
                         <th>Delivery</th>
                         <th>Act</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                 </table>
@@ -109,14 +111,53 @@
 </div>
 
 
+<div class="modal fade" id="editRow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title"></h2>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="detailsForm" onsubmit="sendthis();return false" autocomplete="off" role="form">
+                    <div class="form-group">
+                        <label for="check1" class="control-label col-xs-3 checkbox">Change Delivery Status</label>
+                        <input type="hidden" name="orderId" id="fororderid">
+                        <div class="col-xs-9">
+                            <select class="form-control" name="deliveryStatus" id = "check1">
+                                <option value="WAIT_FOR_PAYMENT" selected>WAIT_FOR_PAYMENT</option>
+                                <option value="PROCESSED">PROCESSED</option>
+                                <option value="DELIVERED">DELIVERED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="check2" class="control-label col-xs-3 checkbox">Change Payment Status</label>
+
+                        <div class="col-xs-9">
+                            <select class="form-control" name="payStatus" id = "check2">
+                                <option value="WAITING" selected>WAIT_FOR_PAYMENT</option>
+                                <option value="PAYED">PAYED</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-9">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 <script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="resources/js/moments/moment-with-locales.min.js"></script>
-<script type="text/javascript" src="resources/js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="resources/js/css/bootstrap-datetimepicker.min.css" />
 <script type="text/javascript">
 
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
     var datatableApi;
 
     $(function () {
@@ -144,6 +185,13 @@
                     "render" : function (data,type,row) {
                         return "<a href='adminSingleorder?orderId="+row.id+"' id='myOrder'>Order details </a>";
                     }
+                },
+                {
+                    "defaultContent": "Update",
+                    "orderable" : false,
+                    "render" : function (data,type,row) {
+                        return '<a class="btn btn-xs btn-info" onclick="updateStatus(' + row.id + ');">Edit</a>';
+                    }
                 }
             ],
             "order": [
@@ -154,8 +202,31 @@
             ]
         });
         updateTable();
-//        painterrr({id:67,delivery_status:'proxyId',date:'dd',pay_status:'proxyId',delivery:'dd'})
     });
+
+    function updateStatus(id) {
+        var form = $('#editRow');
+        form.modal();
+        $('#fororderid').val(id);
+    }
+
+    function sendthis() {
+        var form = $('#detailsForm');
+        var tosend = form.serializeArray();
+        var url  = "ajax/orders/changeStatus";
+        $.ajax({
+            url : url,
+            type : 'post',
+            data : tosend,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success : function () {
+                $('#editRow').modal('hide');
+                updateTable();
+            }
+        })
+    }
 
     function painterrr(data) {
         datatableApi.clear();
@@ -184,7 +255,7 @@
     function updateTable() {
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
-        var addr = 'ajax/orders/adminGet?clientId='+${clientId};
+        var addr = 'ajax/orders/adminGetAll';
         $.ajax({
             url: addr,
             type: 'Get',

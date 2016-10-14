@@ -7,6 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.context.Theme;
+import utils.FotoSaver;
+
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,9 +57,16 @@ public class ItemServiceImpl implements ItemService {
      * @param id Id
      * @return true on success
      */
+    @Transactional
     public boolean deleteItem(int id) {
-        itemRepository.deleteItem(id);
-        LOG.info("Item {} delete success",id);
+        Item inactive = itemRepository.deleteSoft(id);
+        LOG.info("Item {} delete Soft success",id);
+        try {
+            FotoSaver.deleteByItem(inactive.getName(),inactive.getTheme());
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -119,6 +132,7 @@ public class ItemServiceImpl implements ItemService {
      * @param item Item entity
      */
     @Override
+    @Transactional
     public void addOrRedactItem(Item item) {
         itemRepository.save(item);
         LOG.info("Item {} successfully saved",item.getId());

@@ -13,6 +13,8 @@ public interface OrderRepository {
 
     boolean addOrder(Order order);
 
+    Order updateOrder(Order order);
+
     List<Order> getByClientId(int id);
 
     Map<Item,Integer> getItemsOfOrder(int orderId);

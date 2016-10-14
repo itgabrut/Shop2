@@ -49,6 +49,7 @@ public class  Items {
     @RequestMapping(value = "/adminGetitems",method = RequestMethod.POST)
     public String postItems(
                              @RequestParam(value = "file",required = false) MultipartFile file,
+                             @RequestParam(value = "id",required = false) Integer id,
                              @Valid Item item,
                              BindingResult result)throws IOException{
 //                            @RequestParam(value = "id",required = false) String id,
@@ -57,13 +58,12 @@ public class  Items {
 //                            @RequestParam(value = "description",required = false) String description,
 //                            @RequestParam(value = "theme",required = false) String theme,
 //                            @RequestParam(value = "quantity",required = false) String quantity)throws IOException{
-        if(result.hasErrors()){
+        if(id != null ){
+            service.deleteItem(id);
             return "redirect:/getitems";
         }
-        if(item.getId()!= 0 ){
-//            service.deleteItem(Integer.parseInt(id));
-            service.deleteItem(item.getId());
-            return "redirect:getitems";
+        if(result.hasErrors()){
+            return "Items";
         }
         else{
             byte[] foto = file.getBytes();
@@ -74,8 +74,9 @@ public class  Items {
 //            item.setTheme(theme);
 //            item.setQuantity(Integer.parseInt(quantity));
             item.setFoto(foto);
+            item.setActive(true);
             service.addOrRedactItem(item);
-            return "redirect:getitems";
+            return "redirect:/getitems";
         }
     }
     @RequestMapping(value = "/checkout",method = RequestMethod.POST)

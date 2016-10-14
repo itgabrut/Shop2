@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  * Created by ilya on 20.08.2016.
  */
 @NamedQueries({
-        @NamedQuery(name = "Item.getThemes",query = "select distinct i.theme from Item i order by i.theme")
+        @NamedQuery(name = "Item.getThemes",query = "select distinct i.theme from Item i where i.active = true order by i.theme")
 })
 @Entity
 @Table(name = "items")
@@ -34,6 +34,7 @@ public class Item {
     private long version;
 
     @UniqueName
+    @NotEmpty
     @Column(name = "name", unique = true)
     private String name;
 
@@ -60,6 +61,18 @@ public class Item {
     @JsonIgnore
     @Transient
     private int proxyId;
+
+    @JsonIgnore
+    @Column(name = "active",nullable = false,columnDefinition = "TINYINT(1) default 1")
+    private boolean active;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public int getProxyId() {
         return proxyId;

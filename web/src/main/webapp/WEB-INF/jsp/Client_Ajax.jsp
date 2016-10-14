@@ -159,7 +159,7 @@
 
                         <div class="col-xs-9">
                             <%--<input type="checkbox" class="form-control" id="check" name="check">--%>
-                                <select class="form-control" id="event_allDay" name="checkbox" id = "check">
+                                <select class="form-control" name="checkbox" id = "check">
                                     <option value="0" selected>No</option>
                                     <option value="1">Yes</option>
                                 </select>
@@ -268,7 +268,7 @@
     // $(document).ready(function () {
     $(function () {
         datatableApi = $('#datatable').DataTable({
-            "paging": false,
+            "paging": true,
             "info": true,
             "columns": [
                 {

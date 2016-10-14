@@ -54,6 +54,12 @@ public class OrderRepositoryImpl implements OrderRepository {
         return list;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Order updateOrder(Order order) {
+       return   entityManager.merge(order);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public  boolean addOrder(Order order) {
         int a;
@@ -61,7 +67,6 @@ public class OrderRepositoryImpl implements OrderRepository {
 //            entityManager.lock(i, LockModeType.OPTIMISTIC);
             Item i = orderForItem.getItem();
             if ((a = (i.getQuantity() - orderForItem.getQuantity())) < 0) {
-//                entityManager.getTransaction().rollback();
                 return false;
             }
             i.setQuantity(a);
@@ -109,7 +114,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         }else if (sortOrder.equals("UNSORTED")){
             //just don't sort
         }else{
-            //just don't sort
+            q.orderBy(cb.desc(path));
         }
 
         //filter
@@ -138,7 +143,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             path =  site.get("id");
         }
         else if(sortField.equals("date")) path = site.get("date");
-        else path =  site.get("id");
+        else path =  site.get("date");
         return path;
     }
 

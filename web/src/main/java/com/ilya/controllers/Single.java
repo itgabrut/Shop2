@@ -35,7 +35,6 @@ public class Single {
     public String getSingle(@RequestParam("id") String id, Model model,@ModelAttribute("Map") Map<String,byte[]> map){
         try {
             Item item = itemService.getItem(Integer.parseInt(id));
-//        assert item != null;
             BucketCheckerUtils.saveFotoToMemory(map, item);
             model.addAttribute("item", item);
             List<Path> fotos = FotoSaver.getPathsOfFotos(item);
@@ -44,7 +43,7 @@ public class Single {
         }
         catch (IOException e){
             e.printStackTrace();
-            return "redirect:getitems";
+            return "redirect:/getitems";
         }
     }
 
@@ -61,10 +60,10 @@ public class Single {
             }
             catch (IOException e){
                 e.printStackTrace();
-                return "redirect:single?id=" + id;
+                return "redirect:/single?id=" + id;
             }
         }
-        return "redirect:single?id=" + id;
+        return "redirect:/single?id=" + id;
     }
 
     @RequestMapping(value = "/single/update",method = RequestMethod.POST)

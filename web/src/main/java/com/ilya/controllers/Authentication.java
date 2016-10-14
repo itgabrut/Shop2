@@ -13,6 +13,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -53,7 +55,7 @@ public class Authentication  {
             return "Register";
         }
         service.addClient(client);
-        return "redirect:getitems";
+        return "redirect:/getitems";
     }
 
     @RequestMapping(value = "/changeDetails",method = RequestMethod.POST)
@@ -63,13 +65,32 @@ public class Authentication  {
             return "ClientDetails";
         }
         service.addClient(client);
-        return "redirect:toDetails";
+        return "redirect:/toDetails";
     }
 
     @RequestMapping(value = "/toDetails")
     public String toDetails()
     {
         return "ClientDetails";
+    }
+
+
+    @RequestMapping(value = "/pass",method = RequestMethod.POST)
+    public void changepass(@RequestParam(value = "password")String password,
+                           @RequestParam(value = "pass1")String passnew1,
+                           @RequestParam(value = "pass2")String passnew2,
+                           HttpServletResponse response,
+                           Model model)throws IOException {
+        if(!passnew1.equals(passnew2)) {
+            response.sendError(HttpServletResponse.SC_CONFLICT, "Password match");
+            return;
+        }
+        Client loggedClient = (Client)model.asMap().get("loggedClient");
+        if(!service.checkPasswOnChange(loggedClient, password))response.sendError(HttpServletResponse.SC_CONFLICT,"Wrong password");
+        else {
+            loggedClient.setPassword(passnew1);
+            service.changePassOrMerge(loggedClient);
+        }
     }
 
     @InitBinder

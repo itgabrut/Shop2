@@ -38,7 +38,7 @@
       <div class="header_top_right">
 
         <ul class="header_user_info">
-          <a class="login" href="#">
+          <a class="login" href="toDetails">
             <i class="user"> </i>
             <li class="user_desc">My Account</li>
           </a>

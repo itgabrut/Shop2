@@ -6,6 +6,8 @@ import com.ilya.model.Client;
 import com.ilya.model.Item;
 import com.ilya.model.Order;
 import com.ilya.model.OrderForItem;
+import com.ilya.model.enums_utils.Delivery_status;
+import com.ilya.model.enums_utils.Pay_status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,34 @@ public class OrderServiceImpl implements OrderService {
 //        return false;
 //
 //    }
+
+
+    @Override
+    @Transactional
+    public boolean updateOrder(Map<String, Object> map) {
+        Order order = repository.getById(Integer.valueOf((String) map.get("orderId")));
+        for(Map.Entry<String,Object> entr : map.entrySet()){
+            switch (entr.getKey()){
+                case "payway" : order.setPayway((String)entr.getValue());
+                    break;
+                case "delivery" : order.setDelivery((String)entr.getValue());
+                    break;
+                case "deliveryStatus" : order.setDeliveryStatus(Delivery_status.valueOf((String)entr.getValue()));
+                    break;
+                case "payStatus" : order.setPayStatus(Pay_status.valueOf((String)entr.getValue()));
+                    break;
+//                case "orderId" : order.setId(Integer.parseInt((String)entr.getValue()));
+//                    break;
+            }
+        }
+       Order updated =  repository.updateOrder(order);
+        return updated != null;
+    }
+
+    @Override
+    public List<Order> getAllSortedDate() {
+        return repository.getAll();
+    }
 
     /**
      * Searches for orders of client by it Id

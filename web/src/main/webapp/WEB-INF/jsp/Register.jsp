@@ -132,7 +132,7 @@
                                 </spring:bind>
                                 <spring:bind path="email">
                                 <div class="">
-                                    <label for="email" class="control-label col-xs-3">Email</label>
+                                    <label for="email" class="control-label col-xs-3">Email <br/>(Username)</label>
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="email" path="email" class="form-control" id="email" name="email" placeholder="email"/>
                                         <form:errors cssStyle="color: red" path="email"></form:errors>
@@ -155,7 +155,7 @@
                                     <label for="country" class="control-label col-xs-3">Country</label>
 
                                     <div class="form-group col-xs-8 bot">
-                                        <form:input type="text" path="adress.country" class="form-control" id="country" name="country" placeholder="Country" maxlength="15"/>
+                                        <form:input type="text" path="adress.country" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" class="form-control" id="country" name="country" placeholder="Country" maxlength="15"/>
                                         <form:errors cssStyle="color: red" path="adress.country"></form:errors>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                                     <label for="city" class="control-label col-xs-3">City</label>
 
                                     <div class="form-group col-xs-8 bot">
-                                        <form:input type="text" path="adress.city" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
+                                        <form:input type="text" path="adress.city" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
                                         <form:errors cssStyle="color: red" path="adress.city"></form:errors>
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@
                                     <label for="street" class="control-label col-xs-3">Street</label>
 
                                     <div class="form-group col-xs-8 bot">
-                                        <form:input type="text" path="adress.street" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
+                                        <form:input type="text" path="adress.street" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
                                         <form:errors cssStyle="color: red" path="adress.street"></form:errors>
                                     </div>
                                 </div>
@@ -214,7 +214,7 @@
                                 <div class="">
                                     <label for="inputPassword" class="control-label col-xs-3">Password</label>
                                         <div class="form-group col-xs-8">
-                                            <form:input type="password" path="password" class="form-control" minlength="6" id="inputPassword" name="password" placeholder=""/>
+                                            <form:input type="password" data-smk-strongPass="weak" path="password" class="form-control" id="inputPassword" name="password" placeholder=""/>
                                             <form:errors cssStyle="color: red" path="password"></form:errors>
                                             <%--<div class="help-block">Minimum of 6 characters</div>--%>
                                         </div>
@@ -224,7 +224,7 @@
                                 <div class="">
                                     <label for="inputPasswordConfirm" class="control-label col-xs-3">Confirm a password</label>
                                         <div class="form-group col-xs-8">
-                                            <form:input type="password" path="passwordconfirm" class="form-control" minlength="6" id="inputPasswordConfirm"
+                                            <form:input type="password" data-smk-strongPass="weak" path="passwordconfirm" class="form-control" id="inputPasswordConfirm"
                                                    name="passwordconfirm" placeholder=""/>
                                             <form:errors cssStyle="color: red" path="password"></form:errors>
                                         </div>
@@ -321,17 +321,17 @@
 
     $('#datetimepicker1').datetimepicker({pickTime: false});
 
-    function check() {
-        if($('#inputPassword').val()!==$('#inputPasswordConfirm').val()){
-            $('#passcnf').removeClass('hidden');
-            $('#passcnf').addClass('show alert alert-danger');
-            return false;
-        }
-        else{
-            $('#passcnf').addClass('hidden');
-            return true;
-        }
-    }
+//    function check() {
+//        if($('#inputPassword').val()!==$('#inputPasswordConfirm').val()){
+//            $('#passcnf').removeClass('hidden');
+//            $('#passcnf').addClass('show alert alert-danger');
+//            return false;
+//        }
+//        else{
+//            $('#passcnf').addClass('hidden');
+//            return true;
+//        }
+//    }
 
     function valll() {
         if( $('#register-form').smkValidate() ){
@@ -345,53 +345,53 @@
         return isvalid;
     }
 
-    function sendRegistration() {
-        if(check()==true) {
-            var form = $('#register-form');
-            var arr = form.serializeArray();
-            var toSend = {
-                name: arr[0].value,
-                surname: arr[1].value,
-                email: arr[2].value,
-                birth: arr[3].value,
-                adress: {
-                    country: arr[4].value,
-                    city: arr[5].value,
-                    street: arr[6].value,
-                    house: arr[7].value,
-                    app: arr[8].value,
-                    zip: arr[9].value
-                },
-                password: arr[10].value
-            };
-
-            $.ajax({
-                type: "POST",
-                url: 'ajax/users',
-                data: JSON.stringify(toSend),
-                success: function () {
-                    window.location.href = "getitems"
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert('EMAIL ALREADY EXISTS');
-                    $('.help-block.invisible').removeClass('invisible');
-                }
-            })
-            return false;
-        }
-        else return false;
-    }
-    function check() {
-        if($('#inputPassword').val()!==$('#inputPasswordConfirm').val()){
-            $('#passcnf').removeClass('hidden');
-            $('#passcnf').addClass('show alert alert-danger');
-            return false;
-        }
-        else{
-            $('#passcnf').addClass('hidden');
-            return true;
-        }
-    }
+//    function sendRegistration() {
+//        if(check()==true) {
+//            var form = $('#register-form');
+//            var arr = form.serializeArray();
+//            var toSend = {
+//                name: arr[0].value,
+//                surname: arr[1].value,
+//                email: arr[2].value,
+//                birth: arr[3].value,
+//                adress: {
+//                    country: arr[4].value,
+//                    city: arr[5].value,
+//                    street: arr[6].value,
+//                    house: arr[7].value,
+//                    app: arr[8].value,
+//                    zip: arr[9].value
+//                },
+//                password: arr[10].value
+//            };
+//
+//            $.ajax({
+//                type: "POST",
+//                url: 'ajax/users',
+//                data: JSON.stringify(toSend),
+//                success: function () {
+//                    window.location.href = "getitems"
+//                },
+//                error: function (xhr, ajaxOptions, thrownError) {
+//                    alert('EMAIL ALREADY EXISTS');
+//                    $('.help-block.invisible').removeClass('invisible');
+//                }
+//            })
+//            return false;
+//        }
+//        else return false;
+//    }
+//    function check() {
+//        if($('#inputPassword').val()!==$('#inputPasswordConfirm').val()){
+//            $('#passcnf').removeClass('hidden');
+//            $('#passcnf').addClass('show alert alert-danger');
+//            return false;
+//        }
+//        else{
+//            $('#passcnf').addClass('hidden');
+//            return true;
+//        }
+//    }
 //    function sendLogIn() {
 //        var form = $('#login-form');
 //        $.ajax({

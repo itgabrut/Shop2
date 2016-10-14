@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ilya.model.Client;
 import com.ilya.model.Item;
+import com.ilya.model.enums_utils.Role;
 import com.ilya.service.ClientService;
 import com.ilya.service.ItemService;
 import com.ilya.service.OrderService;
@@ -40,7 +41,10 @@ public class Orders {
     ItemService itemService;
 
     @RequestMapping(value = "/orders")
-    public String toOrderView(){
+    public String toOrderView(Model model){
+        Client client =(Client) model.asMap().get("loggedClient");
+        if(client.getRoles().contains(Role.ROLE_ADMIN))return "AllOrders";
+        else
         return "Orders";
     }
 
@@ -77,6 +81,8 @@ public class Orders {
             resp.sendRedirect("getitems");
         }
     }
+
+
     @RequestMapping(value = "/singleorder",method = RequestMethod.GET)
     public String forSingleOrder(@RequestParam(value = "orderId")String orderId, Model model){
         int loggedClientId = ((Client)model.asMap().get("loggedClient")).getId();
@@ -86,7 +92,7 @@ public class Orders {
             model.addAttribute("itemsForOrderMap",map);
             return "Order";
         }
-        else return "redirect:getitems";
+        else return "redirect:/getitems";
     }
     @RequestMapping(value = "/adminSingleorder",method = RequestMethod.GET)
     public String AdminSingleOrder(@RequestParam("orderId")String orderId,

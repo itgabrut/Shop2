@@ -7,9 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ilya on 30.09.2016.
@@ -42,26 +44,6 @@ public class RestClients {
     public void del(@RequestParam(value = "id") String id){
         service.deleteClient(Integer.parseInt(id));
     }
-
-    @RequestMapping(value = "/pass",method = RequestMethod.POST)
-    public void changepass(@RequestParam(value = "password")String password,
-                           @RequestParam(value = "pass1")String passnew1,
-                           @RequestParam(value = "pass2")String passnew2,
-                           HttpServletResponse response,
-                           Model model)throws IOException{
-          if(!passnew1.equals(passnew2)) {
-              response.sendError(HttpServletResponse.SC_CONFLICT, "Password match");
-              return;
-          }
-        Client loggedClient = (Client)model.asMap().get("loggedClient");
-        if(!service.checkPasswOnChange(loggedClient, password))response.sendError(HttpServletResponse.SC_CONFLICT,"Wrong password");
-        else {
-               loggedClient.setPassword(passnew1);
-               service.changePassOrMerge(loggedClient);
-        }
-    }
-
-
 
 
 }

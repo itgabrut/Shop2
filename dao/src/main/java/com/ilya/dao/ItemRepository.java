@@ -16,6 +16,8 @@ public interface ItemRepository {
 
     void deleteItem(int itemId);
 
+    Item deleteSoft(int itemId);
+
     List<Item> getAll();
 
      void save(Item item);

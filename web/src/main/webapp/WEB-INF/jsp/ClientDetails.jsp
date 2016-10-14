@@ -152,7 +152,7 @@
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)"  path="adress.city" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
-                            <form:errors path="adress.city"></form:errors>
+                            <form:errors cssStyle="color: red" path="adress.city"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
@@ -162,7 +162,7 @@
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="adress.street" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
-                            <form:errors path="adress.street"></form:errors>
+                            <form:errors cssStyle="color: red" path="adress.street"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
@@ -172,7 +172,7 @@
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="number" path="adress.house" class="form-control" id="house" name="house" placeholder="House" maxlength="15"/>
-                            <form:errors path="adress.house"></form:errors>
+                            <form:errors cssStyle="color: red" path="adress.house"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
@@ -182,7 +182,7 @@
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="number" path="adress.app" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15"/>
-                            <form:errors path="adress.app"></form:errors>
+                            <form:errors cssStyle="color: red" path="adress.app"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
@@ -192,7 +192,7 @@
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="number" path="adress.zip" class="form-control" maxlength="6" id="zip" name="zip" placeholder="Zip"/>
-                            <form:errors path="adress.zip"></form:errors>
+                            <form:errors cssStyle="color: red" path="adress.zip"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
@@ -220,7 +220,7 @@
                 <div class="form-group">
                     <label for="oldPassword" class="control-label col-xs-3">Current password</label>
                     <div class="col-xs-8">
-                        <input type="password" class="form-control" minlength="6" id="oldPassword" name="password" placeholder="" required/>
+                        <input type="password" class="form-control" data-smk-strongPass="weak" id="oldPassword" name="password" placeholder="" required/>
                         <%--<form:errors cssStyle="color: red" path="password"></form:errors>--%>
                         <div class="help-block mine hidden" style="color: red" >Typed wrong password</div>
                     </div>
@@ -228,7 +228,7 @@
                 <div class="form-group">
                     <label for="pass1" class="control-label col-xs-3">Enter new password</label>
                     <div class="col-xs-8">
-                        <input type="password" class="form-control" minlength="6" id="pass1"
+                        <input type="password" class="form-control" data-smk-strongPass="weak" id="pass1"
                                name="pass1" placeholder="" required/>
                         <%--<form:errors cssStyle="color: red" path="password"></form:errors>--%>
                     </div>
@@ -236,8 +236,8 @@
                     <div class="form-group">
                         <label for="pass2" class="control-label col-xs-3">Confirm a password</label>
                         <div class="col-xs-8">
-                            <input type="password" class="form-control" minlength="6" id="pass2"
-                                   name="pass2" placeholder=""/>
+                            <input type="password" class="form-control" data-smk-strongPass="weak" id="pass2"
+                                   name="pass2" placeholder="" required/>
                             <%--<form:errors cssStyle="color: red" path="password"></form:errors>--%>
                         </div>
                     </div>
@@ -273,7 +273,7 @@
             var data2 = $('#passchange').serializeArray();
              $.ajax({
                  type : 'Post',
-                 url : ajaxUrl+'/pass',
+                 url : 'pass',
                  data : data2,
                  beforeSend: function (xhr) {
                      xhr.setRequestHeader(header, token);
@@ -307,8 +307,9 @@
 //                    text: $('#pass1').val(),
 //                    type: 'success'
 //                });
+                sendChange();
             }
-            sendChange();
+
         }
     });
         function logoutt() {

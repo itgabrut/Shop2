@@ -5,6 +5,8 @@ import com.ilya.model.Item;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,17 @@ public final class FotoSaver {
         Files.deleteIfExists(Paths.get(p));
     }
 
+    public static void deleteByItem(String name,String theme)throws IOException{
+        Path path = Paths.get("/foto/"+theme+"/"+name.trim());
+        try(DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)){
+            for (Path path1 : directoryStream){
+                Files.deleteIfExists(path1);
+            }
+        }
+        theme = theme.contains("/") ? theme.substring(0,theme.indexOf('/')) : theme;
+        cleanDirectories(Paths.get("/foto/" + theme));
+    }
+
     /**
      *  Move all files from path, represented by [old] to new location
      * @param name Part of new location path
@@ -81,6 +94,39 @@ public final class FotoSaver {
                 Files.move(path,toSave);
                 Files.deleteIfExists(path);
             }
+        }
+        oldTheme = oldTheme.contains("/") ? oldTheme.substring(0,oldTheme.indexOf('/')) : oldTheme;
+        cleanDirectories(Paths.get("/foto/" + oldTheme));
+    }
+
+    public static void cleanDirectories(Path path) throws IOException{
+        Files.walkFileTree(path, new FileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                if(isDirEmpty(dir))Files.deleteIfExists(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
+    private static boolean isDirEmpty(final Path directory) throws IOException {
+        try(DirectoryStream<Path> dirStream = Files.newDirectoryStream(directory)) {
+            return !dirStream.iterator().hasNext();
         }
     }
 

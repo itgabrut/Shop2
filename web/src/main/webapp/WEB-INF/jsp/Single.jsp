@@ -329,7 +329,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <label for="name" class="control-label col-xs-3">Name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="${item.name}" value="${item.name}" maxlength="15" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="${item.name}" value="${item.name}" maxlength="35" required>
                         </div>
                     </div>
                     <input type="text" style="display: none" name="id" value="${item.id}">
@@ -339,7 +339,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <label for="theme" class="control-label col-xs-3">Category</label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="theme" name="theme" placeholder="${item.theme}" value="${item.theme}" maxlength="15" required>
+                            <input type="text" class="form-control" id="theme" name="theme" placeholder="${item.theme}" value="${item.theme}" maxlength="100" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -407,7 +407,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             itemId : iid,
             totalPrice : adder,
             quantityToAdd : parseInt(quan)
-        }
+        };
         $.ajax({
             type: 'Post',
             url: "checkout",

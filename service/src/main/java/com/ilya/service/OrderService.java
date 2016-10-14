@@ -15,7 +15,11 @@ public interface OrderService {
 
     List<Order> getOrdersByClientId(int id);
 
+    List<Order> getAllSortedDate();
+
     Order getOrderById(int orderId);
+
+    boolean updateOrder(Map<String,Object> map);
 
     boolean verifyOrderOnLoggedClient(String orderId,int loggedClientId);
 }
