@@ -23,22 +23,21 @@
     <context:annotation-config/>
     <tx:annotation-driven/>
 
-    <beans profile="tomcat">
-        <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/topjava"/>
-        <context:property-placeholder location="classpath:db/tomcat.properties" system-properties-mode="OVERRIDE"/>
-    </beans>
+    <!--<beans profile="tomcat">-->
+        <!--<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/topjava"/>-->
+    <!--</beans>-->
 <beans>
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://localhost:3306/shema1"
+          p:url="jdbc:mysql://localhost:3306/shema1?useSSL=false"
           p:username="root"
           p:password="mysql"/>
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
               p:packagesToScan="com.ilya.model">
             <property name="jpaVendorAdapter">
                 <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-                      p:showSql="true">
+                      p:showSql="false">
                 </bean>
             </property>
             <property name="DataSource" ref="dataSource" />

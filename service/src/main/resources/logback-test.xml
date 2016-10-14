@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="90 seconds" debug = "true">
+<configuration scan="false" scanPeriod="60 seconds" debug = "true">
 
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
@@ -13,12 +13,12 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>  %-30(%yellow(%level %d{HH:mm:proxyId.SSS} [%thread]  %logger{0} [%file:%line]) %msg%n)</pattern>
+            <pattern>  %-30(%yellow(%level %d{HH:mm:proxyId.SSS} [%thread]  %logger{0} [%file:%line] %msg%n))</pattern>
         </encoder>
     </appender>
 
     <!--log hibernate showSql-->
-    <logger name="org.hibernate.SQL" level="info"/>
+    <logger name="org.hibernate.SQL" level="warn"/>
 
     <root level="info">
         <appender-ref ref="file"/>

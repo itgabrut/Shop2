@@ -12,6 +12,7 @@ import utils.BucketCheckerUtils;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,12 +53,6 @@ public class  Items {
                              @RequestParam(value = "id",required = false) Integer id,
                              @Valid Item item,
                              BindingResult result)throws IOException{
-//                            @RequestParam(value = "id",required = false) String id,
-//                            @RequestParam(value = "name",required = false) String name,
-//                            @RequestParam(value = "price",required = false) String price,
-//                            @RequestParam(value = "description",required = false) String description,
-//                            @RequestParam(value = "theme",required = false) String theme,
-//                            @RequestParam(value = "quantity",required = false) String quantity)throws IOException{
         if(id != null ){
             service.deleteItem(id);
             return "redirect:/getitems";
@@ -67,18 +62,13 @@ public class  Items {
         }
         else{
             byte[] foto = file.getBytes();
-//            Item item = new Item();
-//            item.setName(name);
-//            item.setPrice(Integer.parseInt(price));
-//            item.setDescription(description);
-//            item.setTheme(theme);
-//            item.setQuantity(Integer.parseInt(quantity));
             item.setFoto(foto);
             item.setActive(true);
             service.addOrRedactItem(item);
             return "redirect:/getitems";
         }
     }
+
     @RequestMapping(value = "/checkout",method = RequestMethod.POST)
     public void addToBucket(@RequestParam(value = "totalPrice",required = false) String totalPrice,
                             @RequestParam(value = "quantityToAdd",required = false)String quantityToAdd,
@@ -110,5 +100,10 @@ public class  Items {
     @RequestMapping(value = "/toClients")
     public String toClientsList(){
         return "Client_Ajax";
+    }
+
+    @RequestMapping("/databaseError1")
+    String throwDatabaseException1() throws SQLException {
+        throw new SQLException();
     }
 }

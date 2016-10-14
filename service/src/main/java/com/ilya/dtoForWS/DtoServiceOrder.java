@@ -1,16 +1,12 @@
 package com.ilya.dtoForWS;
 
-import com.ilya.dao.ItemRepository;
 import com.ilya.dao.OrderRepository;
 import com.ilya.model.Item;
 import com.ilya.model.Order;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -23,8 +19,6 @@ public class DtoServiceOrder {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private ItemRepository itemRepository;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public TOrder getTOrder(int orderId){

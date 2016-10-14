@@ -89,7 +89,7 @@ public class Authentication  {
         if(!service.checkPasswOnChange(loggedClient, password))response.sendError(HttpServletResponse.SC_CONFLICT,"Wrong password");
         else {
             loggedClient.setPassword(passnew1);
-            service.changePassOrMerge(loggedClient);
+            service.updateChangePassOrMerge(loggedClient);
         }
     }
 

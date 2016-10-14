@@ -25,5 +25,5 @@ public interface ClientService {
 
     boolean checkPasswOnChange(Client loggedClient,String pass);
 
-    void changePassOrMerge(Client client);
+    void updateChangePassOrMerge(Client client);
 }

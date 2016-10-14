@@ -75,12 +75,11 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public void changePassOrMerge(Client client) {
+    public void updateChangePassOrMerge(Client client) {
         String hashed = BCrypt.hashpw(client.getPassword(), BCrypt.gensalt());
         client.setPassword(hashed);
         repository.save(client);
     }
-
 
     /**
      * Redacts Client entity with or without password, or adds to db if Client is a new one
