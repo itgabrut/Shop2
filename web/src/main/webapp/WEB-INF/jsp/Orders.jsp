@@ -8,6 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
   <link href="resources/css/style.css" rel="stylesheet" type="text/css">
@@ -40,10 +41,10 @@
         <ul class="header_user_info">
           <a class="login" href="toDetails">
             <i class="user"> </i>
-            <li class="user_desc">My Account</li>
+            <li class="user_desc"><spring:message code="account"/></li>
           </a>
             <c:if test="${loggedClient!=null}">
-                <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty"><spring:message code="logout"/></a></p>
             </c:if>
           <div class="clearfix"> </div>
         </ul>
@@ -62,9 +63,18 @@
       <div class="clearfix"> </div>
     </div>
     <div class="header_bottom">
-      <div class="logo">
-        <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
-      </div>
+        <c:choose>
+            <c:when test="${pageContext.response.locale.language == 'ru'}">
+                <div class="logo">
+                    <h1 style="font-size: 81px"><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="logo">
+                    <h1><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                </div>
+            </c:otherwise>
+        </c:choose>
         <c:if test="${loggedClient != null}">
             <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
         </c:if>
@@ -73,8 +83,8 @@
             <c:if test="${isAdmin}">
             <li style="display: inline;"><a class="color10" href="toClients">Clients list</a></li>
                 </c:if>
-            <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-            <li style="display: inline;"><a class="color7" href="#">News</a></li>
+            <li style="display: inline;"><a class="color3" href="orders"><spring:message code="orderslist"/></a></li>
+            <li style="display: inline;"><a class="color7" href="#"><spring:message code="news"/></a></li>
           <div class="clearfix"> </div>
         </ul>
       </div>
@@ -86,19 +96,19 @@
 <div class="container">
     <div class="jumbotron">
         <div class="shadow">
-            <h3>Orders of  ${loggedClient.name}</h3>
+            <h3><spring:message code="ordersof"/> ${loggedClient.name}</h3>
             <br>
 
             <div class="view-box">
                 <table class="table table-striped display" id="data1">
                     <thead>
                     <tr>
-                        <th>Order number</th>
-                        <th>Payment Status</th>
-                        <th>Delivery Status</th>
-                        <th>Date</th>
-                        <th>Delivery</th>
-                        <th>Act</th>
+                        <th><spring:message code="ordnumb"/></th>
+                        <th><spring:message code="paystat"/></th>
+                        <th><spring:message code="delstat"/></th>
+                        <th><spring:message code="data"/></th>
+                        <th><spring:message code="deliv"/></th>
+                        <th><spring:message code="act"/></th>
                     </tr>
                     </thead>
                 </table>
@@ -141,7 +151,7 @@
                 {
                     "defaultContent": "Show items",
                     "render" : function (data,type,row) {
-                        return "<a href='singleorder?orderId="+row.id+"' id='myOrder'>Order details </a>"
+                        return "<a href='singleorder?orderId="+row.id+"' id='myOrder'><spring:message code="orderdet"/> </a>"
                     }
                 }
             ],

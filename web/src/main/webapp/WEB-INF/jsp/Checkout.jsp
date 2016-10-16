@@ -11,6 +11,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
     <title> Checkout</title>
@@ -54,16 +55,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 <ul class="header_user_info">
                     <c:if test="${loggedClient==null}">
-                    <a class="login" href="Register.jsp">
+                    <a class="login" href="login">
                         </c:if>
                         <c:if test="${loggedClient!=null}">
                         <a class="login" href="orders">
                             </c:if>
                         <i class="user"> </i>
-                        <li class="user_desc">My Account</li>
+                        <li class="user_desc"><spring:message code="account"/></li>
                     </a>
                             <c:if test="${loggedClient!=null}">
-                            <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                            <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty"><spring:message code="logout"/></a></p>
                             </c:if>
                     <div class="clearfix"> </div>
                 </ul>
@@ -89,9 +90,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"> </div>
         </div>
         <div class="header_bottom">
-            <div class="logo">
-                <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
-            </div>
+            <c:choose>
+                <c:when test="${pageContext.response.locale.language == 'ru'}">
+                    <div class="logo">
+                        <h1 style="font-size: 81px"><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="logo">
+                        <h1><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <c:if test="${loggedClient != null}">
                 <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
             </c:if>
@@ -99,10 +109,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
 
                     <c:if test='${isAdmin}'>
-                    <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
+                    <li style="display: inline;"><a class="color10" href="toClients">Clients list</a></li>
                     </c:if>
-                    <li style="display: inline;"><a class="color3" href="orders">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders"><spring:message code="orderslist"/></a></li>
+                    <li style="display: inline;"><a class="color7" href="#"><spring:message code="news"/></a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -114,7 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container">
         <div class="check_box">
             <div class="col-md-9 cart-items">
-                <h1>My Shopping Bag </h1>
+                <h1><spring:message code="myshopbag"/></h1>
                 <%--<script>$(document).ready(function(c) {--%>
                     <%--$('.close1').on('click', function(c){--%>
                         <%--$('.cart-header').fadeOut('slow', function(c){--%>
@@ -142,7 +152,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     String key = String.valueOf(item.getId());
                                     int val = map.get(key);
                                 %>
-                                <h2><li>Qty : <p id="quantity${item.id}"><%=val%></p></li></h2>
+                                <h2><li><spring:message code="quantity"/> : <p id="quantity${item.id}"><%=val%></p></li></h2>
 
                             </ul>
                         </div>
@@ -184,30 +194,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
             <fmt:setLocale value="en_US"/>
             <div class="col-md-3 cart-total">
-                <a class="continue" href="getitems">Continue to store</a>
+                <a class="continue" href="getitems"><spring:message code="continue"/></a>
                 <div class="price-details">
-                    <h3>Price Details</h3>
-                    <span>Total</span>
+                    <h3><spring:message code="priceDet"/></h3>
+                    <span><spring:message code="total"/></span>
                     <span class="total">
 
                     </span>
-                    <span>Discount</span>
+                    <span><spring:message code="disc"/></span>
                     <span class="total1">---</span>
-                    <span>Delivery Charges</span>
+                    <span><spring:message code="deliver"/></span>
                     <span class="total1"><fmt:formatNumber pattern="#,##0 $" value="150"/></span>
                     <div class="clearfix"></div>
                 </div>
                 <ul class="total_price">
-                    <li class="last_price"> <h4>TOTAL</h4></li>
+                    <li class="last_price"> <h4><spring:message code="total"/></h4></li>
                     <li class="last_price"><span id="lastPrice"></span></li>
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="clearfix"></div>
                 <c:if test="${loggedClient==null}">
-                <a class="order" href="login">Place Order</a>
+                <a class="order" href="login"><spring:message code="placeord"/></a>
                 </c:if>
                 <c:if test="${loggedClient!=null}">
-                    <a class="order" onclick="sendToPermitOrder()" href="#">Place Order</a>
+                    <a class="order" onclick="sendToPermitOrder()" href="#"><spring:message code="placeord"/></a>
                 </c:if>
 
             </div>
@@ -219,27 +229,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="footer">
     <div class="container">
         <div class="newsletter">
-            <h3>Newsletter</h3>
+            <h3><spring:message code="newsletter"/></h3>
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
             <form>
                 <input type="text" value="" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
-                <input type="submit" value="SUBSCRIBE">
+                <input type="submit" value="<spring:message code="subs"/>">
             </form>
         </div>
-        <div class="cssmenu">
-            <ul>
-                <li class="active"><a href="#">Privacy</a></li>
-                <li><a href="#">Terms</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-        <ul class="social">
-            <li><a href=""> <i class="instagram"> </i> </a></li>
-            <li><a href=""><i class="fb"> </i> </a></li>
-            <li><a href=""><i class="tw"> </i> </a></li>
-        </ul>
+        <%--<div class="cssmenu">--%>
+            <%--<ul>--%>
+                <%--<li class="active"><a href="#">Privacy</a></li>--%>
+                <%--<li><a href="#">Terms</a></li>--%>
+                <%--<li><a href="#">Shop</a></li>--%>
+                <%--<li><a href="#">About</a></li>--%>
+                <%--<li><a href="contact.html">Contact</a></li>--%>
+            <%--</ul>--%>
+        <%--</div>--%>
+        <%--<ul class="social">--%>
+            <%--<li><a href=""> <i class="instagram"> </i> </a></li>--%>
+            <%--<li><a href=""><i class="fb"> </i> </a></li>--%>
+            <%--<li><a href=""><i class="tw"> </i> </a></li>--%>
+        <%--</ul>--%>
         <div class="clearfix"></div>
         <div class="copy">
             <p> � 2015 Watches. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p>

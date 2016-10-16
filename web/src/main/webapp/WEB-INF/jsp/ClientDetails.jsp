@@ -25,6 +25,21 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <style>
+        p.langg{
+            display: inline-block;
+            margin-top: 21px;
+            color: wheat;
+        }
+        a{
+            color: wheat;
+        }
+    </style>
+    <script type="text/javascript" src="resources/js/smoke.min.js"></script>
+    <link rel="stylesheet" href="resources/css/smoke.css" />
+    <c:if test="${pageContext.response.locale.language == 'ru'}">
+        <script type="text/javascript" src="resources/js/ru.min.js"></script>
+    </c:if>
 </head>
 <body>
 
@@ -48,10 +63,10 @@
                         <a class="login" href="toDetails">
                             </c:if>
                             <i class="user"> </i>
-                            <li class="user_desc">My Account</li>
+                            <li class="user_desc"><spring:message code="account"/></li>
                         </a>
                         <c:if test="${loggedClient!=null}">
-                        <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                        <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty"><spring:message code="logout"/></a></p>
                         </c:if>
                         <div class="clearfix"> </div>
                         </ul>
@@ -65,18 +80,28 @@
                         </form>
                     </div>
                 </div>
+                <p class="langg" ><spring:message code="language"/> : <a href="?locale=en">English</a>|<a href="?locale=ru_Ru">Русский</a></p>
                 <div class="clearfix"> </div>
             </div>
             <div class="clearfix"> </div>
         </div>
         <div class="header_bottom">
-            <div class="logo">
-                <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
-            </div>
+            <c:choose>
+                <c:when test="${pageContext.response.locale.language == 'ru'}">
+                    <div class="logo">
+                        <h1 style="font-size: 81px"><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="logo">
+                        <h1><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders"><spring:message code="orderslist"/></a></li>
+                    <li style="display: inline;"><a class="color7" href="#"><spring:message code="news"/></a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -89,14 +114,14 @@
 <div class='container' style="margin-block-start: 50px;">
     <div class='panel panel-primary dialog-panel'>
         <div class='panel-heading'>
-            <h5>Redact your profile</h5>
-            <button type="button" class="bottom-right button alert-info" onclick="changepass()">Change Password</button>
+            <h5><spring:message code="redact"/></h5>
+            <button type="button" class="bottom-right button alert-info" onclick="changepass()"><spring:message code="changepass"/></button>
         </div>
         <div class='panel-body'>
             <form:form id="register-form" method="post" onsubmit="return validdd()" action="changeDetails" commandName="loggedClient">
                 <spring:bind path="name">
                     <div class="">
-                        <label for="name" class="control-label col-xs-3">Name</label>
+                        <label for="name" class="control-label col-xs-3"><spring:message code="name"/></label>
                         <div class="col-xs-8 bot form-group">
                             <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="name" class="form-control" id="name" name="name" placeholder="Name" maxlength="15"></form:input>
                             <form:errors cssStyle="color: red" path="name"></form:errors>
@@ -105,7 +130,7 @@
                 </spring:bind>
                 <spring:bind path="surname">
                     <div class="">
-                        <label for="surname" class="control-label col-xs-3">Surname</label>
+                        <label for="surname" class="control-label col-xs-3"><spring:message code="surname"/></label>
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="text" path="surname" class="form-control" id="surname" name="surname" placeholder="Surname" maxlength="15"/>
@@ -125,7 +150,7 @@
                 </spring:bind>
                 <spring:bind path="birth">
                     <div class="">
-                        <label for="birthday" class="control-label col-xs-3">Birthday</label>
+                        <label for="birthday" class="control-label col-xs-3"><spring:message code="birth"/></label>
 
                         <div class="col-xs-8 bot form-group" id = "datetimepicker1">
                             <form:input type="text"  data-smk-pattern="\\d{2}/\\d{2}/\\d{4}" path="birth" class="form-control" id="birthday" name="birth" placeholder="Birthday"/>
@@ -138,7 +163,7 @@
                 </spring:bind>
                 <spring:bind path="adress.country">
                     <div class="">
-                        <label for="country" class="control-label col-xs-3">Country</label>
+                        <label for="country" class="control-label col-xs-3"><spring:message code="countr"/></label>
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="adress.country" class="form-control" id="country" name="country" placeholder="Country" maxlength="15"/>
@@ -148,7 +173,7 @@
                 </spring:bind>
                 <spring:bind path="adress.city">
                     <div class="">
-                        <label for="city" class="control-label col-xs-3">City</label>
+                        <label for="city" class="control-label col-xs-3"><spring:message code="city"/></label>
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)"  path="adress.city" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
@@ -158,7 +183,7 @@
                 </spring:bind>
                 <spring:bind path="adress.street">
                     <div class="">
-                        <label for="street" class="control-label col-xs-3">Street</label>
+                        <label for="street" class="control-label col-xs-3"><spring:message code="str"/></label>
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="adress.street" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
@@ -168,7 +193,7 @@
                 </spring:bind>
                 <spring:bind path="adress.house">
                     <div class="">
-                        <label for="house" class="control-label col-xs-3">House</label>
+                        <label for="house" class="control-label col-xs-3"><spring:message code="hous"/></label>
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="number" path="adress.house" class="form-control" id="house" name="house" placeholder="House" maxlength="15"/>
@@ -178,7 +203,7 @@
                 </spring:bind>
                 <spring:bind path="adress.app">
                     <div class="">
-                        <label for="app" class="control-label col-xs-3">Apartment</label>
+                        <label for="app" class="control-label col-xs-3"><spring:message code="app"/></label>
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="number" path="adress.app" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15"/>
@@ -188,7 +213,7 @@
                 </spring:bind>
                 <spring:bind path="adress.zip">
                     <div class="">
-                        <label for="zip" class="control-label col-xs-3">Zip</label>
+                        <label for="zip" class="control-label col-xs-3"><spring:message code="zip"/></label>
 
                         <div class="col-xs-8 bot form-group">
                             <form:input type="number" path="adress.zip" class="form-control" maxlength="6" id="zip" name="zip" placeholder="Zip"/>
@@ -200,7 +225,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
-                            <button type="submit" class="btn btn-primary" style="margin-top: 38px;margin-inline-start: 187px;">Save</button>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 38px;margin-inline-start: 187px;"><spring:message code="save"/></button>
                         </div>
                     </div>
                 </div>
@@ -213,20 +238,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">Changing password</h2>
+                <h2 class="modal-title"><spring:message code="changepass"/></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="passchange" onsubmit="return false">
                 <div class="form-group">
-                    <label for="oldPassword" class="control-label col-xs-3">Current password</label>
+                    <label for="oldPassword" class="control-label col-xs-3"><spring:message code="currpass"/></label>
                     <div class="col-xs-8">
                         <input type="password" class="form-control" data-smk-strongPass="weak" id="oldPassword" name="password" placeholder="" required/>
                         <%--<form:errors cssStyle="color: red" path="password"></form:errors>--%>
-                        <div class="help-block mine hidden" style="color: red" >Typed wrong password</div>
+                        <div class="help-block mine hidden" style="color: red" ><spring:message code="typedwr"/></div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pass1" class="control-label col-xs-3">Enter new password</label>
+                    <label for="pass1" class="control-label col-xs-3"><spring:message code="newpass"/></label>
                     <div class="col-xs-8">
                         <input type="password" class="form-control" data-smk-strongPass="weak" id="pass1"
                                name="pass1" placeholder="" required/>
@@ -234,14 +259,14 @@
                     </div>
                 </div>
                     <div class="form-group">
-                        <label for="pass2" class="control-label col-xs-3">Confirm a password</label>
+                        <label for="pass2" class="control-label col-xs-3"><spring:message code="confirm"/></label>
                         <div class="col-xs-8">
                             <input type="password" class="form-control" data-smk-strongPass="weak" id="pass2"
                                    name="pass2" placeholder="" required/>
                             <%--<form:errors cssStyle="color: red" path="password"></form:errors>--%>
                         </div>
                     </div>
-                    <input type="submit" class="button bg-primary" id="btnEqualPass" value="Change password">
+                    <input type="submit" class="button bg-primary" id="btnEqualPass" value="<spring:message code="changepass"/>">
                 </form>
             </div>
         </div>
@@ -251,10 +276,7 @@
 <script type="text/javascript" src="resources/js/moments/moment-with-locales.min.js"></script>
 <script type="text/javascript" src="resources/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" href="resources/js/css/bootstrap-datetimepicker.min.css" />
-<script type="text/javascript" src="resources/js/smoke.min.js"></script>
-<link rel="stylesheet" href="resources/css/smoke.css" />
-
-    <script>
+<script>
         
         function validdd() {
             if( $('#register-form').smkValidate() ){
@@ -330,5 +352,5 @@
                 }
             });
         }
-    </script>
+</script>
 </html>

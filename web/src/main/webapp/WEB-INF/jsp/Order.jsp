@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <head>
     <title>Order details</title>
     <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -37,10 +38,10 @@
                     <a class="login" href="orders">
                         </c:if>
                         <i class="user"> </i>
-                        <li class="user_desc">My Account</li>
+                        <li class="user_desc"><spring:message code="account"/></li>
                     </a>
                     <c:if test="${loggedClient!=null}">
-                        <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                        <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty"><spring:message code="logout"/></a></p>
                     </c:if>
                     <div class="clearfix"> </div>
                 </ul>
@@ -59,13 +60,22 @@
             <div class="clearfix"> </div>
         </div>
         <div class="header_bottom">
-            <div class="logo">
-                <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
-            </div>
+            <c:choose>
+                <c:when test="${pageContext.response.locale.language == 'ru'}">
+                    <div class="logo">
+                        <h1 style="font-size: 81px"><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="logo">
+                        <h1><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li style="display: inline;"><a class="color3" href="orders">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders"><spring:message code="orderslist"/></a></li>
+                    <li style="display: inline;"><a class="color7" href="#"><spring:message code="news"/></a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -78,7 +88,7 @@
     <div class="container">
         <div class="check_box">
             <div class="col-md-6 cart-items">
-                <h1>Order details </h1>
+                <h1><spring:message code="orderdet"/> </h1>
                 <c:forEach var="map" items="${itemsForOrderMap}">
                     <jsp:useBean id="item" scope="page" class="com.ilya.model.Item"></jsp:useBean>
                     <div class="cart-header" >
@@ -90,7 +100,7 @@
                                 <h3><a href="single?id=${map.key.id}">${map.key.name}</a></h3>
                                 <h3><a id="price" name="${map.key.price}" quan="${map.value}" href="single?id=${map.key.id}"></a></h3>
                                 <ul class="qty">
-                                    <h2><li>Qty : <p id="quantity${map.key.id}">${map.value}</p></li></h2>
+                                    <h2><li><spring:message code="quantity"/> : <p id="quantity${map.key.id}">${map.value}</p></li></h2>
 
                                 </ul>
                             </div>
@@ -100,9 +110,9 @@
                 </c:forEach>
                 </div>
             <div class="col-md-3 cart-total">
-                <a class="continue" href="getitems">Continue to store</a>
+                <a class="continue" href="getitems"><spring:message code="continue"/></a>
                 <ul class="total_price">
-                    <li class="last_price"> <h4>TOTAL</h4></li>
+                    <li class="last_price"> <h4><spring:message code="total"/></h4></li>
                     <li class="last_price"><span id="lastPrice">300 $</span></li>
                     <div class="clearfix"> </div>
                 </ul>

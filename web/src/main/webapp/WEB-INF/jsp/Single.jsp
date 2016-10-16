@@ -10,6 +10,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html><head>
     <title>Single Item</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,6 +45,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <meta name="_csrf" content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <style>
+        p.langg{
+            display: inline-block;
+            margin-top: 21px;
+            color: wheat;
+        }
+        a{
+            color: wheat;
+        }
+    </style>
 </head>
 <body>
 <div class="men_banner">
@@ -51,34 +62,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="header_top">
             <div class="header_top_left">
                 <div class="box_11"><a href="checkout">
-                    <h4><p>Cart: <span class="simpleCart_total" id="simpleCart_total">
+                    <h4><p><spring:message code="cart"/>: <span class="simpleCart_total" id="simpleCart_total">
                         <c:if test="${totalPrice!=null}">${totalPrice} $ </c:if>
                         <c:if test="${totalPrice==null}">0 $ </c:if>
                     </span>
                         <span id="simpleCart_quantity" class="simpleCart_quantity">
                             <c:if test="${quantity!=null}">${quantity}</c:if>
                          <c:if test="${quantity==null}">0</c:if>
-                        </span> items</p>
+                        </span> <spring:message code="items"/></p>
                         <img src="resources/images/bag.png" alt="">
                         <div class="clearfix"> </div></h4>
                 </a></div>
-                <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty">Empty Cart</a></p>
+                <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty"><spring:message code="empt"/></a></p>
                 <div class="clearfix"> </div>
             </div>
             <div class="header_top_right">
 
                 <ul class="header_user_info">
                     <c:if test="${loggedClient==null}">
-                    <a class="login" href="Register.jsp"/>
+                    <a class="login" href="login"/>
                         </c:if>
                         <c:if test="${loggedClient!=null}">
-                        <a class="login" href="orders?clientId=${loggedClient.id}">
+                        <a class="login" href="toDetails">
                             </c:if>
                             <i class="user"> </i>
-                            <li class="user_desc">My Account</li>
+                            <li class="user_desc"><spring:message code="account"/></li>
                         </a>
                     <c:if test="${loggedClient!=null}">
-                        <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                        <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty"><spring:message code="logout"/></a></p>
                     </c:if>
                         <div class="clearfix"> </div>
                 </ul>
@@ -92,6 +103,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </form>
                     </div>
                 </div>
+                <p class="langg" ><spring:message code="language"/> : <a href="?id=${item.id}&locale=en">English</a>|<a href="?id=${item.id}&locale=ru_Ru">Русский</a></p>
                 <!----search-scripts---->
                 <script src="resources/js/classie1.js"></script>
                 <script src="resources/js/uisearch.js"></script>
@@ -104,9 +116,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"> </div>
         </div>
         <div class="header_bottom">
-            <div class="logo">
-                <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
-            </div>
+            <c:choose>
+                <c:when test="${pageContext.response.locale.language == 'ru'}">
+                    <div class="logo">
+                        <h1 style="font-size: 81px"><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="logo">
+                        <h1><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
             <c:if test="${loggedClient != null}">
             <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
             </c:if>
@@ -116,8 +138,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <c:if test="${isAdmin}">
                     <li style="display: inline;"><a class="color10" href="help">Clients list</a></li>
                     </c:if>
-                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders"><spring:message code="orderslist"/></a></li>
+                    <li style="display: inline;"><a class="color7" href="#"><spring:message code="news"/></a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -148,20 +170,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="cont1 span_2_of_a1 simpleCart_shelfItem">
                     <h1>${item.name}</h1>
                     <c:if test="${item.quantity >0}">
-                    <p class="availability">Availability: <span class="color">In stock : ${item.quantity}</span></p>
+                    <p class="availability"><spring:message code="availabi"/>: <span class="color"><spring:message code="instock"/> : ${item.quantity}</span></p>
                     </c:if>
                     <c:if test="${item.quantity == 0}">
-                        <p class="availability">Availability: <span class="color">Unavailable</span></p>
+                        <p class="availability">Availability: <span class="color"><spring:message code="unavai"/></span></p>
                     </c:if>
                     <div class="price_single">
                         <span class="amount item_price actual"><fmt:formatNumber value = "${item.price}" pattern="#,##0 $"/> </span>
                     </div>
-                    <h2 class="quick">Quick Overview:</h2>
+                    <h2 class="quick"><spring:message code="quick"/>:</h2>
                     <p class="quick_desc"> ${item.description}</p>
 
                     <div class="quantity_box">
                         <ul class="product-qty">
-                            <span>Quantity:</span>
+                            <span><spring:message code="quantity"/>:</span>
                             <select id="selectf">
                                 <%--<option>1</option>--%>
                                 <%--<option>2</option>--%>
@@ -183,7 +205,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         }
                     </script>
                     <c:if test="${item.quantity > 0}">
-                    <a href="#" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" onclick="addItemToBucket(${item.id},${item.price},$('#selectf').val())" target="_self">Add to cart</a>
+                    <a href="#" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" onclick="addItemToBucket(${item.id},${item.price},$('#selectf').val())" target="_self"><spring:message code="add"/></a>
                     </c:if>
                 </div>
                 <div class="clearfix"> </div>
@@ -275,11 +297,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="footer">
     <div class="container">
         <div class="newsletter">
-            <h3>Newsletter</h3>
+            <h3><spring:message code="newsletter"/></h3>
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
             <form>
                 <input type="text" value="" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
-                <input type="submit" value="SUBSCRIBE">
+                <input type="submit" value="<spring:message code="subs"/>">
             </form>
         </div>
         <div class="cssmenu">
@@ -340,6 +362,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="theme" name="theme" placeholder="${item.theme}" value="${item.theme}" maxlength="100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="theme2" class="control-label col-xs-3">Category</label>
+
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="theme2" name="theme2" placeholder="${item.theme2}" value="${item.theme2}" maxlength="100" required>
                         </div>
                     </div>
                     <div class="form-group">

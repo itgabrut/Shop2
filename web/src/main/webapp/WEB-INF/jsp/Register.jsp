@@ -21,7 +21,12 @@
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
-    <%--<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>--%>
+
+    <script type="text/javascript" src="resources/js/smoke.min.js"></script>
+    <link rel="stylesheet" href="resources/css/smoke.css"/>
+    <c:if test="${pageContext.response.locale.language == 'ru'}">
+        <script type="text/javascript" src="resources/js/ru.min.js"></script>
+    </c:if>
 </head>
 <body>
 
@@ -40,7 +45,7 @@
                 <ul class="header_user_info">
                     <a class="login" href="#">
                         <i class="user"> </i>
-                        <li class="user_desc">My Account</li>
+                        <li class="user_desc"><spring:message code="account"/></li>
                     </a>
                     <div class="clearfix"> </div>
                 </ul>
@@ -59,13 +64,22 @@
             <div class="clearfix"> </div>
         </div>
         <div class="header_bottom">
-            <div class="logo">
-                <h1><a href="getitems"><span class="m_1">F</span>urniture</a></h1>
-            </div>
+            <c:choose>
+                <c:when test="${pageContext.response.locale.language == 'ru'}">
+                    <div class="logo">
+                        <h1 style="font-size: 81px"><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="logo">
+                        <h1><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <div class="menu">
                 <ul class="megamenu skyblue "><li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
-                    <li style="display: inline;"><a class="color3" href="orders?clientId=${loggedClient.id}">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders"><spring:message code="orderslist"/></a></li>
+                    <li style="display: inline;"><a class="color7" href="#"><spring:message code="news"/></a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -81,10 +95,10 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-6">
-                            <a href="#" class="active" id="login-form-link">Login</a>
+                            <a href="#" class="active" id="login-form-link"><spring:message code="login"/></a>
                         </div>
                         <div class="col-xs-6">
-                            <a href="#" id="register-form-link">Register</a>
+                            <a href="#" id="register-form-link"><spring:message code="regist"/></a>
                         </div>
                     </div>
                     <hr>
@@ -104,7 +118,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <button type="submit" class="btn btn-primary">Log In</button>
+                                            <button type="submit" class="btn btn-primary"><spring:message code="login"/></button>
                                         </div>
                                     </div>
                                 </div>
@@ -113,16 +127,16 @@
                             <form:form id="register-form" onsubmit="return valll()" modelAttribute="registration" method="post" action="reg" style="display: none;">
                                 <spring:bind path="name">
                                     <div class="">
-                                        <label for="name" class="control-label col-xs-3">Name</label>
+                                        <label for="name" class="control-label col-xs-3"><spring:message code="name"/></label>
                                         <div class="form-group col-xs-8 bot">
-                                        <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="name" class="form-control" id="name" name="name" placeholder="Name" maxlength="15"></form:input>
+                                        <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="name" class="form-control" id="name" name="name" placeholder="Name" maxlength="15"/>
                                             <form:errors cssStyle="color: red" path="name"></form:errors>
                                         </div>
                                     </div>
                                 </spring:bind>
                                 <spring:bind path="surname">
                                 <div class="">
-                                    <label for="surname" class="control-label col-xs-3">Surname</label>
+                                    <label for="surname" class="control-label col-xs-3"><spring:message code="surname"/></label>
 
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="surname" class="form-control" id="surname" name="surname" placeholder="Surname" maxlength="15"/>
@@ -132,7 +146,7 @@
                                 </spring:bind>
                                 <spring:bind path="email">
                                 <div class="">
-                                    <label for="email" class="control-label col-xs-3">Email <br/>(Username)</label>
+                                    <label for="email" class="control-label col-xs-3">Email</label>
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="email" path="email" class="form-control" id="email" name="email" placeholder="email"/>
                                         <form:errors cssStyle="color: red" path="email"></form:errors>
@@ -141,7 +155,7 @@
                                 </spring:bind>
                                 <spring:bind path="birth">
                                 <div class="">
-                                    <label for="birthday" class="control-label col-xs-3">Birthday</label>
+                                    <label for="birthday" class="control-label col-xs-3"><spring:message code="birth"/></label>
                                     <div class="form-group col-xs-8 bot" id = "datetimepicker1">
                                         <form:input type="text"  data-smk-pattern="\\d{2}/\\d{2}/\\d{4}" path="birth" class="form-control" id="birthday" name="birth" placeholder="Birthday"/>
                             <span class="input-group-addon">
@@ -152,7 +166,7 @@
                                 </spring:bind>
                                 <spring:bind path="adress.country">
                                 <div class="">
-                                    <label for="country" class="control-label col-xs-3">Country</label>
+                                    <label for="country" class="control-label col-xs-3"><spring:message code="countr"/></label>
 
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="text" path="adress.country" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" class="form-control" id="country" name="country" placeholder="Country" maxlength="15"/>
@@ -162,7 +176,7 @@
                                 </spring:bind>
                                 <spring:bind path="adress.city">
                                 <div class="">
-                                    <label for="city" class="control-label col-xs-3">City</label>
+                                    <label for="city" class="control-label col-xs-3"><spring:message code="city"/></label>
 
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="text" path="adress.city" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
@@ -172,7 +186,7 @@
                                 </spring:bind>
                                 <spring:bind path="adress.street">
                                 <div class="">
-                                    <label for="street" class="control-label col-xs-3">Street</label>
+                                    <label for="street" class="control-label col-xs-3"><spring:message code="str"/></label>
 
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="text" path="adress.street" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
@@ -182,7 +196,7 @@
                                 </spring:bind>
                                 <spring:bind path="adress.house">
                                 <div class="">
-                                    <label for="house" class="control-label col-xs-3">House</label>
+                                    <label for="house" class="control-label col-xs-3"><spring:message code="hous"/></label>
 
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="number" path="adress.house" class="form-control" id="house" name="house" placeholder="House" maxlength="15"/>
@@ -192,7 +206,7 @@
                                 </spring:bind>
                                 <spring:bind path="adress.app">
                                 <div class="">
-                                    <label for="app" class="control-label col-xs-3">Apartment</label>
+                                    <label for="app" class="control-label col-xs-3"><spring:message code="app"/></label>
 
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="number" path="adress.app" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15"/>
@@ -202,7 +216,7 @@
                                 </spring:bind>
                                 <spring:bind path="adress.zip">
                                 <div class="">
-                                    <label for="zip" class="control-label col-xs-3">Zip</label>
+                                    <label for="zip" class="control-label col-xs-3"><spring:message code="zip"/></label>
 
                                     <div class="form-group col-xs-8 bot">
                                         <form:input type="number" path="adress.zip" class="form-control" maxlength="6" id="zip" name="zip" placeholder="Zip"/>
@@ -212,7 +226,7 @@
                                 </spring:bind>
                                 <spring:bind path="password">
                                 <div class="">
-                                    <label for="inputPassword" class="control-label col-xs-3">Password</label>
+                                    <label for="inputPassword" class="control-label col-xs-3"><spring:message code="pass"/></label>
                                         <div class="form-group col-xs-8">
                                             <form:input type="password" data-smk-strongPass="weak" path="password" class="form-control" id="inputPassword" name="password" placeholder=""/>
                                             <form:errors cssStyle="color: red" path="password"></form:errors>
@@ -222,7 +236,7 @@
                                 </spring:bind>
                                 <spring:bind path="passwordconfirm">
                                 <div class="">
-                                    <label for="inputPasswordConfirm" class="control-label col-xs-3">Confirm a password</label>
+                                    <label for="inputPasswordConfirm" class="control-label col-xs-3"><spring:message code="confirm"/></label>
                                         <div class="form-group col-xs-8">
                                             <form:input type="password" data-smk-strongPass="weak" path="passwordconfirm" class="form-control" id="inputPasswordConfirm"
                                                    name="passwordconfirm" placeholder=""/>
@@ -233,7 +247,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="submit" class="btn btn-primary"><spring:message code="save"/></button>
                                         </div>
                                     </div>
                                 </div>
@@ -255,20 +269,20 @@
                 <input type="submit" value="SUBSCRIBE">
             </form>
         </div>
-        <div class="cssmenu">
-            <ul>
-                <li class="active"><a href="#">Privacy</a></li>
-                <li><a href="#">Terms</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-        <ul class="social">
-            <li><a href=""> <i class="instagram"> </i> </a></li>
-            <li><a href=""><i class="fb"> </i> </a></li>
-            <li><a href=""><i class="tw"> </i> </a></li>
-        </ul>
+        <%--<div class="cssmenu">--%>
+            <%--<ul>--%>
+                <%--<li class="active"><a href="#">Privacy</a></li>--%>
+                <%--<li><a href="#">Terms</a></li>--%>
+                <%--<li><a href="#">Shop</a></li>--%>
+                <%--<li><a href="#">About</a></li>--%>
+                <%--<li><a href="contact.html">Contact</a></li>--%>
+            <%--</ul>--%>
+        <%--</div>--%>
+        <%--<ul class="social">--%>
+            <%--<li><a href=""> <i class="instagram"> </i> </a></li>--%>
+            <%--<li><a href=""><i class="fb"> </i> </a></li>--%>
+            <%--<li><a href=""><i class="tw"> </i> </a></li>--%>
+        <%--</ul>--%>
         <div class="clearfix"></div>
         <div class="copy">
             <p> � 2015 Watches. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p>
@@ -315,8 +329,6 @@
 <script type="text/javascript" src="resources/js/moments/moment-with-locales.min.js"></script>
 <script type="text/javascript" src="resources/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" href="resources/js/css/bootstrap-datetimepicker.min.css" />
-<script type="text/javascript" src="resources/js/smoke.min.js"></script>
-<link rel="stylesheet" href="resources/css/smoke.css" />
 <script>
 
     $('#datetimepicker1').datetimepicker({pickTime: false});

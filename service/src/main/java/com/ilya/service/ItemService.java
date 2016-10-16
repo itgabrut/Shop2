@@ -3,6 +3,7 @@ package com.ilya.service;
 import com.ilya.model.Item;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ public interface ItemService {
 
     void addOrRedactItem(Item item);
 
-    List<String> getThemes();
+    List<String> getThemes(Locale locale);
 
-    List<Item> getItemsByTheme(String s);
+    List<Item> getItemsByTheme(String s,Locale locale);
 }

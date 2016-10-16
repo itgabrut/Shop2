@@ -10,6 +10,7 @@ import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ilya on 28.08.2016.
@@ -71,18 +72,27 @@ public class ItemRepositoryImpl implements ItemRepository {
             if(item.getFoto()!=null) it.setFoto(item.getFoto());
             it.setPrice(item.getPrice());
             it.setTheme(item.getTheme());
+            it.setTheme2(item.getTheme2());
             entityManager.flush();
 //            entityManager.merge(it);
         }
     }
 
-    public List<String> getThemes(){
+    public List<String> getThemes(Locale locale){
+        if(locale.getLanguage().equals(new Locale("en").getLanguage())){
+            return entityManager.createNamedQuery("Item.getThemesEng",String.class).getResultList();
+        }
          return entityManager.createNamedQuery("Item.getThemes",String.class).getResultList();
     }
 
     public List<Item> getItemsByTheme(String theme){
         TypedQuery<Item> query = entityManager.createQuery("select i from Item i where i.active = true and i.theme = :nameOfTheme",Item.class);
         return query.setParameter("nameOfTheme",theme).getResultList();
+    }
+
+    public List<Item> getItemsByThemeEng(String theme2){
+        TypedQuery<Item> query = entityManager.createQuery("select i from Item i where i.active = true and i.theme2 = :nameOfTheme",Item.class);
+        return query.setParameter("nameOfTheme",theme2).getResultList();
     }
 
     public byte[] getFoto(int id){

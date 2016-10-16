@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -37,11 +38,11 @@ public class  Items {
     }
 
     @RequestMapping(value = "/getitems",method = RequestMethod.GET)
-    public String getItems(@RequestParam(value = "theme",required = false) String theme, Model model,@ModelAttribute("Map") Map<String,byte[]> map){
-        List<String> themes = service.getThemes();
+    public String getItems(@RequestParam(value = "theme",required = false) String theme, Locale locale, Model model, @ModelAttribute("Map") Map<String,byte[]> map){
+        List<String> themes = service.getThemes(locale);
         model.addAttribute("themeList",themes);
         if(themes.size()!=0) {
-            List<Item> list = service.getItemsByTheme(theme == null ? themes.get(0) : theme);
+            List<Item> list = service.getItemsByTheme(theme == null ? themes.get(0) : theme,locale);
             BucketCheckerUtils.saveListFotosToMemory(map, list);
             model.addAttribute("itemList", list);
         }
@@ -102,8 +103,4 @@ public class  Items {
         return "Client_Ajax";
     }
 
-    @RequestMapping("/databaseError1")
-    String throwDatabaseException1() throws SQLException {
-        throw new SQLException();
-    }
 }

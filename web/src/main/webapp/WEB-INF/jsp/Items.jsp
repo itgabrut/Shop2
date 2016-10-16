@@ -10,6 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
     <title>Shop</title>
@@ -58,6 +59,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             text-transform: none;
             margin-left: 0px;
         }
+        p.langg{
+            display: inline-block;
+            margin-top: 21px;
+            color: wheat;
+        }
+        a{
+            color: wheat;
+        }
     </style>
 </head>
 <body>
@@ -66,20 +75,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="header_top">
             <div class="header_top_left">
                 <div class="box_11"><a href="checkout">
-                    <h4><p>Cart: <span class="simpleCart_total" id="simpleCart_total">
+                    <h4><p><spring:message code="cart"/>: <span class="simpleCart_total" id="simpleCart_total">
                         <c:if test="${totalPrice!=null}">${totalPrice} $ </c:if>
                         <c:if test="${totalPrice==null}">0 $ </c:if>
                     </span>
                         <span id="simpleCart_quantity" class="simpleCart_quantity">
                             <c:if test="${quantity!=null}">${quantity}</c:if>
                          <c:if test="${quantity==null}">0</c:if>
-                        </span> items</p>
+                        </span> <spring:message code="items"/></p>
                         <img src="resources/images/bag.png" alt="">
                         <div class="clearfix"> </div></h4>
                 </a></div>
-                <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty">Empty Cart</a></p>
+                <p class="empty"><a href="javascript:;" onclick="emptyCart()" class="simpleCart_empty"><spring:message code="empt"/></a></p>
                 <div class="clearfix"> </div>
             </div>
+
             <div class="header_top_right">
 
                 <ul class="header_user_info">
@@ -90,10 +100,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <a class="login" href="toDetails">
                         </c:if>
                         <i class="user"> </i>
-                        <li class="user_desc">My Account</li>
+                        <li class="user_desc"><spring:message code="account"/></li>
                     </a>
                             <c:if test="${loggedClient!=null}">
-                            <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty">LOG OUT</a></p>
+                            <p class="empty"><a style="margin-left: -100%;" href="javascript:;" onclick="logoutt()" class="simpleCart_empty"><spring:message code="logout"/></a></p>
                                 </c:if>
                     <div class="clearfix"> </div>
                 </ul>
@@ -107,6 +117,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </form>
                     </div>
                 </div>
+                <p class="langg" ><spring:message code="language"/> : <a href="?locale=en">English</a>|<a href="?locale=ru_Ru">Русский</a></p>
                 <!----search-scripts---->
                 <script src="resources/js/classie1.js"></script>
                 <script src="resources/js/uisearch.js"></script>
@@ -124,9 +135,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="clearfix"> </div>
         </div>
         <div class="header_bottom">
-            <div class="logo">
-                <h1><a href="#"><span class="m_1">F</span>urniture</a></h1>
-            </div>
+            <c:choose>
+                <c:when test="${pageContext.response.locale.language == 'ru'}">
+                    <div class="logo">
+                        <h1 style="font-size: 81px"><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="logo">
+                        <h1><a href="getitems"><span class="m_1"><spring:message code="title1"/></span><spring:message code="title2"/></a></h1>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <c:if test="${loggedClient != null}">
                 <c:set var="isAdmin" value='<%=((Client)session.getAttribute("loggedClient")).getRoles().contains(Role.ROLE_ADMIN)%>'></c:set>
             </c:if>
@@ -135,8 +155,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <c:if test="${isAdmin}">
                     <li style="display: inline;"><a class="color10" href="toClients">Clients list</a></li>
                     </c:if>
-                    <li style="display: inline;"><a class="color3" href="orders">Orders list</a></li>
-                    <li style="display: inline;"><a class="color7" href="#">News</a></li>
+                    <li style="display: inline;"><a class="color3" href="orders"><spring:message code="orderslist"/></a></li>
+                    <li style="display: inline;"><a class="color7" href="#"><spring:message code="news"/></a></li>
                     <div class="clearfix"> </div>
                 </ul>
             </div>
@@ -147,7 +167,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="men">
     <div class="container">
         <div class="col-md-4 sidebar_men">
-            <h3>Categories</h3>
+            <h3><spring:message code="cat"/></h3>
             <ul class="product-categories color">
                 <%--<c:forEach items="${themeList}" var="theme">--%>
                 <%--<li class="cat-item cat-item-42">--%>
@@ -282,7 +302,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a><div class="product_image"><a class="cbp-vm-image" href="single?id=${item.id}">
                             <div class="mask1"><img src="fotoserver/db?fotoId=${item.id}" height="400px" width="220"  alt="image" class="img-responsive zoom-img"></div>
                             <div class="mask">
-                                <div class="info">Quick View</div>
+                                <div class="info"><spring:message code="quick"/></div>
                             </div>
                         </a><div class="product_container"><a class="cbp-vm-image" href="single?id=${item.id}">
                             <h4>${item.name}</h4>
@@ -291,7 +311,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </a>
                             <div style="display: inline-block">
                                 <c:if test="${item.quantity > 0}">
-                        <a class="button item_add cbp-vm-icon cbp-vm-add" id="addItemTo" onclick="addItemToBucket(${item.id},${item.price})" href="#">Add to cart</a>
+                        <a class="button item_add cbp-vm-icon cbp-vm-add" id="addItemTo" onclick="addItemToBucket(${item.id},${item.price})" href="#"><spring:message code="add"/></a>
                                 </c:if>
                                 <c:if test="${isAdmin}">
                                 <form id="formdelete" method='post' action="adminGetitems" enctype="multipart/form-data">
@@ -332,27 +352,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="footer">
     <div class="container">
         <div class="newsletter">
-            <h3>Newsletter</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>
+            <h3><spring:message code="newsletter"/></h3>
             <form>
                 <input type="text" value="" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
-                <input type="submit" value="SUBSCRIBE">
+                <input type="submit" value="<spring:message code="subs"/>">
             </form>
         </div>
-        <div class="cssmenu">
-            <ul>
-                <li class="active"><a href="#">Privacy</a></li>
-                <li><a href="#">Terms</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-        <ul class="social">
-            <li><a href=""> <i class="instagram"> </i> </a></li>
-            <li><a href=""><i class="fb"> </i> </a></li>
-            <li><a href=""><i class="tw"> </i> </a></li>
-        </ul>
+        <%--<div class="cssmenu">--%>
+            <%--<ul>--%>
+                <%--<li class="active"><a href="#">Privacy</a></li>--%>
+                <%--<li><a href="#">Terms</a></li>--%>
+                <%--<li><a href="#">Shop</a></li>--%>
+                <%--<li><a href="#">About</a></li>--%>
+                <%--<li><a href="#">Contact</a></li>--%>
+            <%--</ul>--%>
+        <%--</div>--%>
+        <%--<ul class="social">--%>
+            <%--<li><a href=""> <i class="instagram"> </i> </a></li>--%>
+            <%--<li><a href=""><i class="fb"> </i> </a></li>--%>
+            <%--<li><a href=""><i class="tw"> </i> </a></li>--%>
+        <%--</ul>--%>
         <div class="clearfix"></div>
         <div class="copy">
             <p>  Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p>
@@ -378,10 +397,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="theme" class="control-label col-xs-3">Category</label>
+                        <label for="theme" class="control-label col-xs-3">Category (rus)</label>
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="theme" name="theme" placeholder="Категория" maxlength="100" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="theme2" class="control-label col-xs-3">Category (eng)</label>
+
+                        <div class="col-xs-9">
+                            <input type="text" class="form-control" id="theme2" name="theme2" placeholder="Категория" maxlength="100" required>
                         </div>
                     </div>
                     <div class="form-group">

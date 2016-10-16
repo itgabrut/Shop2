@@ -18,7 +18,8 @@ import javax.validation.constraints.NotNull;
  * Created by ilya on 20.08.2016.
  */
 @NamedQueries({
-        @NamedQuery(name = "Item.getThemes",query = "select distinct i.theme from Item i where i.active = true order by i.theme")
+        @NamedQuery(name = "Item.getThemes",query = "select distinct i.theme from Item i where i.active = true order by i.theme"),
+        @NamedQuery(name = "Item.getThemesEng",query = "select distinct i.theme2 from Item i where i.active = true order by i.theme2")
 })
 @Entity
 @Table(name = "items")
@@ -35,16 +36,19 @@ public class Item {
 
     @UniqueName
     @NotEmpty
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
    @NotNull @Min(value = 0)
     @Column(name = "price")
     private int price;
 
-    @NotEmpty
+
     @Column(name = "theme")
     private String theme;
+
+    @Column(name = "theme2")
+    private String theme2;
 
     @Min(value = 0)
     @Column(name = "quantity")
@@ -65,6 +69,14 @@ public class Item {
     @JsonIgnore
     @Column(name = "active",nullable = false,columnDefinition = "TINYINT(1) default 1")
     private boolean active;
+
+    public String getTheme2() {
+        return theme2;
+    }
+
+    public void setTheme2(String theme2) {
+        this.theme2 = theme2;
+    }
 
     public boolean isActive() {
         return active;

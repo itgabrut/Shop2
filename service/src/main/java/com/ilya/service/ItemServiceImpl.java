@@ -13,6 +13,7 @@ import utils.FotoSaver;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -109,8 +110,12 @@ public class ItemServiceImpl implements ItemService {
      * @return  Returns List Item entities
      */
     @Override
-    public List<Item> getItemsByTheme(String s) {
-        List<Item> list = itemRepository.getItemsByTheme(s);
+    public List<Item> getItemsByTheme(String s,Locale locale) {
+        List<Item> list;
+        if(locale.getLanguage().equals(new Locale("en").getLanguage())){
+            list = itemRepository.getItemsByThemeEng(s);
+        }
+        else list = itemRepository.getItemsByTheme(s);
         return list;
     }
 
@@ -119,8 +124,8 @@ public class ItemServiceImpl implements ItemService {
      * @return List of String objects from db, representing existing Item categories
      */
     @Override
-    public List<String> getThemes() {
-        List<String> list = itemRepository.getThemes();
+    public List<String> getThemes(Locale locale) {
+        List<String> list = itemRepository.getThemes(locale);
         return list;
     }
 

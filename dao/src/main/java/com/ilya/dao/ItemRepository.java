@@ -4,6 +4,7 @@ package com.ilya.dao;
 import com.ilya.model.Item;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ilya on 28.08.2016.
@@ -22,7 +23,9 @@ public interface ItemRepository {
 
      void save(Item item);
 
-     List<String> getThemes();
+     List<String> getThemes(Locale locale);
 
      List<Item> getItemsByTheme(String theme);
+
+    List<Item> getItemsByThemeEng(String theme2);
 }

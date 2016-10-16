@@ -25,25 +25,30 @@
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
 
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>file:///C:\Users\ilya\IdeaProjects\Shop2\web\src\main\resources\locale\validation</value>
-            </list>
-        </property>
-    </bean>
-
-    <!--<bean id="xmlMessageConverter"-->
-                <!--class="org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter">-->
-    <!--</bean>-->
-    <!--<bean-->
-            <!--class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">-->
-        <!--<property name="messageConverters">-->
+    <!--<bean id="messageSource2" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+        <!--<property name="basenames">-->
             <!--<list>-->
-                <!--<ref bean="xmlMessageConverter" />-->
+                <!--<value>file:///C:\Users\ilya\IdeaProjects\Shop2\web\src\main\resources\locale\validation</value>-->
             <!--</list>-->
         <!--</property>-->
     <!--</bean>-->
+
+    <bean id="messageSource"
+                class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:locale/message" />
+        <property name="defaultEncoding" value="cp1251" />
+    </bean>
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+        <property name="cookieName" value="LocaleCookie"/>
+        <property name="cookieMaxAge" value="9600"/>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="locale"/>
+        </bean>
+    </mvc:interceptors>
 
     <!--
         <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"

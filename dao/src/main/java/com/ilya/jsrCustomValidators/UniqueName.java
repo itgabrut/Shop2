@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
 public @ interface UniqueName {
-    String message() default "gfgfgfgfgfgfgfg";
+    String message() default "Name  not unique";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
