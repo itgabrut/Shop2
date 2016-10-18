@@ -4,17 +4,12 @@ import com.ilya.model.Client;
 import com.ilya.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by ilya on 30.09.2016.
+ * rest
  */
 @RestController
 @RequestMapping(value = "/rest/admin")

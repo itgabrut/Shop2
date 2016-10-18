@@ -86,18 +86,18 @@ public class DtoServiceOrder {
 
     private void sortSum(String sortField,String sortOrder,List<TOrder> listTOrders){
         if( sortField!=null && sortField.equals("sum")) {
-            if("ASCEND".equals(sortOrder))
-                listTOrders.sort(new Comparator<TOrder>() {
-                    @Override
-                    public int compare(TOrder o1, TOrder o2) {
-                        return Integer.compare(o2.getSum(), o1.getSum());
-                    }
-                });
-            if("DESCEND".equals(sortOrder))
+            if("ASCENDING".equals(sortOrder))
                 listTOrders.sort(new Comparator<TOrder>() {
                     @Override
                     public int compare(TOrder o1, TOrder o2) {
                         return Integer.compare(o1.getSum(), o2.getSum());
+                    }
+                });
+            if("DESCENDING".equals(sortOrder))
+                listTOrders.sort(new Comparator<TOrder>() {
+                    @Override
+                    public int compare(TOrder o1, TOrder o2) {
+                        return Integer.compare(o2.getSum(), o1.getSum());
                     }
                 });
         }

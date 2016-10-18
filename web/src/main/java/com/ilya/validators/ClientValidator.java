@@ -11,6 +11,7 @@ import org.springframework.validation.Validator;
 
 /**
  * Created by ilya on 26.09.2016.
+ * validator
  */
 @Component
 public class ClientValidator  implements Validator {

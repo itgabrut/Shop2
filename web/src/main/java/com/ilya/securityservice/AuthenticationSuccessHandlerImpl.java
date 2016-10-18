@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**
  * Created by ilya on 25.09.2016.
+ * success handler
  */
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 

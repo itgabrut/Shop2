@@ -513,26 +513,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             data: dataObj,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                var res = parseInt($(".simpleCart_total").html())+price;
+                $(".simpleCart_total").html(res + ' $ ');
+                var quantity = parseInt($("#simpleCart_quantity").html());
+                quantity++;
+                $("#simpleCart_quantity").html(quantity);
             }
         });
-
-        var res = parseInt($(".simpleCart_total").html())+price;
-        $(".simpleCart_total").html(res + ' $ ');
-        var quantity = parseInt($("#simpleCart_quantity").html());
-        quantity++;
-        $("#simpleCart_quantity").html(quantity);
     }
 
     function emptyCart() {
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
-        $("#simpleCart_quantity").html(0);
-        $('#simpleCart_total').html("0 $");
+
         $.ajax({
             type : 'Put',
             url : "checkout",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
+            },
+            success: function () {
+                $("#simpleCart_quantity").html(0);
+                $('#simpleCart_total').html("0 $");
             }
         });
     }

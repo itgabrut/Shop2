@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by ilya on 14.10.2016.
+ * exception handle
  */
 @ControllerAdvice
 public class Advice {
 
-    protected Logger logger;
+    private final Logger logger;
+
     public Advice() {
         logger = LoggerFactory.getLogger(getClass());
     }

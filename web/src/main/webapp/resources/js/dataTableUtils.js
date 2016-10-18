@@ -73,7 +73,10 @@ function updateRow(id) {
         });
     });
     form.modal();
-    $('#datetimepicker1').datetimepicker({pickTime: false});
+    $('#datetimepicker1').datetimepicker({
+        pickTime: false,
+        format: 'DD-MM-YYYY'
+    });
 }
 
 function enable(chkbox, id) {

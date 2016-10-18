@@ -2,13 +2,9 @@ package com.ilya.controllers;
 
 import com.ilya.model.Client;
 import com.ilya.model.Order;
-import com.ilya.model.enums_utils.Delivery_status;
-import com.ilya.model.enums_utils.Pay_status;
 import com.ilya.service.OrderService;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.InterceptingClientHttpRequestFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +13,7 @@ import java.util.Map;
 
 /**
  * Created by ilya on 27.09.2016.
+ * rest
  */
 @RestController
 @RequestMapping(value = "/ajax/orders")
@@ -37,8 +34,17 @@ public class RestOrders {
     }
 
     @RequestMapping(value = "/adminGetAll",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Order> getAllSorted(){
+    public List<Order> getAllSorted(@RequestParam Map<String, String> params){
         return orderService.getAllSortedDate();
+    }
+    @RequestMapping(value = "/adminGetAll",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Order> getLazy(@RequestParam Map<String, String> params){
+        return orderService.lazyLoad(params);
+    }
+
+    @RequestMapping(value = "/total",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long total(){
+        return orderService.count();
     }
 
     @RequestMapping(value = "/changeStatus",method = RequestMethod.POST)

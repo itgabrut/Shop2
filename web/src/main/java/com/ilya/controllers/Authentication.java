@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -21,6 +20,7 @@ import java.util.Date;
 
 /**
  * Created by ilya on 26.09.2016.
+ * authentication
  */
 @Controller
 @SessionAttributes(value = "loggedClient")
@@ -58,7 +58,7 @@ public class Authentication  {
         return "redirect:/getitems";
     }
 
-    @RequestMapping(value = "/changeDetails",method = RequestMethod.POST)
+    @RequestMapping(value = "/changeDetails",method = {RequestMethod.POST,RequestMethod.GET})
     public String changeDetails(@ModelAttribute("loggedClient") Client client, BindingResult result){
         editValidator.validate(client,result);
         if(result.hasErrors()){
@@ -92,6 +92,7 @@ public class Authentication  {
             service.updateChangePassOrMerge(loggedClient);
         }
     }
+
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {

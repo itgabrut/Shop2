@@ -340,6 +340,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         $.ajax({
             url: 'orderstopost',
             method: "POST",
+            contentType: 'application/json;text/html',
             data: toSend ,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);

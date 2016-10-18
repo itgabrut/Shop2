@@ -9,10 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import utils.BucketCheckerUtils;
-
 import javax.validation.Valid;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +18,7 @@ import java.util.Map;
 
 /**
  * Created by ilya on 24.09.2016.
+ * Item controller
  */
 @Controller
 @SessionAttributes(value = {"Map","totalPrice","quantity","itemsMap"})
@@ -71,6 +70,7 @@ public class  Items {
     }
 
     @RequestMapping(value = "/checkout",method = RequestMethod.POST)
+    @ResponseBody
     public void addToBucket(@RequestParam(value = "totalPrice",required = false) String totalPrice,
                             @RequestParam(value = "quantityToAdd",required = false)String quantityToAdd,
                             @RequestParam(value = "itemId")String itemId,
@@ -84,6 +84,7 @@ public class  Items {
         }
     }
     @RequestMapping(value ="/checkout",method = RequestMethod.PUT)
+    @ResponseBody
     public void clearBucket(Model model){
         model.addAttribute("totalPrice",0);
         model.addAttribute("quantity",0);

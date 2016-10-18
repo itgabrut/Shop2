@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface OrderService {
 
-    boolean addOrder(Map<Integer,Integer> m,Client current);
+    boolean addOrder(Map<String,Integer> m,Client current);
 
     List<Order> getOrdersByClientId(int id);
 
@@ -22,4 +22,8 @@ public interface OrderService {
     boolean updateOrder(Map<String,Object> map);
 
     boolean verifyOrderOnLoggedClient(String orderId,int loggedClientId);
+
+    long count();
+
+    List<Order> lazyLoad(Map<String,String> parameters);
 }

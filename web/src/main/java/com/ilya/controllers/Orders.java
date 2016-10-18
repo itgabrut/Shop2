@@ -1,7 +1,6 @@
 package com.ilya.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.ilya.model.Client;
 import com.ilya.model.Item;
 import com.ilya.model.enums_utils.Role;
@@ -11,26 +10,20 @@ import com.ilya.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import utils.BucketCheckerUtils;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by ilya on 27.09.2016.
+ * order controller
  */
 @Controller
-@SessionAttributes(value = {"loggedClient","Map"})
+@SessionAttributes(value = {"loggedClient","Map","itemsMap"})
 public class Orders {
 
     @Autowired
@@ -44,8 +37,7 @@ public class Orders {
     public String toOrderView(Model model){
         Client client =(Client) model.asMap().get("loggedClient");
         if(client.getRoles().contains(Role.ROLE_ADMIN))return "AllOrders";
-        else
-        return "Orders";
+        else return "Orders";
     }
 
     @RequestMapping(value = "/adminOrders")
@@ -55,31 +47,13 @@ public class Orders {
     }
 
     @RequestMapping(value = "/orderstopost",method = RequestMethod.POST)
-    public void postOrder(HttpServletRequest req, HttpServletResponse resp, Model model)throws IOException{
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json;
-        StringBuilder sb = new StringBuilder();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(req.getInputStream(), "UTF-8"));
-            while ((json = bufferedReader.readLine()) != null) {
-                sb.append(json);
-            }
-            JsonNode node = objectMapper.readTree(sb.toString()).get("arr");
-            Map<Integer, Integer> map = new HashMap<>();
-            if (node.isArray()) {
-                for (JsonNode nn : node) {
-                    map.put(nn.get("itemId").asInt(), nn.get("quantity").asInt());
-                }
-            }
+    public String postOrder(Model model, HttpSession sess,HttpServletResponse resp)throws IOException{
+        Map<String,Integer> map = (Map) model.asMap().get("itemsMap");
             int clientId =((Client)model.asMap().get("loggedClient")).getId();
             Client asked = clientService.getClient(clientId);
             if (asked == null || !orderService.addOrder(map, asked)) resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            else BucketCheckerUtils.clearBucket(req);
-        }
-        catch (NullPointerException e){
-            e.printStackTrace();
-            resp.sendRedirect("getitems");
-        }
+            else BucketCheckerUtils.clearBucket(sess);
+        return "redirect:/orders";
     }
 
 

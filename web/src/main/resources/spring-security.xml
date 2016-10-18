@@ -9,9 +9,17 @@
     <!--<http pattern="/resources/**" security="none"/>-->
     <!--<http pattern="/webjars/**" security="none"/>-->
     <!--<http pattern="/getitems" security="none"/>-->
+    <!--<http pattern="/login" security="none"/>-->
+    <!--<http pattern="/fotoserver/**" security="none"/>-->
     <!--<http pattern="/getitems" security="none"/>-->
 
-    <http auto-config="true" authentication-manager-ref="authenticationManager2">
+    <!--<http pattern="/ws/**" auto-config="true">-->
+        <!--<csrf disabled="true"/>-->
+        <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
+    <!--</http>-->
+    <http pattern="/ws/**" security="none"/>
+
+    <http auto-config="true" authentication-manager-ref="authenticationManager">
         <!--Authentication-->
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/toDetails" access="isAuthenticated()"/>
@@ -43,18 +51,19 @@
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/webjars/**" access="permitAll"/>
 
-        <!--<csrf disabled="true"/>-->
+        <!--<csrf request-matcher-ref="csrfSecurityRequestMatcher"/>-->
         <form-login login-processing-url="/loggin" login-page='/login' default-target-url="/getitems" authentication-success-handler-ref="authSuccessHandler" authentication-failure-url="/login?error=true" always-use-default-target = "true"/>
-        <logout  logout-success-url="/login?logout=true" logout-url="/loggout"/>
+        <logout  logout-success-url="/getitems" logout-url="/loggout"/>
     </http>
 
-    <authentication-manager alias="authenticationManager2">
-        <authentication-provider>
-            <user-service>
-                <user name="admin@gmail.com" password="admin" authorities="ROLE_ADMIN"/>
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
+
+    <!--<authentication-manager alias="authenticationManager2">-->
+        <!--<authentication-provider>-->
+            <!--<user-service>-->
+                <!--<user name="admin@gmail.com" password="admin" authorities="ROLE_ADMIN"/>-->
+            <!--</user-service>-->
+        <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
 
 
     <authentication-manager alias="authenticationManager">
@@ -62,7 +71,7 @@
             <password-encoder ref="encoder"/>
         </authentication-provider>
     </authentication-manager>
-
+    <beans:bean id="csrfSecurityRequestMatcher" class="com.ilya.securityservice.CsrfSecurityRequestMatcher"/>
     <beans:bean id="customUserDetailsService" class="com.ilya.securityservice.CustomUserDetailsService"/>
     <beans:bean id="authSuccessHandler" class="com.ilya.securityservice.AuthenticationSuccessHandlerImpl"/>
     <beans:bean id="encoder"

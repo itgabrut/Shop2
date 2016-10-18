@@ -6,9 +6,7 @@
          version="3.0">
 
     <display-name>Shop2</display-name>
-    <!--<listener>-->
-        <!--<listener-class>utils.HibernateListener</listener-class>-->
-    <!--</listener>-->
+
 
     <filter>
         <filter-name>FormEncodingSetterFilter</filter-name>

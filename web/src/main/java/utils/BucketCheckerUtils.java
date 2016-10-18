@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * Created by ilya on 03.09.2016.
+ * Utils for work on bucket
  */
 @SessionAttributes(value = {"Map","totalPrice","quantity","itemsMap"})
 public final class BucketCheckerUtils {
@@ -39,8 +40,7 @@ public final class BucketCheckerUtils {
         ((Map<String,Integer>)model.asMap().get("itemsMap")).put(itemId,quant == null ? adder : quant+adder);
     }
 
-    public static void clearBucket(HttpServletRequest req){
-        HttpSession session = req.getSession();
+    public static void clearBucket(HttpSession session){
         session.setAttribute("totalPrice",0);
         session.setAttribute("quantity",0);
         session.setAttribute("itemsMap",new HashMap<String,Integer>());

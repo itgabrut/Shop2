@@ -16,6 +16,7 @@ import java.util.Set;
 
 /**
  * Created by ilya on 25.09.2016.
+ * security
  */
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {

@@ -18,7 +18,6 @@
     <link href="//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Dorsa" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="webjars/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="webjars/datatables/1.10.11/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="webjars/jquery/2.2.3/jquery.min.js"></script>
     <script type="text/javascript" src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
     <meta name="_csrf" content="${_csrf.token}"/>
@@ -93,17 +92,17 @@
 
             <div class="view-box">
                 <table class="table table-striped display" id="data1">
-                    <thead>
-                    <tr>
-                        <th>Order number</th>
-                        <th>Payment Status</th>
-                        <th>Delivery Status</th>
-                        <th>Date</th>
-                        <th>Delivery</th>
-                        <th>Act</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
+                    <%--<thead>--%>
+                    <%--<tr>--%>
+                        <%--<th>Order number</th>--%>
+                        <%--<th>Payment Status</th>--%>
+                        <%--<th>Delivery Status</th>--%>
+                        <%--<th>Date</th>--%>
+                        <%--<th>Delivery</th>--%>
+                        <%--<th>Act</th>--%>
+                        <%--<th>Action</th>--%>
+                    <%--</tr>--%>
+                    <%--</thead>--%>
                 </table>
             </div>
         </div>
@@ -153,56 +152,140 @@
 </div>
 
 </body>
-<script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
+<%--<script type="text/javascript" src="webjars/datatables/1.10.11/js/jquery.dataTables.min.js"></script>--%>
+<%--<link rel="stylesheet" href="webjars/datatables/1.10.11/css/jquery.dataTables.min.css">--%>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
 <script type="text/javascript">
 
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     var datatableApi;
 
-    $(function () {
-        datatableApi = $('#data1').DataTable({
-            "paging": true,
-            "info": true,
-            "columns": [
-                {
-                    "data": "id"
+    $('#data1').bootstrapTable({
+        pagination: true,
+        sidePagination: 'server',
+        pageList : [2,6,10],
+//        responseHandler: function (res) {
+//            var tot;
+//            $.ajax({
+//                url: 'ajax/orders/total',
+//                type: 'GET',
+//                beforeSend: function (xhr) {
+//                    xhr.setRequestHeader(header, token);
+//                },
+//                success: function (data) {
+//                    tot = data;
+//                }
+//            });
+//           res.total = tot;
+//            return res;
+//        },
+        ajax : function req(param) {
+            $.ajax({
+                url : 'ajax/orders/adminGetAll',
+                type: 'Post',
+                data : param.data,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
                 },
-                {
-                    "data": "deliveryStatus"
-                },
-                {
-                    "data": "payStatus"
-                },
-                {
-                    "data": "date"
-                },
-                {
-                    "data": "delivery"
-                },
-                {
-                    "defaultContent": "Show items",
-                    "render" : function (data,type,row) {
-                        return "<a href='adminSingleorder?orderId="+row.id+"' id='myOrder'>Order details </a>";
-                    }
-                },
-                {
-                    "defaultContent": "Update",
-                    "orderable" : false,
-                    "render" : function (data,type,row) {
-                        return '<a class="btn btn-xs btn-info" onclick="updateStatus(' + row.id + ');">Edit</a>';
-                    }
+                success: function (data) {
+                    var ress={
+                        total : 100,
+                        rows: data
+                    };
+                    $.ajax({
+                        url: 'ajax/orders/total',
+                        type: 'GET',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader(header, token);
+                        },
+                        success: function (data) {
+                            ress.total = data;
+                            param.success(ress);
+                        }
+                    });
                 }
-            ],
-            "order": [
-                [
-                    0,
-                    "asc"
-                ]
-            ]
-        });
-        updateTable();
+            })
+        },
+        columns: [{
+            field: 'id',
+            title: 'Order number',
+            sortable:true
+        }, {
+            field: 'deliveryStatus',
+            title: 'Del',
+            sortable:true
+        }, {
+            field: 'payStatus',
+            title: 'PayStatus',
+            sortable:true
+        },{
+            field: 'date',
+            title: 'Date',
+            sortable:true
+        },{
+            field: 'delivery',
+            title: 'Delivery',
+            sortable:true
+        },{
+            title: 'ShowItems',
+            searchable: false,
+            formatter: function (value,row,index) {
+                return "<a href='adminSingleorder?orderId="+row.id+"' id='myOrder'>Order details </a>";
+            }
+        },{
+            title: 'Redact',
+            searchable: false,
+            formatter: function (value,row,index) {
+                return '<a class="btn btn-xs btn-info" onclick="updateStatus(' + row.id + ');">Edit</a>';
+            }
+        }]
     });
+
+//    $(function () {
+//        datatableApi = $('#data1').DataTable({
+//            "paging": true,
+//            "info": true,
+//            "columns": [
+//                {
+//                    "data": "id"
+//                },
+//                {
+//                    "data": "deliveryStatus"
+//                },
+//                {
+//                    "data": "payStatus"
+//                },
+//                {
+//                    "data": "date"
+//                },
+//                {
+//                    "data": "delivery"
+//                },
+//                {
+//                    "defaultContent": "Show items",
+//                    "render" : function (data,type,row) {
+//                        return "<a href='adminSingleorder?orderId="+row.id+"' id='myOrder'>Order details </a>";
+//                    }
+//                },
+//                {
+//                    "defaultContent": "Update",
+//                    "orderable" : false,
+//                    "render" : function (data,type,row) {
+//                        return '<a class="btn btn-xs btn-info" onclick="updateStatus(' + row.id + ');">Edit</a>';
+//                    }
+//                }
+//            ],
+//            "order": [
+//                [
+//                    0,
+//                    "asc"
+//                ]
+//            ]
+//        });
+//        updateTable();
+//    });
 
     function updateStatus(id) {
         var form = $('#editRow');
@@ -223,15 +306,16 @@
             },
             success : function () {
                 $('#editRow').modal('hide');
-                updateTable();
+//                updateTable();
+                $('#data1').bootstrapTable('refresh');
             }
         })
     }
 
-    function painterrr(data) {
-        datatableApi.clear();
-        datatableApi.rows.add(data).draw();
-    }
+//    function painterrr(data) {
+//        datatableApi.clear();
+//        datatableApi.rows.add(data).draw();
+//    }
 
     function logoutt() {
         var token = $("meta[name='_csrf']").attr("content");
@@ -263,15 +347,9 @@
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                painterrr(data);
+//                painterrr(data);
+                $('#data1').bootstrapTable('load', data);
             }
-        });
-//        $.get(addr, function (data) {
-//            painterrr(data);
-//        });
-
-        $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-            // failNoty(event, jqXHR, options, jsExc);
         });
     }
 </script>

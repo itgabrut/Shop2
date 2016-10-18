@@ -142,18 +142,15 @@ public class OrderRepositoryImpl implements OrderRepository {
         if(sortField == null){
             path =  site.get("id");
         }
+        else if(sortField.equals("deliveryStatus")) path = site.get("deliveryStatus");
+        else if(sortField.equals("payStatus")) path = site.get("payStatus");
         else if(sortField.equals("date")) path = site.get("date");
-        else path =  site.get("date");
+        else path =  site.get("id");
         return path;
     }
 
-//    public boolean addOFI(OrderForItem orderForItem){
-//        EntityManager entityManager = entityManagerFactory.createEntityManager();
-//        entityManager.getTransaction().begin();
-//        entityManager.persist(orderForItem);
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//        return true;
-//    }
-
+    @Override
+    public long count() {
+        return (long)entityManager.createQuery("select count(ord.id) from Order ord").getSingleResult();
+    }
 }

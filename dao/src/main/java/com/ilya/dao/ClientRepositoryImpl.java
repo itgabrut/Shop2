@@ -47,8 +47,8 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     /**
      *
-     * @param email
-     * @return
+     * @param email email
+     * @return client
      */
     @Override
     public Client getByEmail(String email) {

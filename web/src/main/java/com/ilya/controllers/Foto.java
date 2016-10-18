@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * Created by ilya on 25.09.2016.
+ * Image loader
  */
 @Controller
 @RequestMapping("/fotoserver")

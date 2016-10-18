@@ -90,11 +90,11 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public boolean addOrder(Map<Integer, Integer> m,Client current) {
+    public boolean addOrder(Map<String, Integer> m,Client current) {
         Order order = Order.getSimpleOrder();
         List<OrderForItem> list = new ArrayList<>();
-        for(Map.Entry<Integer,Integer> entr : m.entrySet()){
-            Item item = itemRepository.getItem(entr.getKey());
+        for(Map.Entry<String,Integer> entr : m.entrySet()){
+            Item item = itemRepository.getItem(Integer.parseInt(entr.getKey()));
             OrderForItem orderForItem = new OrderForItem();
             orderForItem.setQuantity(entr.getValue());
             orderForItem.setItem(item);
@@ -105,5 +105,21 @@ public class OrderServiceImpl implements OrderService {
         order.setClient(current);
         repository.addOrder(order);
         return true;
+    }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
+
+    @Override
+    @Transactional
+    public List<Order> lazyLoad(Map<String, String> parameters) {
+        String page = parameters.get("offset");
+        String limit = parameters.get("limit");
+        String sorted = parameters.get("sort");
+        String orderSort =  "asc".equals(parameters.get("order")) ? "ASCENDING" : "DESCENDING";
+       List<Order> list =  repository.getLazyList(Integer.parseInt(page),Integer.parseInt(limit),sorted,orderSort,parameters);
+        return list;
     }
 }

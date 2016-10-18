@@ -6,6 +6,7 @@ import java.io.IOException;
 
 /**
  * Created by ilya on 29.08.2016.
+ * utf-8 filter
  */
 public class FormEncodingSetterFilter implements Filter {
 
