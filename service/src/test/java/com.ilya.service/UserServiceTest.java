@@ -11,6 +11,7 @@ import static utils.TestData.TestUser.TEST_CLIENT;
 
 /**
  * Created by ilya on 14.09.2016.
+ * tests
  */
 
 public class UserServiceTest {

@@ -8,16 +8,15 @@ import java.util.Map;
 
 /**
  * Created by ilya on 02.09.2016.
+ * service
  */
 public interface ItemService {
 
     Item getItem(int id);
 
-    List<Item> getAll();
+//    List<Item> getAll();
 
     boolean deleteItem(int id);
-
-    boolean addItem(Item item);
 
     Map<Item,Integer> getItemsAndQuantityByOrder(int orderId);
 

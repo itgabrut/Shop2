@@ -11,6 +11,7 @@ import java.util.*;
 
 /**
  * Created by ilya on 05.10.2016.
+ * service for statistics
  */
 
 @Service
@@ -18,6 +19,8 @@ public class DtoServiceOrder {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    private static final int DEFAULT_PAGE_COUNT = 4;
 
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -66,7 +69,7 @@ public class DtoServiceOrder {
         String sortField =  filters.get("sortField");
         String sortOrder = filters.get("sortOrder");
             List<Order> list = orderRepository.getLazyList( filters.get("first") == null ? 0 : Integer.parseInt(filters.get("first")),
-                    filters.get("pageSize") == null ? 4 : Integer.parseInt(filters.get("pageSize")),
+                    filters.get("pageSize") == null ? DEFAULT_PAGE_COUNT : Integer.parseInt(filters.get("pageSize")),
                     filters.get("sortField"),
                     filters.get("sortOrder"),
                     filters);

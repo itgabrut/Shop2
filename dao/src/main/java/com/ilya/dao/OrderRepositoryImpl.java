@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Created by ilya on 21.08.2016.
+ * order repo impl
  */
 @Repository
 @Transactional
@@ -50,8 +50,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<Order> getByClientId(int id) {
-        List<Order> list = entityManager.createQuery("SELECT o FROM Order o WHERE o.client.id =:clid",Order.class).setParameter("clid",id).getResultList();
-        return list;
+        return  entityManager.createQuery("SELECT o FROM Order o WHERE o.client.id =:clid",Order.class).setParameter("clid",id).getResultList();
     }
 
     @Override

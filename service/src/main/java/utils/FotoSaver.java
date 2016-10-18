@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ilya on 04.09.2016.
+ * image service
  */
 public final class FotoSaver {
 
@@ -99,7 +99,7 @@ public final class FotoSaver {
         cleanDirectories(Paths.get("/foto/" + oldTheme));
     }
 
-    public static void cleanDirectories(Path path) throws IOException{
+    private static void cleanDirectories(Path path) throws IOException{
         Files.walkFileTree(path, new FileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {

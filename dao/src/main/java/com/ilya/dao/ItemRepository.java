@@ -8,12 +8,13 @@ import java.util.Locale;
 
 /**
  * Created by ilya on 28.08.2016.
+ * item repo
  */
 public interface ItemRepository {
 
     Item getItem(int itemId);
 
-    boolean IsUniqueName(String name);
+    boolean isUniqueName(String name);
 
     void deleteItem(int itemId);
 

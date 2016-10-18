@@ -161,63 +161,63 @@
                         </div>
                     </div>
                 </spring:bind>
-                <spring:bind path="adress.country">
+                <spring:bind path="address.country">
                     <div class="">
                         <label for="country" class="control-label col-xs-3"><spring:message code="countr"/></label>
 
                         <div class="col-xs-8 bot form-group">
-                            <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="adress.country" class="form-control" id="country" name="country" placeholder="Country" maxlength="15"/>
-                            <form:errors cssStyle="color: red" path="adress.country"></form:errors>
+                            <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="address.country" class="form-control" id="country" name="country" placeholder="Country" maxlength="15"/>
+                            <form:errors cssStyle="color: red" path="address.country"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
-                <spring:bind path="adress.city">
+                <spring:bind path="address.city">
                     <div class="">
                         <label for="city" class="control-label col-xs-3"><spring:message code="city"/></label>
 
                         <div class="col-xs-8 bot form-group">
-                            <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)"  path="adress.city" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
-                            <form:errors cssStyle="color: red" path="adress.city"></form:errors>
+                            <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)"  path="address.city" class="form-control" id="city" name="city" placeholder="City" maxlength="15"/>
+                            <form:errors cssStyle="color: red" path="address.city"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
-                <spring:bind path="adress.street">
+                <spring:bind path="address.street">
                     <div class="">
                         <label for="street" class="control-label col-xs-3"><spring:message code="str"/></label>
 
                         <div class="col-xs-8 bot form-group">
-                            <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="adress.street" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
-                            <form:errors cssStyle="color: red" path="adress.street"></form:errors>
+                            <form:input type="text" data-smk-pattern="([a-zA-z]+)||([а-яА-Я]+)" path="address.street" class="form-control" id="street" name="street" placeholder="Street" maxlength="15"/>
+                            <form:errors cssStyle="color: red" path="address.street"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
-                <spring:bind path="adress.house">
+                <spring:bind path="address.house">
                     <div class="">
                         <label for="house" class="control-label col-xs-3"><spring:message code="hous"/></label>
 
                         <div class="col-xs-8 bot form-group">
-                            <form:input type="number" path="adress.house" class="form-control" id="house" name="house" placeholder="House" maxlength="15"/>
-                            <form:errors cssStyle="color: red" path="adress.house"></form:errors>
+                            <form:input type="number" path="address.house" class="form-control" id="house" name="house" placeholder="House" maxlength="15"/>
+                            <form:errors cssStyle="color: red" path="address.house"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
-                <spring:bind path="adress.app">
+                <spring:bind path="address.app">
                     <div class="">
                         <label for="app" class="control-label col-xs-3"><spring:message code="app"/></label>
 
                         <div class="col-xs-8 bot form-group">
-                            <form:input type="number" path="adress.app" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15"/>
-                            <form:errors cssStyle="color: red" path="adress.app"></form:errors>
+                            <form:input type="number" path="address.app" class="form-control" id="app" name="app" placeholder="Apartment" maxlength="15"/>
+                            <form:errors cssStyle="color: red" path="address.app"></form:errors>
                         </div>
                     </div>
                 </spring:bind>
-                <spring:bind path="adress.zip">
+                <spring:bind path="address.zip">
                     <div class="">
                         <label for="zip" class="control-label col-xs-3"><spring:message code="zip"/></label>
 
                         <div class="col-xs-8 bot form-group">
-                            <form:input type="number" path="adress.zip" class="form-control" maxlength="6" id="zip" name="zip" placeholder="Zip"/>
-                            <form:errors cssStyle="color: red" path="adress.zip"></form:errors>
+                            <form:input type="number" path="address.zip" class="form-control" maxlength="6" id="zip" name="zip" placeholder="Zip"/>
+                            <form:errors cssStyle="color: red" path="address.zip"></form:errors>
                         </div>
                     </div>
                 </spring:bind>

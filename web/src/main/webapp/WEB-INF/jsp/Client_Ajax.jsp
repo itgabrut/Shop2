@@ -223,7 +223,7 @@
             surname : arr[2].value,
             email : arr[3].value,
             birth : arr[4].value,
-            adress : {
+            address : {
                 country : arr[5].value,
                 city : arr[6].value,
                 street : arr[7].value,
@@ -293,7 +293,7 @@
                     "data": "birth"
                 },
                 {
-                    "data": "adress",
+                    "data": "address",
                     "render" : function (data,type,row) {
                         return data.country+" </br>"+data.city+" </br>"+data.street+" "
                                 +" "+data.house+"/"+data.app+" </br> zip: "+data.zip;

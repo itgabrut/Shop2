@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by ilya on 20.08.2016.
+ * Implementation of cliebt service
  */
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -28,8 +29,7 @@ public class ClientServiceImpl implements ClientService {
      * @return  Client entity
      */
     public Client getClient(int id) {
-        Client client =  repository.getClient(id);
-        return client;
+        return repository.getClient(id);
     }
 
     /**
@@ -37,8 +37,7 @@ public class ClientServiceImpl implements ClientService {
      * @return List of all Client entities from db
      */
     public List<Client> getAll() {
-        List<Client> list =  repository.getAll();
-        return list;
+        return repository.getAll();
     }
 
     /**
@@ -107,7 +106,6 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     public Client getByEmail(String mail) {
-       Client client =  repository.getByEmail(mail);
-        return client;
+        return  repository.getByEmail(mail);
     }
 }

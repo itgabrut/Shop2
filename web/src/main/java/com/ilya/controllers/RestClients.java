@@ -17,7 +17,7 @@ import java.util.List;
 public class RestClients {
 
     @Autowired
-    ClientService service;
+    private ClientService service;
 
     @RequestMapping(value = "/get",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Client> getClients(){

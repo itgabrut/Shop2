@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by ilya on 05.10.2016.
+ * DTO
  */
 
 public class TOrder {

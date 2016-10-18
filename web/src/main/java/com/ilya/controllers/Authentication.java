@@ -27,11 +27,11 @@ import java.util.Date;
 public class Authentication  {
 
     @Autowired
-    ClientValidator validator;
+    private ClientValidator validator;
     @Autowired
-    ClientEditValidator editValidator;
+    private ClientEditValidator editValidator;
     @Autowired
-    ClientService service;
+    private ClientService service;
 
     @ModelAttribute("registration")
     public Client getReg(Model model){

@@ -3,21 +3,18 @@ package com.ilya.dao;
 
 
 import com.ilya.model.Client;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.Arrays;
 import java.util.List;
 
 
 /**
  * Created by ilya on 18.08.2016.
+ * repo impl
  */
 @Repository
 @Transactional(readOnly = true)

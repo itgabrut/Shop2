@@ -17,7 +17,7 @@ import org.springframework.validation.Validator;
 public class ClientValidator  implements Validator {
 
     @Autowired
-    ClientService service;
+    private ClientService service;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -32,10 +32,10 @@ public class ClientValidator  implements Validator {
             errors.rejectValue("name", "Size.userForm.username");
         }
         if(client.getSurname().length() < 2 || client.getSurname().length() > 20) errors.rejectValue("surname","SURNAME.FAIL");
-        if(client.getAdress().getCountry().isEmpty())errors.rejectValue("adress.country","COUNTRY.EMPT");
-        if(client.getAdress().getCity().isEmpty())errors.rejectValue("adress.city","CITY.EMPT");
-        if(client.getAdress().getStreet().isEmpty())errors.rejectValue("adress.street","NOT.EMPTY");
-        if(client.getAdress().getHouse().isEmpty())errors.rejectValue("adress.house","HOUSE.EMPT");
+        if(client.getAddress().getCountry().isEmpty())errors.rejectValue("adress.country","COUNTRY.EMPT");
+        if(client.getAddress().getCity().isEmpty())errors.rejectValue("adress.city","CITY.EMPT");
+        if(client.getAddress().getStreet().isEmpty())errors.rejectValue("adress.street","NOT.EMPTY");
+        if(client.getAddress().getHouse().isEmpty())errors.rejectValue("adress.house","HOUSE.EMPT");
         if(!client.getSurname().matches("([a-zA-Z]+)||([а-яА-Я]+)")){errors.rejectValue("surname","CHAR.FAIL");}
         if(!client.getName().matches("([a-zA-Z]+)||([а-яА-Я]+)")){errors.rejectValue("name","CHAR.FAIL");}
         if(!client.getEmail().matches("^.+@{1}.+\\..+$") && client.getEmail().length() > 20) errors.rejectValue("email","EMAIL.FAIL");

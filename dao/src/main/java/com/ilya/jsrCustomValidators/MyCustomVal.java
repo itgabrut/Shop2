@@ -10,12 +10,13 @@ import java.lang.annotation.Annotation;
 
 /**
  * Created by ilya on 01.10.2016.
+ * validator
  */
 @Component
 public class MyCustomVal implements ConstraintValidator<Annotation,String> {
 
     @Autowired
-    ItemRepository repository;
+    private ItemRepository repository;
 
     @Override
     public void initialize(Annotation annotation) {
@@ -26,7 +27,6 @@ public class MyCustomVal implements ConstraintValidator<Annotation,String> {
     @Override
     public boolean isValid(String name, ConstraintValidatorContext constraintValidatorContext) {
         if(repository == null) return true;
-        boolean a = repository.IsUniqueName(name);
-        return a;
+        return repository.isUniqueName(name);
     }
 }

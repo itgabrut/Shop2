@@ -12,12 +12,13 @@ import java.util.Arrays;
 
 /**
  * Created by ilya on 14.10.2016.
+ * aspects
  */
 
 @org.aspectj.lang.annotation.Aspect
 public class Aspect {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Pointcut("execution(* com.ilya.service..get*(..))")
     public void getEntityPointcut(){

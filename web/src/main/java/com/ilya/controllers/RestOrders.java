@@ -21,7 +21,7 @@ import java.util.Map;
 public class RestOrders {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @RequestMapping(value = "/get",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Order> getOrders(Model model){

@@ -14,6 +14,7 @@ import java.util.Locale;
 
 /**
  * Created by ilya on 28.08.2016.
+ * item repoimpl
  */
 @Repository
 @Transactional(readOnly = true)
@@ -28,7 +29,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-   public boolean IsUniqueName(String name) {
+   public boolean isUniqueName(String name) {
         long a = (long)entityManager.createQuery("select count(i.name) from Item i where i.name =:curr").setParameter("curr",name).getSingleResult();
        return a == 0;
     }

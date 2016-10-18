@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by ilya on 20.08.2016.
+ * order entity
  */
 
 @Entity

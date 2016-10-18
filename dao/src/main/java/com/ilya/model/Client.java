@@ -14,6 +14,7 @@ import java.util.Set;
 
 /**
  * Created by ilya on 18.08.2016.
+ * Client entity
  */
 @NamedQueries({
         @NamedQuery(name = "Client.getAll" , query = "select u from Client u ")
@@ -68,13 +69,13 @@ public class Client {
     private Set<Role> roles;
 
     @Embedded
-    private Adress adress = new Adress();
+    private Address address = new Address();
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-    public Adress getAdress(){return adress;}
+    public Address getAddress(){return address;}
 
     public int getId(){return id;}
 
@@ -134,8 +135,8 @@ public class Client {
         isAdmin = admin;
     }
 
-    public void setAdress(Adress adress) {
-        this.adress = adress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getPasswordconfirm() {

@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * Created by ilya on 02.09.2016.
+ * implementation
  */
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -46,10 +47,6 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.getItem(id);
     }
 
-    public List<Item> getAll() {
-        return null;
-    }
-
     /**
      * Removes Item entity from db using it Id
      * @param id Id
@@ -67,11 +64,6 @@ public class ItemServiceImpl implements ItemService {
         }
         return true;
     }
-
-    public boolean addItem(Item item) {
-        return false;
-    }
-
     /**
      * It provides information about ordering
      * @param orderId  Id of Order entity
@@ -125,8 +117,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public List<String> getThemes(Locale locale) {
-        List<String> list = itemRepository.getThemes(locale);
-        return list;
+        return itemRepository.getThemes(locale);
     }
 
     /**

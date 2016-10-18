@@ -3,8 +3,9 @@ package com.ilya.dtoForWS;
 
 /**
  * Created by ilya on 05.10.2016.
+ * DTO
  */
-public class TItem {
+    class TItem {
 
     private String name;
 

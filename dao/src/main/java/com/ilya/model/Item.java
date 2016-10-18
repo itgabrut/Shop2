@@ -3,19 +3,16 @@ package com.ilya.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ilya.jsrCustomValidators.MyCustomVal;
 import com.ilya.jsrCustomValidators.UniqueName;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
-import javax.validation.Constraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 
 /**
  * Created by ilya on 20.08.2016.
+ * item entity
  */
 @NamedQueries({
         @NamedQuery(name = "Item.getThemes",query = "select distinct i.theme from Item i where i.active = true order by i.theme"),

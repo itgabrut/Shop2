@@ -22,7 +22,7 @@ import java.util.Set;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    ClientService service;
+    private ClientService service;
 
     @Override
     @Transactional(readOnly = true)

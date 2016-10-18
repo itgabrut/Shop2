@@ -26,9 +26,9 @@ public class ClientEditValidator implements Validator {
         if(!client.getSurname().matches("([a-zA-Z]+)||([а-яА-Я]+)")){errors.rejectValue("surname","CHAR.FAIL");}
         if(!client.getName().matches("([a-zA-Z]+)||([а-яА-Я]+)")){errors.rejectValue("name","CHAR.FAIL");}
         if(client.getSurname().length() < 2 || client.getSurname().length() > 20) errors.rejectValue("surname","SURNAME.FAIL");
-        if(client.getAdress().getCountry().isEmpty())errors.rejectValue("adress.country","COUNTRY.EMPT");
-        if(client.getAdress().getCity().isEmpty())errors.rejectValue("adress.city","CITY.EMPT");
-        if(client.getAdress().getHouse().isEmpty())errors.rejectValue("adress.house","HOUSE.EMPT");
+        if(client.getAddress().getCountry().isEmpty())errors.rejectValue("adress.country","COUNTRY.EMPT");
+        if(client.getAddress().getCity().isEmpty())errors.rejectValue("adress.city","CITY.EMPT");
+        if(client.getAddress().getHouse().isEmpty())errors.rejectValue("adress.house","HOUSE.EMPT");
     }
 
 }

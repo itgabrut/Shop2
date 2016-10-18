@@ -27,11 +27,11 @@ import java.util.Map;
 public class Orders {
 
     @Autowired
-    ClientService clientService;
+    private ClientService clientService;
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
     @Autowired
-    ItemService itemService;
+    private ItemService itemService;
 
     @RequestMapping(value = "/orders")
     public String toOrderView(Model model){
@@ -69,7 +69,7 @@ public class Orders {
         else return "redirect:/getitems";
     }
     @RequestMapping(value = "/adminSingleorder",method = RequestMethod.GET)
-    public String AdminSingleOrder(@RequestParam("orderId")String orderId,
+    public String adminSingleOrder(@RequestParam("orderId")String orderId,
                                    Model model){
             Map<Item,Integer> map = itemService.getItemsAndQuantityByOrder(Integer.parseInt(orderId));
             BucketCheckerUtils.saveListFotosToMemory((Map<String,byte[]>)model.asMap().get("Map"),new ArrayList<>(map.keySet()));

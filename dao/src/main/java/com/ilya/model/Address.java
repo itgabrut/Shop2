@@ -5,14 +5,15 @@ import javax.persistence.Embeddable;
 
 /**
  * Created by ilya on 20.08.2016.
+ * Address
  */
 @Embeddable
- public class Adress {
+ public class Address {
 
-   public Adress() {
+   public Address() {
    }
 
-   public Adress(String country, String city, String zip, String street, String house, String app) {
+   public Address(String country, String city, String zip, String street, String house, String app) {
       this.country = country;
       this.city = city;
       this.zip = zip;
